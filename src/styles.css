@@ -1,0 +1,42 @@
+body {
+    width: 100%;
+    margin: unset;
+}
+
+.table-container {
+    overflow-x: scroll;
+    width: 98vw;
+    margin : 0 1vw;
+}
+
+.spells {
+    background: #ddd
+}
+
+.effect {
+    border : 1px solid gray;
+    padding: 0 5px;
+    font-size : 10px;
+    color: black;
+    font-variant: small-caps;
+}
+
+.effect button {
+    float: right;
+    font-size: 7px;
+    border: 1px outset gray;
+    padding: 0 3px;
+}
+
+table {
+    background: lightgray;
+    border-collapse: collapse;
+    width: max-content;
+}
+
+th, td {
+    border-left: 1px solid gray;
+    width: 8vw;
+}
+
+
