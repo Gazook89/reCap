@@ -28,6 +28,19 @@ body {
     padding: 0 3px;
 }
 
+.add-action {
+    visibility: hidden;
+    background: rgb(243, 243, 243);
+    border: 1px dashed gray;
+    margin: 1px;
+    text-align: center;
+    font-size: 10px;
+}
+
+td:hover .add-action {
+    visibility: visible;
+}
+
 table {
     background: lightgray;
     border-collapse: collapse;
