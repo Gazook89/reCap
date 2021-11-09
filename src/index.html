@@ -10,7 +10,7 @@
    <body>
        <h1>reCap</h1>
        <div class='table-container'>
-            <table>
+            <table id='main-table'>
                 <thead>
                 <tr>
                     <th></th>
@@ -32,61 +32,33 @@
                     <td colspan="5">
                         <div class='effect' style='background:white'>Lightning</div>
                     </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr class='spells'>
                     <td></td>
                     <td>
                         <div class='effect' style='background: rgb(255, 51, 0)'>Fire<button>></button></div>
                     </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
-                    <td>
-                        <div class='add-action'>+</div>
-                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr class='spells'>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="5">
-                        <div class='effect' title='ha' style='background: rgb(121, 199, 223)'>Frost</div>
+                        <div class='effect'  style='background: rgb(121, 199, 223)'>Frost</div>
                     </td>
                     <td></td>
                     <td></td>
@@ -108,6 +80,9 @@
         </div>
         <h3>To Do:</h3>
         <ul>
+            <li>get clicked element node when .add-action is clicked.</li>
+            <li>get clicked elements' parent (should be td)</li>
+            <li>create .effect element in parent td</li>
             <li>Create input form when .add-action is clicked</li>
             <li>Input form takes an Action Name, Duration, and Color</li>
         </ul>
