@@ -53,6 +53,43 @@ function addAction(evt) {
 function changeRowSpan(evt){
     const tableCellOfInput = evt.target.closest('td');
     tableCellOfInput.setAttribute('colspan', evt.target.value);
+
+    const table = document.getElementById('main-table');
+    const tableBodyRows = document.querySelectorAll('tbody>tr');
+    
+    let cellsInEachRow = [];
+    console.log('**** NEW LINE ****');
+    for(let x=0;x<table.rows.length;x++){
+        let cellCount = 0;
+        let row = table.rows[x];
+        for(let y=0;y<row.cells.length;y++){
+            let cell = row.cells[y];
+            cellCount += cell.colSpan;
+            cell = null;
+        }
+        cellsInEachRow.push(cellCount);
+        console.log(`Row ${x}: ${cellCount}`);
+    }
+    longestRow = Math.max(...cellsInEachRow);
+    let headerCount = table.getElementsByTagName('th').length;
+    // if(headerCount < longestRow){
+        for(let x=headerCount;headerCount<longestRow;headerCount++){
+            const th = Object.assign(document.createElement('th'), {textContent : x});
+
+            table.firstElementChild.firstElementChild.append(th);
+        }
+        tableBodyRows.forEach(evt=>{
+            let tdCount = evt.cells.length;
+            for(let x=tdCount; x < longestRow;x++){
+                const td = document.createElement('td');
+                evt.append(td);
+            }
+        })
+    // }
+    
+
+    
+    
 }
 
 function changeEffectColor(evt){
