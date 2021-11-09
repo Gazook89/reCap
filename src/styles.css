@@ -1,6 +1,8 @@
 body {
     width: 100%;
     margin: unset;
+    background-color: #222;
+    color: ghostwhite
 }
 
 .table-container {
@@ -9,12 +11,28 @@ body {
     margin : 0 1vw;
 }
 
+table {
+    background: #444;
+    border-collapse: collapse;
+    width: max-content;
+}
+
+tr {
+
+    height: 16px
+}
+
+th, td {
+    border-left: 1px solid gray;
+    width: 8vw;
+}
+
 .spells {
-    background: #ddd
+    background: #666
 }
 
 .effect {
-    border : 1px solid gray;
+    border : 1px solid #444;
     padding: 0;
     font-size : 10px;
     color: black;
@@ -32,10 +50,23 @@ body {
 .effect input {
     font-size: inherit;
     padding: 0px;
-    background: unset;
+    background-color:inherit;
+    color: ghostwhite;
     border: none;
     font-variant: small-caps;
     height:unset;
+}
+
+.effect input:focus {
+    outline:none;
+}
+
+.effect:hover {
+    filter: brightness(110%)
+}
+
+.effect:hover input:not(:first-child) {
+    border-left: 1px solid #444
 }
 
 .effect input[type='color'] {
@@ -51,8 +82,15 @@ body {
 
 .effect input[type='number'] {
     flex: 0 0 auto;
-    width: 40px;
-    text-align:right;
+    width: 30px;
+    padding-left: 3px;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.effect input[type='number']:hover {
+    -moz-appearance: initial;
+    appearance: initial;
 }
 
 
@@ -62,23 +100,14 @@ body {
 }
 
 .add-action {
-    background: rgb(243, 243, 243);
-    border: 1px dashed gray;
+    background: #808080;
+    border: 1px dashed rgb(243, 243, 243);
     text-align: center;
     font-size: 10px;
 }
 
 
 
-table {
-    background: lightgray;
-    border-collapse: collapse;
-    width: max-content;
-}
 
-th, td {
-    border-left: 1px solid gray;
-    width: 8vw;
-}
 
 

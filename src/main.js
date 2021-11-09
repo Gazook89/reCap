@@ -42,7 +42,20 @@ function addAction(evt) {
     const effect = Object.assign(document.createElement('div'), {
         className : 'effect',
     });
-    effect.innerHTML = `<input type='color' /><input type='text' /><input type='number' />`;
+    effect.innerHTML = `<input type='number' value='' placeholder='n' /><input type='text' placeholder='Effect' /><input type='color' value='#808080' />`;
     slotTD.append(effect);
+    ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeRowSpan, false));
+    ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
+
     slot.remove()
+}
+
+function changeRowSpan(evt){
+    const tableCellOfInput = evt.target.closest('td');
+    tableCellOfInput.setAttribute('colspan', evt.target.value);
+}
+
+function changeEffectColor(evt){
+    const effectDiv = evt.target.parentNode;
+    effectDiv.style.backgroundColor = evt.target.value;
 }
