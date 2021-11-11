@@ -1,7 +1,7 @@
 @import url('fonts/fonts.css');
 
 body {
-    width: 100vw;
+    width: 96vw;
     margin: unset;
     background-color: #222;
     color: ghostwhite;
@@ -17,7 +17,7 @@ h1 {
 
 .table-container {
     overflow-x: scroll;
-    width: 98vw;
+    width: 100%;
     display:flex;
 }
 
@@ -178,6 +178,24 @@ table thead:hover .column-control div, .column-control:hover div {
     background: #333;
 }
 
+footer {
+    position: fixed;
+    width:100vw;
+    bottom: 0
+}
+
+footer ul  {
+    display:flex;
+    justify-content: center;
+    list-style: none;
+    gap: 30px;
+    font-family:'helvetica';
+    font-size: 10px
+}
+
+footer a, footer a:visited {
+    color: ghostwhite
+}
 
 
 
