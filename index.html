@@ -13,7 +13,7 @@
             <table id='main-table'>
                 <thead>
                 <tr>
-                    <th></th>
+                    <th>Pre Combat</th>
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
@@ -87,10 +87,10 @@
         </div>
         <div class='toolbar'>
             <!-- <div id='add-col' class='tool' onclick='addColumn()'>Add Column</div>  // TODO: refactor these functions to work with these buttons
-            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div>
-            <div id='add-row' class='tool' onclick='addRow()'>Add Row</div>
-            <div id='rem-row' class='tool' onclick='removeRow()'>Remove Row</div> -->
-            <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear</div>
+            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div> -->
+            <div id='add-row' class='tool' onclick='addRowAfter(document.querySelector("tbody tr:last-child"))'>Add Row<span class="tooltiptext">Add a row at bottom</span></div>
+            <!-- <div id='rem-row' class='tool' onclick='removeRow()'>Remove Row</div> -->
+            <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear<span class="tooltiptext">Clear entire table & local storage</span></div>
         </div>
         <h3>Bugs:</h3>
         <ul>
@@ -98,6 +98,7 @@
         </ul>
         <h3>To Do:</h3>
         <ul>
+            <li>after Clear table, prevent autosave</li>
             <li>refactor addColumn and create addRow</li>
             <li>investigate better debounce method (<code>debounce-lead</code>)</li>
             <li>add increasing ellipsis leading up to 'saved'</li>

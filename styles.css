@@ -168,6 +168,7 @@ table thead:hover .column-control div, .column-control:hover div {
 
 .toolbar {
     display:flex;
+    justify-content: center;
 }
 
 .toolbar > div {
@@ -199,3 +200,48 @@ footer a, footer a:visited {
 
 
 
+/* TOOLTIPS */
+ /* Tooltip container */
+ .tool {
+    position: relative;
+  }
+  
+  /* Tooltip text */
+  .tool .tooltiptext {
+    visibility: hidden;
+    min-width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    margin-left: -65px;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.7s ease-in;
+  }
+  
+  /* Tooltip arrow */
+  .tool .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color:  transparent transparent #555 transparent;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tool:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  } 

@@ -44,6 +44,7 @@ window.onload = function() {
 
     if('table' in localStorage){
         table.innerHTML = localStorage.getItem('table');
+        
         const cells = document.getElementsByTagName('td');
         for(let x=0;x<cells.length;x++){
             if(cells[x].childElementCount == 0){
@@ -248,6 +249,23 @@ function addColumn(elem){
         }
         table.rows[x].append(newCell)
     }
+}
+
+
+
+function addRowAfter(currentRow){
+    const newRow = Object.assign(document.createElement('tr'),{className : 'spells'});
+    const columns = document.getElementsByTagName('th').length; 
+    for(let x=0;x<columns;x++){
+        const newCell = document.createElement('td');
+        newCell.addEventListener('mouseover', showActionButton);
+        newRow.append(newCell);
+    };
+    currentRow.parentNode.append(newRow);
+}
+
+function removeRow(targetRow){
+    targetRow.remove()
 }
 
 function addTableCell(type){  // Attempt to pull all "create new cell" code into single function
