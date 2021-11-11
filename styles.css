@@ -1,11 +1,33 @@
 @import url('fonts/fonts.css');
 
+html {
+    --scrollbarBG: #333;
+    --thumbBG: #666;
+  }
+::-webkit-scrollbar {
+    width: 11px;
+    background: var(--scrollbarBG);
+  }
+  body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG) ;
+    border-radius: 6px;
+    border: 3px solid var(--scrollbarBG);
+  }
+
+
+
+
 body {
     width: 96vw;
     margin: unset;
     background-color: #222;
     color: ghostwhite;
-    padding: 0 1vw;
+    padding: 0 1vw 1vw 1vw;
     font-family: 'Patrick Hand SC';
     font-size: 16px;
 }
@@ -20,6 +42,8 @@ h1 {
     width: 100%;
     display:flex;
 }
+
+
 
 table {
     background: #666;
@@ -181,7 +205,8 @@ table thead:hover .column-control div, .column-control:hover div {
 footer {
     position: fixed;
     width:100vw;
-    bottom: 0
+    bottom: 0;
+    background:linear-gradient(to bottom, transparent, #222 40%);
 }
 
 footer ul  {
