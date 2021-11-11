@@ -77,9 +77,14 @@ function save(){
     
 }
 
+// TODO: currently this doesn't work with colspan'd rows
+// The function is just taking existing cells and replacing them with empty cells,
+// but if a row has a colspan'd cell, it isn't creating any extra empty cells.  
+// Likely need ot take the currently unused 'columns' variable to determine how many cells needed in each row
+
 function clearTable(elem){
     const cells = document.getElementsByTagName('td');
-    const columns = document.getElementsByTagName('th').length;
+    const columns = document.getElementsByTagName('th').length;  
     for(let x = cells.length - 1;x>0;x--){
         const newCell = document.createElement('td');
         newCell.addEventListener('mouseover', showActionButton);

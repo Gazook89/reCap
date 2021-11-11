@@ -92,6 +92,10 @@
             <div id='rem-row' class='tool' onclick='removeRow()'>Remove Row</div> -->
             <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear</div>
         </div>
+        <h3>Bugs:</h3>
+        <ul>
+            <li>If "Clearing" a table that contains multi-column effects, it likely will not replace the whole row, leaving non-interactive cells.  You can click "Clear" again, and quickly reload the page before it autosaves.</li>
+        </ul>
         <h3>To Do:</h3>
         <ul>
             <li>refactor addColumn and create addRow</li>
