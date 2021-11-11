@@ -75,6 +75,10 @@ th, td {
     box-sizing:border-box;
 }
 
+.effect input::placeholder {
+    color: #aaa
+}
+
 .effect input:focus {
     outline:none;
 }
@@ -93,7 +97,9 @@ th, td {
 
 .effect input[type='color'] {
     flex: 0 0 14px;
-    border:none
+    border:none;
+    padding: 0;
+    margin: 0;
 }
 
 .effect input[type='text'] {
@@ -115,10 +121,19 @@ th, td {
     appearance: initial;
 }
 
+.effect input:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-inner-spin-button {
+    border: 1px solid black;
+}
 
+.effect ::-webkit-color-swatch-wrapper, .effect ::-webkit-color-swatch {
+    padding:0;
+    border:none;
+}
 
-.effect ::-moz-color-swatch, .effect ::-webkit-color-swatch {
-    border-color:transparent
+.effect ::-moz-color-swatch {
+    border-color:transparent;
+    border-width: 0;
+
 }
 
 .add-action {
