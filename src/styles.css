@@ -1,34 +1,47 @@
 @import url('fonts/fonts.css');
 
 body {
-    width: 100%;
+    width: 100vw;
     margin: unset;
     background-color: #222;
-    color: ghostwhite
+    color: ghostwhite;
+    padding: 0 1vw;
+    font-family: 'Patrick Hand SC';
+    font-size: 16px;
+}
+
+h1 {
+    font-family: inherit;
+    display:inline-block;
 }
 
 .table-container {
     overflow-x: scroll;
     width: 98vw;
-    margin : 0 1vw;
+    display:flex;
 }
 
 table {
-    background: #444;
+    background: #666;
     border-collapse: collapse;
     width: max-content;
-    font-family: 'Patrick Hand SC';
+
+}
+
+table thead {
+    background: #444;
+    font-size: 18px;
 }
 
 tr {
-
-    height: 16px
+    height: 16px;
 }
 
 th, td {
     border-left: 1px solid gray;
-    width: 8vw;
-    height: 16px
+    min-width: 8vw;
+    position:relative;
+    padding: 0;
 }
 
 .spells {
@@ -70,6 +83,10 @@ th, td {
     filter: brightness(110%)
 }
 
+.effect input:not(:first-child) {
+	border-left: 1px solid transparent;
+}
+
 .effect:hover input:not(:first-child) {
     border-left: 1px solid #444
 }
@@ -81,7 +98,7 @@ th, td {
 
 .effect input[type='text'] {
     flex: 1 0 auto;
-    width: 40px;
+    width: 0;
     padding: 0 2px;
 }
 
@@ -111,7 +128,40 @@ th, td {
     font-size: 10px;
 }
 
+.column-control {
+    display: inline-block;
+    position: absolute;
+    right: -1em;
+    width:2em;
+    text-align: center;
+}
 
+.column-control div {
+    background: #444;
+    display:inline-block;
+    width:1em;
+    visibility:hidden;
+}
+
+table thead:hover .column-control div, .column-control:hover div {
+    visibility: visible
+}
+
+#savedNotice {
+    font-size: .9em
+}
+
+.toolbar {
+    display:flex;
+}
+
+.toolbar > div {
+    padding: 2px 10px;
+}
+
+.toolbar > div:hover {
+    background: #333;
+}
 
 
 

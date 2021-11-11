@@ -23,7 +23,10 @@
                     <th>7</th>
                     <th>8</th>
                     <th>9</th>
-                    <th>10<br></th>
+                    <th>
+                        10
+                        <div id='column-control' class='column-control'><div onclick='removeColumn(this)'><</div><div onclick='addColumn(this)'>></div></div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,10 +85,28 @@
                 </tbody>
             </table>
         </div>
+        <div class='toolbar'>
+            <!-- <div id='add-col' class='tool' onclick='addColumn()'>Add Column</div>  // TODO: refactor these functions to work with these buttons
+            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div>
+            <div id='add-row' class='tool' onclick='addRow()'>Add Row</div>
+            <div id='rem-row' class='tool' onclick='removeRow()'>Remove Row</div> -->
+            <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear</div>
+        </div>
         <h3>To Do:</h3>
         <ul>
-            <li>clicking on 'th' element creates a new set of rows/cells, or removes them</li>
-            <li>set table header cell count to always match longest tbody count.</li>
+            <li></li>
+            <li>investigate better debounce method (<code>debounce-lead</code>)</li>
+            <li>add increasing ellipsis leading up to 'saved'</li>
+            <li>debug issue where reducing colspan sometimes doesn't replace with new table cells (resulting in missing cells)</li>
+            <li>if expanding an effect into an occupied cell, create new row and move expanding effect into that row</li>
+            <li>add effect tooltips on hover for more detailed info</li>
+        </ul>
+        <h3>Longer Term:</h3>
+        <ul>
+            <li>track bennies spent</li>
+            <li>add directory of spells</li>
+            <li>create user accounts</li>
+            <li><del>store table information across sessions</del></li>
         </ul>
    </body>
 </html
