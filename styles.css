@@ -33,6 +33,12 @@ table thead {
     font-size: 18px;
 }
 
+th {
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    user-select: none; 
+}
+
 tr {
     height: 16px;
 }
@@ -156,6 +162,7 @@ th, td {
     display:inline-block;
     width:1em;
     visibility:hidden;
+    cursor: pointer;
 }
 
 table thead:hover .column-control div, .column-control:hover div {
@@ -163,21 +170,10 @@ table thead:hover .column-control div, .column-control:hover div {
 }
 
 #savedNotice {
-    font-size: .9em
+    font-size: .9em;
 }
 
-.toolbar {
-    display:flex;
-    justify-content: center;
-}
 
-.toolbar > div {
-    padding: 2px 10px;
-}
-
-.toolbar > div:hover {
-    background: #333;
-}
 
 footer {
     position: fixed;
@@ -200,14 +196,30 @@ footer a, footer a:visited {
 
 
 
-/* TOOLTIPS */
+/* TOOLBAR */
+
+ .toolbar {
+    display:flex;
+    justify-content: center;
+}
+
  /* Tooltip container */
- .tool {
+
+.tool {
     position: relative;
-  }
-  
-  /* Tooltip text */
-  .tool .tooltiptext {
+    cursor: pointer;
+    padding: 2px 10px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    user-select: none;  
+}
+
+.tool:hover {
+    background: #333;
+}
+
+/* Tooltip text */
+.tool .tooltiptext {
     visibility: hidden;
     min-width: 120px;
     background-color: #555;
@@ -215,21 +227,21 @@ footer a, footer a:visited {
     text-align: center;
     padding: 5px 10px;
     border-radius: 6px;
-  
+
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
     top: 125%;
     left: 50%;
     margin-left: -65px;
-  
+
     /* Fade in tooltip */
     opacity: 0;
     transition: opacity 0.7s ease-in;
-  }
-  
-  /* Tooltip arrow */
-  .tool .tooltiptext::after {
+}
+
+/* Tooltip arrow */
+.tool .tooltiptext::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -238,10 +250,11 @@ footer a, footer a:visited {
     border-width: 5px;
     border-style: solid;
     border-color:  transparent transparent #555 transparent;
-  }
-  
-  /* Show the tooltip text when you mouse over the tooltip container */
-  .tool:hover .tooltiptext {
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tool:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-  } 
+} 
+

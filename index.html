@@ -25,7 +25,7 @@
                     <th>9</th>
                     <th>
                         10
-                        <div id='column-control' class='column-control'><div onclick='removeColumn(this)'><</div><div onclick='addColumn(this)'>></div></div>
+                        <div id='column-control' class='column-control'><div id='remove-col' onclick='removeColumn()'><</div><div id='add-col' onclick='addColumn()'>></div></div>
                     </th>
                 </tr>
                 </thead>
@@ -86,28 +86,38 @@
             </table>
         </div>
         <div class='toolbar'>
-            <!-- <div id='add-col' class='tool' onclick='addColumn()'>Add Column</div>  // TODO: refactor these functions to work with these buttons
-            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div> -->
-            <div id='add-row' class='tool' onclick='addRowAfter(document.querySelector("tbody tr:last-child"))'>Add Row<span class="tooltiptext">Add a row at bottom</span></div>
-            <!-- <div id='rem-row' class='tool' onclick='removeRow()'>Remove Row</div> -->
+            <div id='add-col' class='tool' onclick='addColumn()'>Add Column</div> 
+            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div>
+            <div id='add-row' class='tool' onclick='addRowAfter(document.querySelector("tbody tr:last-child"))'>Add Row</div>
+            <div id='rem-row' class='tool' onclick='removeRow(document.querySelector("tbody tr:last-child"))'>Remove Row</div>
             <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear<span class="tooltiptext">Clear entire table & local storage</span></div>
         </div>
-        <h3>Bugs:</h3>
+        <h3>Usage:</h3>
         <ul>
-            <li>If "Clearing" a table that contains multi-column effects, it likely will not replace the whole row, leaving non-interactive cells.  You can click "Clear" again, and quickly reload the page before it autosaves.</li>
+            <li>Click a cell to add an action/effect.  Three inputs: turn duration (number), effect name (alpha-numeric), cell color (colorpicker).</li>
+            <li>Increase the duration (in Turns), or remove the effect by reducing duration to zero.</li>
+            <li>Choose a color that works with your preferred scheme.  Maybe 'green' indicates acid effects, 'red' is for fire, etc.  Or based on source of effect, assigning a color to specific characters.</li>
+            <li>Either create a new row for every effect/action, or reuse rows, space-allowing.</li>
+            <li>Effects cannot be expanded into existing effects or beyond the last column.</li>
+            <li>Add more columns as needed by using the carets revealed on hover over the header.</li>
         </ul>
         <h3>To Do:</h3>
         <ul>
+            
+            <li>fix colspan change when entering number via textfield/keyboard rather than spinner.</li>
+            <li>add datasets/presets to color picker input</li>
             <li>after Clear table, prevent autosave</li>
-            <li>refactor addColumn and create addRow</li>
+            <li>></li>
             <li>investigate better debounce method (<code>debounce-lead</code>)</li>
-            <li>add increasing ellipsis leading up to 'saved'</li>
-            <li>debug issue where reducing colspan sometimes doesn't replace with new table cells (resulting in missing cells)</li>
             <li>if expanding an effect into an occupied cell, create new row and move expanding effect into that row</li>
             <li>add effect tooltips on hover for more detailed info</li>
         </ul>
         <h3>Longer Term:</h3>
         <ul>
+            <li>add ability to change row bg color</li>
+            <li>add light theme</li>
+            <li>improve accessibility: larger font mode, other stuff...</li>
+            <li>export table as csv or turn-by-turn summary</li>
             <li>track bennies spent</li>
             <li>add directory of spells</li>
             <li>create user accounts</li>
@@ -117,7 +127,7 @@
    <footer>
        <ul>
            <li>reCap by Gazook89</li>
-           <li>2021</li>
+           <li>©2021</li>
            <li><a href='https://github.com/Gazook89/reCap/blob/main/LICENSE'>GPL-3.0 License</a></li>
            <li>HTML/CSS/JS</li>
            <li><a href='https://github.com/Gazook89/reCap'>GitHub</a></li>
