@@ -68,11 +68,6 @@ function save(){
     
 }
 
-// TODO: currently this doesn't work with colspan'd rows
-// The function is just taking existing cells and replacing them with empty cells,
-// but if a row has a colspan'd cell, it isn't creating any extra empty cells.  
-// Likely need ot take the currently unused 'columns' variable to determine how many cells needed in each row
-
 function clearTable(elem){
     const rows = document.getElementsByTagName('tr');
     for(let x=rows.length - 1;x>0;x--){
@@ -122,9 +117,6 @@ function addAction(evt) {
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
 
     slot.remove()
-
-    
-
 }
 
 function changeValue(evt){
@@ -202,7 +194,6 @@ function removeColumn(){
             const lastCell = table.rows[x].cells[cellCount];
             // if(lastCell has a colspan, reduce the colspan...if no colspan, remove the cell)
             lastCell.colSpan <= 1 || lastCell.hasAttribute('colSpan') === false ? lastCell.remove() : lastCell.colSpan = lastCell.colSpan - 1 ;
-            // lastCell.colSpan = lastCell.colSpan - 1;
         } else {
         table.rows[x].cells[lastColumn].remove();
         };
@@ -245,14 +236,6 @@ function addRowAfter(currentRow){
 function removeRow(targetRow){
     targetRow?.remove();
 }
-
-// todo: below function is 'on-hold' for now.
-// function addTableCell(type){  // Attempt to pull all "create new cell" code into single function
-//     let newCell;
-//     if(type === 'th'){
-//         newCell = document.createElement('th')
-//     }
-// }
 
 function highlightHeader(elem) {
     if(elem.target.nodeName === 'DIV'){ return };
