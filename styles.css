@@ -178,7 +178,8 @@ table thead:hover .column-control div, .column-control:hover div {
 footer {
     position: fixed;
     width:100vw;
-    bottom: 0
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, #222 40%)
 }
 
 footer ul  {

@@ -45,7 +45,7 @@ window.onload = function() {
             newCell.addEventListener('mouseover', showActionButton);
             cells[x].replaceWith(newCell);
         } else if(cells[x].firstElementChild.className === 'effect'){
-            ['onkeyup','change'].forEach(evt => cells[x].querySelector('input[type="number"]').addEventListener(evt, changeRowSpan, false));
+            ['onkeyup','change'].forEach(evt => cells[x].querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
             ['input'].forEach(evt => cells[x].querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
             ['input'].forEach(evt => cells[x].querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
         }
@@ -115,9 +115,9 @@ function addAction(evt) {
     const effect = Object.assign(document.createElement('div'), {
         className : 'effect',
     });
-    effect.innerHTML = `<input type='number' value='1' placeholder='n' /><input type='text' value='' placeholder='Effect' /><input type='color' value='#808080' />`;
+    effect.innerHTML = `<input type='number' value='1' onclick='this.select();' /><input type='text' value='' placeholder='Effect' /><input type='color' value='#808080' />`;
     slotTD.append(effect);
-    ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeRowSpan, false));
+    ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
 
@@ -131,71 +131,57 @@ function changeValue(evt){
     evt.target.setAttribute('value', evt.target.value);
 }
 
-function changeRowSpan(evt){
-    evt.target.setAttribute('value', evt.target.value);
+function changeColumnSpan(evt){
     let turnCount = evt.target.value;
+    if(turnCount > 200){                                                                //  Couldn't find a way to validate if text rather than number
+        console.log('Error: Cannot increase by more than 200 turns at a time.');        //  Firefox number input returns '0' if text is entered
+        let effectName = evt.target.nextElementSibling.value;                           //  but 0 is also needed later in the function.
+        evt.target.nextElementSibling.value = 'max 200';                                //  Tried using regex and NaN to no avail.
+        setTimeout(()=>{evt.target.nextElementSibling.value = effectName}, 1500);       //  So now it doesn't validate text but instead treats it as '0' so it deletes the effect.
+        evt.target.value = evt.target.closest('td').colSpan;
+        return;
+    };
+
+    evt.target.setAttribute('value', evt.target.value);
     const tableCellOfInput = evt.target.closest('td');
     let tableCellOfInputSpan = tableCellOfInput.colSpan;
-    //  If the turn counter input is reduced to zero, delete the effect and exit function
-    if(turnCount == 0){
-        const cell = document.createElement('td');
-        cell.addEventListener('mouseover', showActionButton);
-        tableCellOfInput.replaceWith(cell);
-        return;
-    //  If the turn counter input is reduced, reduce the colspan of the cell and replace the now empty space with an empty cell, ONCE
-    //  todo:  this should check the difference between the turnCounter input and the colspan of the cell, and create as many empty td cells as needed
-    } else if(turnCount < tableCellOfInputSpan) {
-        while(turnCount < tableCellOfInputSpan){
-            tableCellOfInputSpan = tableCellOfInputSpan - 1;
-            const cell = document.createElement('td');
-            cell.addEventListener('mouseover', showActionButton);
-            tableCellOfInput.parentNode.insertBefore(cell,tableCellOfInput.nextElementSibling); 
-            console.log('while');
-        };
-    } else {
-        //  If no more columns exist to expand into, create a new column...
-        if(tableCellOfInput.nextElementSibling == null){ 
-            addColumn();
-            tableCellOfInput.nextElementSibling.remove();
-        //   If another effect occupies the next cell, do not expand into that cell and prevent change to turn counter...
-        } else if(tableCellOfInput.nextElementSibling.firstChild?.className === 'effect') {
-            console.log('another effect in the way');
-            evt.target.value--;
-            evt.target.setAttribute('value', evt.target.value);
-            // todo: add another <tr> row below and move this effect to that row.
+
+    // if the turnCount input is not the same as it's table cell colspan, create an empty td cell and...
+    while(turnCount != tableCellOfInputSpan){
+        const emptyCell = document.createElement('td');
+        emptyCell.addEventListener('mouseover', showActionButton);
+
+        //  if the turnCounter is reduced to 0, remove the effect and replace it with an empty cell.  But...
+        if(turnCount == 0){
+            tableCellOfInput.replaceWith(emptyCell);
             return;
+
+        //  if the turnCounter is reduced, add an empty cell after the effect
+        } else if(turnCount < tableCellOfInputSpan) {
+            tableCellOfInputSpan -= 1;
+            tableCellOfInput.parentNode.insertBefore(emptyCell,tableCellOfInput.nextElementSibling); 
+        
+        //  and otherwise, assume the turnCounter has been increased, in which case....
         } else {
-            tableCellOfInput.nextElementSibling.remove();
-        };
+            //  If no more columns exist to expand into, create a new column...
+            if(tableCellOfInput.nextElementSibling == null){ 
+                addColumn();
+                tableCellOfInput.nextElementSibling.remove();
+            //   If another effect occupies the next cell, do not expand into that cell and prevent change to turn counter...
+            } else if(tableCellOfInput.nextElementSibling.firstChild?.className === 'effect') {
+                console.log('another effect in the way');
+                evt.target.value--;
+                evt.target.setAttribute('value', evt.target.value);
+            } else {
+                tableCellOfInput.nextElementSibling.remove();
+            };
+            tableCellOfInputSpan += 1;
+        }
     };
-    
+
+    // Now that the empty cells have been set up, finally adjust the actual colspan of the target cell.
     tableCellOfInput.setAttribute('colspan', evt.target.value);
 
-    const table = document.getElementById('main-table');
-    
-    let cellsInEachRow = [];
-    // console.log('**** NEW LINE ****');
-    for(let x=0;x<table.rows.length;x++){
-        let cellCount = 0;
-        let row = table.rows[x];
-        for(let y=0;y<row.cells.length;y++){
-            let cell = row.cells[y];
-            cellCount = cell.colSpan >= 1 ? cellCount + cell.colSpan : cellCount + 1;
-        };
-        cellsInEachRow.push(cellCount);
-        // console.log(`Row ${x}: ${cellCount}`);
-    };
-
-    let longestRow = Math.max(...cellsInEachRow);
-    
-    // for(x=0;x<table.rows.length;x++){
-    //     for(let y=0; y < longestRow - table.rows[x].cells.length;y++){
-    //         const newCell = table.rows[x].parentNode.tagName === 'THEAD' ? document.createElement('th') : document.createElement('td');
-    //         table.rows[x].append(newCell);
-    //     }
-    // }
-    
-    
 }
 
 function changeEffectColor(evt){
