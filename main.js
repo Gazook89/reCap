@@ -135,7 +135,7 @@ function changeRowSpan(evt){
     evt.target.setAttribute('value', evt.target.value);
     let turnCount = evt.target.value;
     const tableCellOfInput = evt.target.closest('td');
-    const tableCellOfInputSpan = tableCellOfInput.colSpan;
+    let tableCellOfInputSpan = tableCellOfInput.colSpan;
     //  If the turn counter input is reduced to zero, delete the effect and exit function
     if(turnCount == 0){
         const cell = document.createElement('td');
@@ -145,11 +145,13 @@ function changeRowSpan(evt){
     //  If the turn counter input is reduced, reduce the colspan of the cell and replace the now empty space with an empty cell, ONCE
     //  todo:  this should check the difference between the turnCounter input and the colspan of the cell, and create as many empty td cells as needed
     } else if(turnCount < tableCellOfInputSpan) {
-        tableCellOfInput.colSpan = turnCount;
-        const cell = document.createElement('td');
-        cell.addEventListener('mouseover', showActionButton);
-        tableCellOfInput.parentNode.insertBefore(cell,tableCellOfInput.nextElementSibling);
-        return;
+        while(turnCount < tableCellOfInputSpan){
+            tableCellOfInputSpan = tableCellOfInputSpan - 1;
+            const cell = document.createElement('td');
+            cell.addEventListener('mouseover', showActionButton);
+            tableCellOfInput.parentNode.insertBefore(cell,tableCellOfInput.nextElementSibling); 
+            console.log('while');
+        };
     } else {
         //  If no more columns exist to expand into, create a new column...
         if(tableCellOfInput.nextElementSibling == null){ 
