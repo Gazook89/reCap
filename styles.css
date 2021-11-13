@@ -65,7 +65,7 @@ th {
 
 th, td {
     border-left: 1px solid gray;
-    min-width: 8vw;
+    min-width: 12vw;
     position:relative;
     padding: 0;
     height: 16px
