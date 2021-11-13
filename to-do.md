@@ -1,6 +1,4 @@
 ### To Do:
-- add datasets/presets to color picker input
-- after Clear table, prevent autosave
 - investigate better debounce method (`debounce-lead`)
 - if expanding an effect into an occupied cell, create new row and move expanding effect into that row
 - add effect tooltips on hover for more detailed info

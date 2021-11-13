@@ -110,7 +110,7 @@ function addAction(evt) {
     const effect = Object.assign(document.createElement('div'), {
         className : 'effect',
     });
-    effect.innerHTML = `<input type='number' value='1' onclick='this.select();' /><input type='text' value='' placeholder='Effect' /><input type='color' value='#808080' />`;
+    effect.innerHTML = `<input type='number' value='1' onclick='this.select();' /><input type='text' title='' value='' placeholder='Effect' /><input type='color' value='#808080' />`;
     slotTD.append(effect);
     ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
@@ -121,6 +121,7 @@ function addAction(evt) {
 
 function changeValue(evt){
     evt.target.setAttribute('value', evt.target.value);
+    evt.target.setAttribute('title', evt.target.value);
 }
 
 function changeColumnSpan(evt){
