@@ -143,17 +143,16 @@ function changeColumnSpan(evt){
         const emptyCell = document.createElement('td');
         emptyCell.addEventListener('mouseover', showActionButton);
 
-        //  if the turnCounter is reduced to 0, remove the effect and replace it with an empty cell.  But...
-        if(turnCount == 0){
-            tableCellOfInput.replaceWith(emptyCell);
-            return;
-
-        //  if the turnCounter is reduced, add an empty cell after the effect
-        } else if(turnCount < tableCellOfInputSpan) {
+        // if the turnCount is reduced....
+        if(turnCount < tableCellOfInputSpan) { 
+            // and it's set to zero, remove it entirely, but
+            if(tableCellOfInputSpan == 1){
+                tableCellOfInput.replaceWith(emptyCell);
+            };
+            //  otherwise just reduce the colspan and replace the empty space with empty cells.
             tableCellOfInputSpan -= 1;
-            tableCellOfInput.parentNode.insertBefore(emptyCell,tableCellOfInput.nextElementSibling); 
-        
-        //  and otherwise, assume the turnCounter has been increased, in which case....
+            tableCellOfInput.parentNode?.insertBefore(emptyCell,tableCellOfInput.nextElementSibling);
+        //  otherwise, assume the turnCounter has been increased, in which case....
         } else {
             //  If no more columns exist to expand into, create a new column...
             if(tableCellOfInput.nextElementSibling == null){ 
