@@ -1,4 +1,22 @@
 ### To Do:
+
+#### Multiple Encounters:
+- add button to create a new additional table for tracking either multiple characters or combat encounters.
+    - on page load, 
+        - for each table that exists in localStorage, create a table and then load stored table.innerHTML to that table.
+        - if there are no stored tables, create a blank table.
+        - programmatically add a "new encounter" button
+            - onclick creates a blank table with a sequential ID, an input to change the ID (from which they *key* in localStorage is derived), and an associated toolbar.  Toolbar will have a "delete table" button to delete the encounter and remove it from localStorage.
+
+##### Tasks to Complete Multi Encounters:
+- set up creation of blank encounter on page load.
+    - [] create an encounter wrapper div
+    - [] create encounter name input
+    - [] create table with rows & columns
+    - [] create toolbar
+
+### Other To-Do's:
+- add free-form textarea for each turn.
 - investigate better debounce method (`debounce-lead`)
 - if expanding an effect into an occupied cell, create new row and move expanding effect into that row
 - add effect tooltips on hover for more detailed info
