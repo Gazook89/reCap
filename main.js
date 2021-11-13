@@ -115,8 +115,14 @@ function addAction(evt) {
     ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
-
-    slot.remove()
+    slot.remove();
+    if(slotTD.parentNode.nextElementSibling == null){
+        addRowAfter()
+    };
+    // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
+    document.querySelector('th[style*="background"]')?.removeAttribute('style');
+    document.getElementsByTagName('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';
+    document.getElementsByTagName('th')[slotTD.cellIndex].style.color = '#222';
 }
 
 function changeValue(evt){
