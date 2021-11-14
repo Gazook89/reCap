@@ -33,6 +33,10 @@ window.onload = function() {
         table.innerHTML = localStorage.getItem('table');
     }
 
+    
+    
+    addEncounter();
+
     // Once table is built, apply event listeners.
     const cells = document.querySelectorAll('th,td');
     for(let x=0;x<cells.length;x++){
@@ -51,8 +55,6 @@ window.onload = function() {
         }
     };
     
-    addEncounter();
-    
 }
 
 function addEncounter(){
@@ -69,16 +71,27 @@ function addEncounter(){
 }
 
 function createTable(){
-    const table = document.createElement('table'), thead = document.createElement('thead'), tbody = document.createElement('tbody');
     const tableContainer = Object.assign(document.createElement('div'), {className: 'table-container'});
-    for(let x=0;x < 10;x++){
-        const header = document.createElement('th'); header.textContent = x === 0 ? 'Pre Combat' : x ;
-        header.addEventListener('click', highlightHeader, false);
-        const cell = document.createElement('td'); 
-        cell.addEventListener('mouseover', showActionButton);
-        thead.append(header);
-        tbody.append(cell);
-    }
+    const table = document.createElement('table'), thead = document.createElement('thead'), tbody = document.createElement('tbody');
+    [{tag: thead, count: 1},{tag: tbody, count: 4}].forEach(elem => {
+        for(let x=0;x<elem.count;x++){
+            let row = document.createElement('tr');
+            for(let y=0;y <= 10;y++){
+                let cell;
+                if(elem.tag === thead && x === 0){
+                    cell = document.createElement('th'); cell.textContent = y === 0 ? 'Pre Combat' : y ;
+                    cell.addEventListener('click', highlightHeader, false);
+                } else {
+                    cell = document.createElement('td'); 
+                    cell.addEventListener('mouseover', showActionButton);
+                }
+                row.append(cell);
+            }
+            elem.tag.append(row);
+        }
+    });
+    
+    
     table.append(thead,tbody);
     tableContainer.append(table);
     return tableContainer;
@@ -130,9 +143,7 @@ function removeChild(evt){
 
 function showActionButton(evt) {
     let targetCell = evt.target;
-    let targetCellID = targetCell.tagName;
     if(targetCell.innerHTML === ''){
-        // evt.target.removeEventListener('mouseover', showActionButton);
         const addActionButton = Object.assign(document.createElement('div'), {
             className : 'add-action'
         });
@@ -160,12 +171,13 @@ function addAction(evt) {
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
     slot.remove();
     if(slotTD.parentNode.nextElementSibling == null){
-        addRowAfter()
+        addRowAfter(slotTD.parentElement)
     };
     // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
     document.querySelector('th[style*="background"]')?.removeAttribute('style');
-    document.getElementsByTagName('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';
-    document.getElementsByTagName('th')[slotTD.cellIndex].style.color = '#222';
+    console.log(slotTD.closest('table').querySelectorAll('th'));
+    slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
+    slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
 }
 
 function changeValue(evt){
@@ -273,7 +285,7 @@ function addColumn(){
 
 function addRowAfter(currentRow){
     const newRow = Object.assign(document.createElement('tr'),{className : 'spells'});
-    const columns = document.getElementsByTagName('th').length; 
+    const columns = currentRow.closest('table').querySelectorAll('thead th').length; 
     for(let x=0;x<columns;x++){
         const newCell = document.createElement('td');
         newCell.addEventListener('mouseover', showActionButton);

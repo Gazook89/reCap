@@ -15,8 +15,13 @@
     - [x] create encounter name input
     - [x] create table with rows & columns
     - [x] create toolbar
+    - [] create add/remove column 'quick buttons' in last column header (or rethink those buttons)
 - [] assign event listeners across the table
     - [] be sure functions have the necessary level of specificity so they target the correct elements
+    - On creation, 
+        - [] add .add-action event listener to each body cell
+        - [] add .columnHighlight listener to each header
+
 
 
 ### Other To-Do's:
