@@ -7,13 +7,17 @@
         - if there are no stored tables, create a blank table.
         - programmatically add a "new encounter" button
             - onclick creates a blank table with a sequential ID, an input to change the ID (from which they *key* in localStorage is derived), and an associated toolbar.  Toolbar will have a "delete table" button to delete the encounter and remove it from localStorage.
+            - also includes an "encounter group" text input, which is check against other encounters to pair them up.  Paired encounters follow the same turn tracker (columnHighlight)
 
 ##### Tasks to Complete Multi Encounters:
-- set up creation of blank encounter on page load.
-    - [] create an encounter wrapper div
-    - [] create encounter name input
-    - [] create table with rows & columns
-    - [] create toolbar
+- [x] set up creation of blank encounter on page load.
+    - [x] create an encounter wrapper div
+    - [x] create encounter name input
+    - [x] create table with rows & columns
+    - [x] create toolbar
+- [] assign event listeners across the table
+    - [] be sure functions have the necessary level of specificity so they target the correct elements
+
 
 ### Other To-Do's:
 - add free-form textarea for each turn.

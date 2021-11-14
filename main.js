@@ -51,7 +51,50 @@ window.onload = function() {
         }
     };
     
+    addEncounter();
     
+}
+
+function addEncounter(){
+    const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'});
+    const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Title'});
+    const inputEncounterGroup = Object.assign(document.createElement('input'), {type:'text', className:'encounter-group-input', placeholder:'Group'});
+    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
+    encounter.append(inputEncounterName, inputEncounterGroup);
+    document.getElementsByTagName('body')[0].append(encounter);
+    const tableContainer = createTable();
+    encounter.append(tableContainer);
+    const toolbar = createToolbar();
+    encounter.append(toolbar);
+}
+
+function createTable(){
+    const table = document.createElement('table'), thead = document.createElement('thead'), tbody = document.createElement('tbody');
+    const tableContainer = Object.assign(document.createElement('div'), {className: 'table-container'});
+    for(let x=0;x < 10;x++){
+        const header = document.createElement('th'); header.textContent = x === 0 ? 'Pre Combat' : x ;
+        header.addEventListener('click', highlightHeader, false);
+        const cell = document.createElement('td'); 
+        cell.addEventListener('mouseover', showActionButton);
+        thead.append(header);
+        tbody.append(cell);
+    }
+    table.append(thead,tbody);
+    tableContainer.append(table);
+    return tableContainer;
+}
+
+function createToolbar(){
+    const toolbar = Object.assign(document.createElement('div'), {className: 'toolbar'});
+    const tools = [
+        {id: 'add-col', className: 'tool', function: 'addColumn()', text: 'Add Column'},
+        {id: 'rem-col', className: 'tool', function: 'removeColumn()', text: 'Remove Column'},
+        {id: 'add-row', className: 'tool', function: 'addRowAfter()', text: 'Add Row'},
+        {id: 'rem-row', className: 'tool', function: 'removeRow()', text: 'Remove Row'}, 
+        {id: 'clear-table', className: 'tool', function: 'clearTable()', text: 'Clear', children: '<span class="tooltiptext">Clear entire table & local storage</span>'}
+    ];
+    tools.forEach(i => {const tool = Object.assign(document.createElement('div'), {id: i.id, className: i.className, onclick: i.function}); tool.innerHTML = i.children ? i.text + i.children: i.text; toolbar.append(tool)});
+    return toolbar;
 }
 
 
