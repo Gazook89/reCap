@@ -175,7 +175,6 @@ function addAction(evt) {
     };
     // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
     document.querySelector('th[style*="background"]')?.removeAttribute('style');
-    console.log(slotTD.closest('table').querySelectorAll('th'));
     slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
     slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
 }
