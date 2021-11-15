@@ -6,7 +6,10 @@
         - for each table that exists in localStorage, create a table and then load stored table.innerHTML to that table.
         - if there are no stored tables, create a blank table.
         - programmatically add a "new encounter" button
-            - onclick creates a blank table with a sequential ID, an input to change the ID (from which they *key* in localStorage is derived), and an associated toolbar.  Toolbar will have a "delete table" button to delete the encounter and remove it from localStorage.
+            - onclick creates an Encounter Div, which is just a blank, bordered div.  Inside is a "track turns" button which creates...
+                - blank table with a sequential ID, an input to change the ID (from which the *key* in localStorage is derived), and an associated toolbar.  Toolbar will have a "delete table" button to delete the table.
+            - Encounter Div also contains an input to change the name of the encounter
+            - Encounter Div also has a button to delete the whole encounter and clear storage.
             - also includes an "encounter group" text input, which is check against other encounters to pair them up.  Paired encounters follow the same turn tracker (columnHighlight)
 
 ##### Tasks to Complete Multi Encounters:

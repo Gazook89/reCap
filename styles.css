@@ -39,18 +39,34 @@ h1 {
 
 .encounter {
     border: 1px solid #444;
-    padding: 5px;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.encounter input[type='text'] {
-    border-bottom: 1px solid #555;
+.encounter .encounter-title-bar {
+    background: #444;
+    flex: 1 1 100%;
+    padding: 5px
 }
 
-.encounter .encounter-group-input {
-    text-align:right;
+.encounter input[type='text'] {
+    border-bottom: 1px solid #777;
+}
+
+.character {
+    padding: 25px;
+    flex: 1 1 auto;
+    width: 80%
+}
+
+.character-title-bar {
+    display:flex;
+    justify-content:flex-end;
+}
+
+.character-name-input {
+    flex: 1;
 }
 
 .table-container {

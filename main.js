@@ -58,16 +58,36 @@ window.onload = function() {
 }
 
 function addEncounter(){
-    const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'});
-    const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Title'});
-    const inputEncounterGroup = Object.assign(document.createElement('input'), {type:'text', className:'encounter-group-input', placeholder:'Group'});
+    const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'}),
+    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar'}),
+    inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
-    encounter.append(inputEncounterName, inputEncounterGroup);
+    encounterTitleBar.append(inputEncounterName);
+    encounter.append(encounterTitleBar);
+    const character = addCharacter();
+    encounter.append(character);
     document.getElementsByTagName('body')[0].append(encounter);
-    const tableContainer = createTable();
-    encounter.append(tableContainer);
-    const toolbar = createToolbar();
-    encounter.append(toolbar);
+}
+
+function addCharacter(){
+    const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
+    characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar'}),
+    characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
+    titleBarButtons = ['MenuOptions','MenuButton','MinimizeButton','DeleteButton'];
+
+    characterTitleBar.append(characterInputName);
+    titleBarButtons.forEach(element => {
+        let button = Object.assign(document.createElement('div'), {className:`title-button ${element}`, onclick:`${element}()`});
+        if(element === 'MenuOptions'){
+            const toolbar = createToolbar();
+            button.append(toolbar);
+        };
+        characterTitleBar.append(button);
+    });
+    
+    tableContainer = createTable();
+    character.append(characterTitleBar, tableContainer);
+    return character;
 }
 
 function createTable(){
