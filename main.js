@@ -75,7 +75,7 @@ function addEncounter(){
     // encounter.append(character);
     const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
     
-    footerBar.append(createButton('+'));
+    footerBar.append(createButton('+', 'addCharacter(this.closest(".encounter"))'));
     encounter.append(footerBar);
     document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
@@ -143,9 +143,9 @@ function createToolbar(){
     return toolbar;
 }
 
-function createButton(symbol) {
+function createButton(symbol, action) {
     const button = Object.assign(document.createElement('div'), {className:'ui-button'});
-    button.setAttribute('onclick', 'addCharacter(this.closest(".encounter"))');
+    button.setAttribute('onclick', action);
     button.textContent = symbol;
     return button;
 }
