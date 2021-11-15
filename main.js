@@ -237,7 +237,7 @@ function changeColumnSpan(evt){
         } else {
             //  If no more columns exist to expand into, create a new column...
             if(tableCellOfInput.nextElementSibling == null){ 
-                addColumn();
+                addColumn(tableCellOfInput);
                 tableCellOfInput.nextElementSibling.remove();
             //   If another effect occupies the next cell, do not expand into that cell and prevent change to turn counter...
             } else if(tableCellOfInput.nextElementSibling.firstChild?.className === 'effect') {
@@ -281,17 +281,16 @@ function removeColumn(){
 
 }
 
-function addColumn(){
-    const table = document.getElementById('main-table');
-    const colControls = document.getElementById('column-control');
-    const lastColumn = colControls.parentNode.cellIndex;
+function addColumn(elem){
+    const table = elem.closest('table');
+    const lastColumn = table.getElementsByTagName('TH').length;
 
     for(x=0;x<table.rows.length;x++){   // add a cell to each row
         let newCell;
         if(table.rows[x].parentNode.tagName === 'THEAD'){ // add column controls and column number to header
             newCell = document.createElement('th');
-            newCell.textContent = lastColumn + 1;  
-            newCell.append(colControls);
+            newCell.textContent = lastColumn;  
+            // newCell.append(colControls);
         } else {
             newCell = document.createElement('td'); //  otherwise if not a header, just add a cell.
             newCell.addEventListener('mouseover', showActionButton);
