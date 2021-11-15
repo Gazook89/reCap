@@ -84,16 +84,11 @@ function addCharacter(parent){
     const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
     characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar'}),
     characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
-    titleBarButtons = ['MenuOptions','MenuButton','MinimizeButton','DeleteButton'];
+    titleBarButtons = [{text: '...', action: 'MenuOptions'},{text: '_', action: 'MinimizeButton'},{text: 'x', action: 'DeleteButton'}];
 
     characterTitleBar.append(characterInputName);
     titleBarButtons.forEach(element => {
-        let button = Object.assign(document.createElement('div'), {className:`title-button ${element}`, onclick:`${element}()`});
-        if(element === 'MenuOptions'){
-            const toolbar = createToolbar();
-            button.append(toolbar);
-        };
-        characterTitleBar.append(button);
+        characterTitleBar.append(createButton(element.text, element.action));
     });
     
     tableContainer = createTable();
