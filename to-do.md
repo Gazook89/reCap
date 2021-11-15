@@ -22,8 +22,8 @@
 - [] assign event listeners across the table
     - [] be sure functions have the necessary level of specificity so they target the correct elements
     - On creation, 
-        - [] add .add-action event listener to each body cell
-        - [] add .columnHighlight listener to each header
+        - [x] add .add-action event listener to each body cell
+        - [x] add .columnHighlight listener to each header
 
 
 

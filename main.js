@@ -61,7 +61,7 @@ function showAddEncounterButton() {
     const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
     addEncounterButton.append(createButton('Add Encounter'));
     addEncounterButton.addEventListener('click', addEncounter, false);
-    document.getElementsByTagName('main')[0].append(addEncounterButton);
+    document.getElementsByTagName('main')[0].insertBefore(addEncounterButton,document.getElementsByTagName('h1')[0].nextElementSibling);
 }
 
 function addEncounter(){
@@ -143,6 +143,7 @@ function createToolbar(){
 
 function createButton(symbol) {
     const button = Object.assign(document.createElement('div'), {className:'ui-button'});
+    // button.setAttribute('onclick', 'addCharacter(this)');
     button.textContent = symbol;
     return button;
 }
