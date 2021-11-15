@@ -9,108 +9,27 @@
         <title>reCap</title>
    </head>
    <body>
-       <h1>reCap</h1>
-       <div class='table-container'>
-            <table id='main-table'>
-                <thead>
-                <tr>
-                    <th>Pre Combat</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                    <th>6</th>
-                    <th>7</th>
-                    <th>8</th>
-                    <th>9</th>
-                    <th>
-                        10
-                        <div id='' class='column-control'><div class='remove-col' onclick='removeColumn()'><</div><div class='add-col' onclick='addColumn()'>></div></div>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class='spells'>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class='spells'>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class='spells'>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class='spells'>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class='toolbar'>
-            <div id='add-col' class='tool' onclick='addColumn()'>Add Column</div> 
-            <div id='rem-col' class='tool' onclick='removeColumn()'>Remove Column</div>
-            <div id='add-row' class='tool' onclick='addRowAfter(document.querySelector("tbody tr:last-child"))'>Add Row</div>
-            <div id='rem-row' class='tool' onclick='removeRow(document.querySelector("tbody tr:last-child"))'>Remove Row</div>
-            <div id='clear-table' class='tool' onclick='clearTable(this)'>Clear<span class="tooltiptext">Clear entire table & local storage</span></div>
-        </div>
-        <h3>Usage:</h3>
-        <ul>
-            <li>Click a cell to add an action/effect.  Three inputs: turn duration (number), effect name (alpha-numeric), cell color (colorpicker).</li>
-            <li>Increase the duration (in Turns), or remove the effect by reducing duration to zero.</li>
-            <li>Choose a color that works with your preferred scheme.  Maybe 'green' indicates acid effects, 'red' is for fire, etc.  Or based on source of effect, assigning a color to specific characters.</li>
-            <li>Either create a new row for every effect/action, or reuse rows, space-allowing.</li>
-            <li>Effects cannot be expanded into existing effects or beyond the last column.</li>
-            <li>Add more columns as needed by using the carets revealed on hover over the header.</li>
-        </ul>
-        
+       <main>
+            <h1>reCap</h1>
+            <h3>Usage:</h3>
+            <ul>
+                <li>Click a cell to add an action/effect.  Three inputs: turn duration (number), effect name (alpha-numeric), cell color (colorpicker).</li>
+                <li>Increase the duration (in Turns), or remove the effect by reducing duration to zero.</li>
+                <li>Choose a color that works with your preferred scheme.  Maybe 'green' indicates acid effects, 'red' is for fire, etc.  Or based on source of effect, assigning a color to specific characters.</li>
+                <li>Either create a new row for every effect/action, or reuse rows, space-allowing.</li>
+                <li>Effects cannot be expanded into existing effects or beyond the last column.</li>
+                <li>Add more columns as needed by using the carets revealed on hover over the header.</li>
+            </ul>
+        </main>
+        <footer>
+            <ul>
+                <li>reCap by Gazook89</li>
+                <li>©2021</li>
+                <li><a href='https://github.com/Gazook89/reCap/blob/main/LICENSE'>GPL-3.0 License</a></li>
+                <li>HTML/CSS/JS</li>
+                <li><a href='https://github.com/Gazook89/reCap'>GitHub</a></li>
+            </ul>
+        </footer>
    </body>
-   <footer>
-       <ul>
-           <li>reCap by Gazook89</li>
-           <li>©2021</li>
-           <li><a href='https://github.com/Gazook89/reCap/blob/main/LICENSE'>GPL-3.0 License</a></li>
-           <li>HTML/CSS/JS</li>
-           <li><a href='https://github.com/Gazook89/reCap'>GitHub</a></li>
-       </ul>
-   </footer>
-</html
+   
+</html>

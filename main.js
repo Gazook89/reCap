@@ -3,39 +3,39 @@ window.onload = function() {
     // check out https://codeburst.io/observe-changes-in-dom-using-mutationobserver-9c2705222751
     // mutationRecords has properties that can be accessed.  
 
-    const table = document.getElementById('main-table');
-    let timer = null;
-    let observer = new MutationObserver(mutationRecords => { 
-        mutationRecords.forEach((mutation)=>{
-            if( mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
-                return;
-            } else {
-                if(timer != null){                                      
-                    clearTimeout(timer);
-                    timer = null;
-                };
-                if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
-                timer = setTimeout(save, 5000); // 5 second delay
-            }
-        })
+    // const table = document.getElementById('main-table');
+    // let timer = null;
+    // let observer = new MutationObserver(mutationRecords => { 
+    //     mutationRecords.forEach((mutation)=>{
+    //         if( mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
+    //             return;
+    //         } else {
+    //             if(timer != null){                                      
+    //                 clearTimeout(timer);
+    //                 timer = null;
+    //             };
+    //             if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
+    //             timer = setTimeout(save, 5000); // 5 second delay
+    //         }
+    //     })
         
-    });
+    // });
 
-    observer.observe(table, {
-        childList : true,
-        subtree: true,
-        attributes : true
-    });
+    // observer.observe(table, {
+    //     childList : true,
+    //     subtree: true,
+    //     attributes : true
+    // });
 
     
     // If previous table exists in storage, restore it:
-    if('table' in localStorage){
-        table.innerHTML = localStorage.getItem('table');
-    }
+    // if('table' in localStorage){
+    //     table.innerHTML = localStorage.getItem('table');
+    // }
 
+    showAddEncounterButton();
     
-    
-    addEncounter();
+    // addEncounter();
 
     // Once table is built, apply event listeners.
     const cells = document.querySelectorAll('th,td');
@@ -57,16 +57,27 @@ window.onload = function() {
     
 }
 
+function showAddEncounterButton() {
+    const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
+    addEncounterButton.append(createButton('Add Encounter'));
+    addEncounterButton.addEventListener('click', addEncounter, false);
+    document.getElementsByTagName('main')[0].append(addEncounterButton);
+}
+
 function addEncounter(){
     const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'}),
     encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar'}),
     inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
-    encounterTitleBar.append(inputEncounterName);
+    encounterTitleBar.append(inputEncounterName, createButton('x'));
     encounter.append(encounterTitleBar);
     const character = addCharacter();
     encounter.append(character);
-    document.getElementsByTagName('body')[0].append(encounter);
+    const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
+    
+    footerBar.append(createButton('+'));
+    encounter.append(footerBar);
+    document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
 
 function addCharacter(){
@@ -128,6 +139,12 @@ function createToolbar(){
     ];
     tools.forEach(i => {const tool = Object.assign(document.createElement('div'), {id: i.id, className: i.className, onclick: i.function}); tool.innerHTML = i.children ? i.text + i.children: i.text; toolbar.append(tool)});
     return toolbar;
+}
+
+function createButton(symbol) {
+    const button = Object.assign(document.createElement('div'), {className:'ui-button'});
+    button.textContent = symbol;
+    return button;
 }
 
 

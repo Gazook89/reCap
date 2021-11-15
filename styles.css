@@ -37,21 +37,70 @@ h1 {
     display:inline-block;
 }
 
+.add-encounter-button {
+    background: #444;
+    display:flex;
+    padding: 3px;
+}
+
+.add-encounter-button .ui-button {
+    flex:1;
+}
+
 .encounter {
     border: 1px solid #444;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 2em;
 }
 
 .encounter .encounter-title-bar {
     background: #444;
     flex: 1 1 100%;
-    padding: 5px
+    padding: 5px;
+    display:flex;
+    justify-content:space-between;
 }
 
 .encounter input[type='text'] {
     border-bottom: 1px solid #777;
+}
+
+.encounter .add-character {
+    flex: 1 0 60%;
+    background: #444;
+    display:flex;
+    justify-content: center;
+    padding: 3px;
+    opacity: 0;
+}
+
+.add-character:hover {
+    opacity:1;
+    transition: all .5s .2s ease-out
+}
+
+.add-character .ui-button {
+    flex: 1;
+}
+
+.ui-button {
+    border: 1px solid #666;
+    width: 1.5em;
+    height: 1.5em;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: helvetica;
+    font-weight: 900;
+    font-size: 1.2em;
+    color: #777
+}
+
+.ui-button:hover {
+    color: #aaa;
+    border-color: #aaa;
 }
 
 .character {
@@ -233,10 +282,8 @@ table thead:hover .column-control div, .column-control:hover div {
 
 
 footer {
-    position: fixed;
+    margin-top: 4em;
     width:100vw;
-    left: 0;
-    bottom: 0;
     background: linear-gradient(to bottom, transparent 5%, #222 40%)
 }
 
