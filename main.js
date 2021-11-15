@@ -71,8 +71,8 @@ function addEncounter(){
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
     encounterTitleBar.append(inputEncounterName, createButton('x'));
     encounter.append(encounterTitleBar);
-    const character = addCharacter();
-    encounter.append(character);
+    addCharacter(encounter);
+    // encounter.append(character);
     const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
     
     footerBar.append(createButton('+'));
@@ -80,7 +80,7 @@ function addEncounter(){
     document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
 
-function addCharacter(){
+function addCharacter(parent){
     const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
     characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar'}),
     characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
@@ -98,7 +98,9 @@ function addCharacter(){
     
     tableContainer = createTable();
     character.append(characterTitleBar, tableContainer);
-    return character;
+    console.log(parent);
+    parent.insertBefore(character, parent.querySelector('.add-character'));
+    // return character;
 }
 
 function createTable(){
@@ -143,7 +145,7 @@ function createToolbar(){
 
 function createButton(symbol) {
     const button = Object.assign(document.createElement('div'), {className:'ui-button'});
-    // button.setAttribute('onclick', 'addCharacter(this)');
+    button.setAttribute('onclick', 'addCharacter(this.closest(".encounter"))');
     button.textContent = symbol;
     return button;
 }
