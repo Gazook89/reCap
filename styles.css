@@ -67,9 +67,16 @@ h1 {
     gap: 5px;
 }
 
+
+
 .encounter input[type='text'] {
     border-bottom: 1px solid #777;
 }
+
+.operational-buttons {
+    display: flex;
+    gap: 5px;
+  }
 
 .encounter .add-character {
     flex: 1 0 60%;
@@ -104,6 +111,7 @@ h1 {
     font-size: 1.2em;
     color: #777;
     user-select: none;
+    box-sizing: border-box;
 }
 
 .ui-button:hover {
@@ -194,7 +202,7 @@ th, td {
     border-left: 1px solid gray;
     min-width: 12vw;
     position:relative;
-    padding: 0;
+    padding: 1px;
     height: 16px
 }
 

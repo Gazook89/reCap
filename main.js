@@ -59,34 +59,41 @@ window.onload = function() {
 
 function showAddEncounterButton() {
     const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
-    addEncounterButton.append(createButton('Add Encounter'));
+    const button = Object.assign(document.createElement('div'), {className:'ui-button'});
+    button.textContent = '+';
+    addEncounterButton.append(button);
     addEncounterButton.addEventListener('click', addEncounter, false);
     document.getElementsByTagName('main')[0].insertBefore(addEncounterButton,document.getElementsByTagName('h1')[0].nextElementSibling);
 }
 
 function addEncounter(){
     const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'}),
-    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar title-bar'}),
-    inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
-    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
+    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar title-bar'});
     encounter.append(encounterTitleBar);
 
+    // add 'encounter name' input
+    const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
+    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{encounter.id = inputEncounterName.value}), false);
+    encounterTitleBar.append(inputEncounterName);
+
+    // container for the operational buttons (minimize, delete)
+    const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
+    encounterTitleBar.append(operationButtons);
     // add 'minimize encounter' button
-    const minBtn = minimize('.encounter', '.character');
-    encounterTitleBar.append(minBtn);
+    const minBtn = minimize('.encounter', '.character, .add-character');
+    operationButtons.append(minBtn);
     // add 'delete encounter' button
     const deleteBtn = deleteEntry('.encounter');
-    encounterTitleBar.append(deleteBtn);
+    operationButtons.append(deleteBtn);    
 
-    // Add a fresh Character element to the encounter when a new encounter is created.
-    addCharacter(encounter);
-
-
+    // add a footer to encounter
     const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
     const addNewCharacterBtn = addCharacter(encounter);
     footerBar.append(addNewCharacterBtn);
+
+    // Add a fresh Character element to the encounter when a new encounter is created.
+    addNewCharacterBtn.click();
     
-    // footerBar.append(createButton('+', 'addCharacter(this.closest(".encounter"))'));
     encounter.append(footerBar);
     document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
@@ -102,11 +109,14 @@ function addCharacter(parent){
             // character name input
         characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'});
         characterTitleBar.append(characterInputName);
+
+        const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
+        characterTitleBar.append(operationButtons);
             // title bar operational buttons (options, minimize, remove)
         const minBtn = minimize('.character', '.table-container');
-        characterTitleBar.append(minBtn);
+        operationButtons.append(minBtn);
         const deleteBtn = deleteEntry('.character');
-        characterTitleBar.append(deleteBtn);
+        operationButtons.append(deleteBtn);
 
         // the turn tracking table
         tableContainer = createTable();
@@ -132,8 +142,12 @@ function minimize(parentElement, element){
             // could one day change this to do a transition between 0% and 100%, or change it just display:none;
             if(hiddenElements[x].style.display === 'none'){
                 hiddenElements[x].style.display = null;
+                collapseElement.style.paddingBottom = null;
+                evt.target.style.backgroundColor = null;
             }  else {
                 hiddenElements[x].style.display = 'none';
+                collapseElement.style.paddingBottom = '0';
+                evt.target.style.backgroundColor = 'ghostwhite';
             }
         }
     }, false);
@@ -203,11 +217,7 @@ function createToolbar(){
     return toolbar;
 }
 
-function createButton(symbol) {
-    const button = Object.assign(document.createElement('div'), {className:'ui-button'});
-    button.textContent = symbol;
-    return button;
-}
+
 
 
 
