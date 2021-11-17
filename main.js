@@ -69,7 +69,7 @@ function addEncounter(){
     encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar'}),
     inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
-    encounterTitleBar.append(inputEncounterName, createButton('x'));
+    encounterTitleBar.append(inputEncounterName, createButton('x', 'deleteButton(this.closest(".encounter"))'));
     encounter.append(encounterTitleBar);
     addCharacter(encounter);
     // encounter.append(character);
@@ -84,7 +84,7 @@ function addCharacter(parent){
     const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
     characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar'}),
     characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
-    titleBarButtons = [{text: '...', action: 'MenuOptions'},{text: '_', action: 'MinimizeButton'},{text: 'x', action: 'DeleteButton'}];
+    titleBarButtons = [{text: '...', action: 'menuOptions'},{text: '_', action: 'minimize'},{text: 'x', action: 'deleteButton(this.closest(".character"))'}];
 
     characterTitleBar.append(characterInputName);
     titleBarButtons.forEach(element => {
@@ -93,7 +93,6 @@ function addCharacter(parent){
     
     tableContainer = createTable();
     character.append(characterTitleBar, tableContainer);
-    console.log(parent);
     parent.insertBefore(character, parent.querySelector('.add-character'));
     // return character;
 }
@@ -145,6 +144,38 @@ function createButton(symbol, action) {
     return button;
 }
 
+
+//  TODO:  Need to fix this.  Figure out how to close the "overlay" and "dialog" if clicking outside the "overlay".  Alternatively, how to create the overlay within the .character div (while keeping blur and color overlay) so that .character can be deleted along with overlay.
+//  TODO:  currently the basic functionality works, allowing deleting of elements, but if you have two items open for deletion, and delete the one above, the overlay over the second one doesn't shift up (is absolutely positioned).
+//  TODO:  so moving on to "minimize" as I'm tired of this, and possibly will find my answer while building out the other buttons. -Nov 16 2021
+function deleteButton(container) {
+    container.style.filter = 'blur(1px)';
+    const parentRect = container.getBoundingClientRect();
+    const parentX = parentRect.left + window.scrollX, parentY = parentRect.top + window.scrollY, parentWidth = parentRect.width, parentHeight = parentRect.height;
+    const position = `top:${parentY}px; left:${parentX}px; width:${parentWidth}px; height:${parentHeight}px`;
+    const overlay = Object.assign(document.createElement('div'), {className: 'color-overlay', style:position});
+    overlay.innerHTML = `<div class='dialog'><span>Remove ${container.className}...Are you sure?</span></div>`;
+    const buttonY = createButton('yes'), buttonN = createButton('no');
+    overlay.firstElementChild.append(buttonY, buttonN);
+    container.parentElement.append(overlay);
+
+    
+    buttonY.addEventListener('click', ()=>{container.remove(); overlay.remove()});
+    buttonN.addEventListener('click', ()=>{container.removeAttribute('style'); overlay.remove()});
+    overlay.firstElementChild.addEventListener('focusout', (event)=>{
+        if(overlay.firstElementChild.contains(event.relatedTarget) || !document.hasFocus()){
+            console.log('inside');
+            return;
+        }
+        console.log(('outside'));
+        container.removeAttribute('style');
+        overlay.remove();
+    });
+}
+
+function minimize(){
+
+}
 
 
 function save(){

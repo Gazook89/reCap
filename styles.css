@@ -41,10 +41,12 @@ h1 {
     background: #444;
     display:flex;
     padding: 3px;
+    height: 30px;
 }
 
 .add-encounter-button .ui-button {
     flex:1;
+
 }
 
 .encounter {
@@ -75,7 +77,8 @@ h1 {
     justify-content: center;
     padding: 3px;
     opacity: .2;
-    margin: 0 25px 10px;
+    margin: 10px 25px;
+    height: 30px;
 }
 
 .add-character:hover {
@@ -90,19 +93,51 @@ h1 {
 .ui-button {
     border: 1px solid #666;
     width: 1.5em;
-    height: 1.5em;
+    height: 100%;
+    aspect-ratio: 1 / 1;
     display:flex;
     justify-content: center;
     align-items: center;
     font-family: helvetica;
     font-weight: 900;
     font-size: 1.2em;
-    color: #777
+    color: #777;
+    user-select: none;
 }
 
 .ui-button:hover {
     color: #aaa;
     border-color: #aaa;
+}
+
+.color-overlay {
+    position: absolute;
+    background: rgba(102, 0, 0, 0.19);
+    display: grid;
+    place-content: center;
+}
+
+.dialog {
+	background: #444;
+	padding: 10px;
+	border: 1px solid ghostwhite;
+    display:flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 5px;
+    box-shadow: 3px 5px 0px black
+}
+
+
+
+.dialog span {
+    flex: 1 0 100%;
+}
+
+.dialog .ui-button {
+    font-size: inherit;
+    height: unset;
+    padding: 0 10px;
 }
 
 .character {
