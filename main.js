@@ -70,6 +70,7 @@ function addEncounter(){
     inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
     encounter.append(encounterTitleBar);
+
     // add 'minimize encounter' button
     const minBtn = minimize('.encounter', '.character');
     encounterTitleBar.append(minBtn);
@@ -77,38 +78,45 @@ function addEncounter(){
     const deleteBtn = deleteEntry('.encounter');
     encounterTitleBar.append(deleteBtn);
 
+    // Add a fresh Character element to the encounter when a new encounter is created.
     addCharacter(encounter);
-    // encounter.append(character);
+
+
     const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
+    const addNewCharacterBtn = addCharacter(encounter);
+    footerBar.append(addNewCharacterBtn);
     
-    footerBar.append(createButton('+', 'addCharacter(this.closest(".encounter"))'));
+    // footerBar.append(createButton('+', 'addCharacter(this.closest(".encounter"))'));
     encounter.append(footerBar);
     document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
 
 function addCharacter(parent){
-    const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
-    characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar title-bar'}),
-    characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
-    titleBarButtons = [{text: '...', action: 'menuOptions'}];
+    const button = Object.assign(document.createElement('div'), {className:'ui-button new-character'});
+    button.textContent = '+';
+    button.addEventListener('click', ()=>{
+        const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
 
-    characterTitleBar.append(characterInputName);
-    titleBarButtons.forEach(element => {
-        const btn = createButton(element.text);
-        btn.addEventListener('click', ()=>{element.action}, false);
-        characterTitleBar.append(btn);
+        // title bar of the character element
+        characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar title-bar'}),
+            // character name input
+        characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'});
+        characterTitleBar.append(characterInputName);
+            // title bar operational buttons (options, minimize, remove)
+        const minBtn = minimize('.character', '.table-container');
+        characterTitleBar.append(minBtn);
+        const deleteBtn = deleteEntry('.character');
+        characterTitleBar.append(deleteBtn);
 
+        // the turn tracking table
+        tableContainer = createTable();
+
+        character.append(characterTitleBar, tableContainer);
+        parent.insertBefore(character, parent.querySelector('.add-character'));
     });
+    return button;
 
-    const minBtn = minimize('.character', '.table-container');
-    characterTitleBar.append(minBtn);
-    const deleteBtn = deleteEntry('.character');
-    characterTitleBar.append(deleteBtn);
-
-    tableContainer = createTable();
-    character.append(characterTitleBar, tableContainer);
-    parent.insertBefore(character, parent.querySelector('.add-character'));
-    // return character;
+    
 }
 
 function minimize(parentElement, element){
@@ -136,12 +144,24 @@ function deleteEntry(parentElement){
     const button = Object.assign(document.createElement('div'), {className:'ui-button delete'});
     button.textContent = 'x';
     button.addEventListener('click', (evt)=>{
-        // look at this SO answer in thor of the collapsing element (given by parameter) and the evt.target.
         const outerElement = evt.target.closest(parentElement);
-        outerElement.remove()
+        outerElement.querySelectorAll('*').forEach(el=>el.style.filter='blur(1px)');
+        const overlay = Object.assign(document.createElement('div'), {className:'color-overlay'});
+        const dialog = Object.assign(document.createElement('div'),{className:'dialog'});
+        dialog.innerHTML = `<span>Remove ${outerElement.className}: ${outerElement.id}?</span>`;
+        const buttonY = Object.assign(document.createElement('div'), {className:'ui-button'})
+        buttonY.textContent = 'y';
+        const buttonN = Object.assign(document.createElement('div'), {className:'ui-button'})
+        buttonN.textContent = 'n';
+        buttonY.addEventListener('click', ()=>{outerElement.remove()});
+        buttonN.addEventListener('click', ()=>{overlay.remove(); outerElement.querySelectorAll('*').forEach(el=>el.style.filter=null);})
+        dialog.append(buttonY, buttonN);
+        overlay.append(dialog);
+        outerElement.append(overlay);
     }, false);
     return button;
 }
+
 
 function createTable(){
     const tableContainer = Object.assign(document.createElement('div'), {className: 'table-container'});
@@ -190,33 +210,7 @@ function createButton(symbol) {
 }
 
 
-//  TODO:  Need to fix this.  Figure out how to close the "overlay" and "dialog" if clicking outside the "overlay".  Alternatively, how to create the overlay within the .character div (while keeping blur and color overlay) so that .character can be deleted along with overlay.
-//  TODO:  currently the basic functionality works, allowing deleting of elements, but if you have two items open for deletion, and delete the one above, the overlay over the second one doesn't shift up (is absolutely positioned).
-//  TODO:  so moving on to "minimize" as I'm tired of this, and possibly will find my answer while building out the other buttons. -Nov 16 2021
-function deleteButton(container) {
-    container.style.filter = 'blur(1px)';
-    const parentRect = container.getBoundingClientRect();
-    const parentX = parentRect.left + window.scrollX, parentY = parentRect.top + window.scrollY, parentWidth = parentRect.width, parentHeight = parentRect.height;
-    const position = `top:${parentY}px; left:${parentX}px; width:${parentWidth}px; height:${parentHeight}px`;
-    const overlay = Object.assign(document.createElement('div'), {className: 'color-overlay', style:position});
-    overlay.innerHTML = `<div class='dialog'><span>Remove ${container.className}...Are you sure?</span></div>`;
-    const buttonY = createButton('yes'), buttonN = createButton('no');
-    overlay.firstElementChild.append(buttonY, buttonN);
-    container.parentElement.append(overlay);
 
-    
-    buttonY.addEventListener('click', ()=>{container.remove(); overlay.remove()});
-    buttonN.addEventListener('click', ()=>{container.removeAttribute('style'); overlay.remove()});
-    overlay.firstElementChild.addEventListener('focusout', (event)=>{
-        if(overlay.firstElementChild.contains(event.relatedTarget) || !document.hasFocus()){
-            console.log('inside');
-            return;
-        }
-        console.log(('outside'));
-        container.removeAttribute('style');
-        overlay.remove();
-    });
-}
 
 
 

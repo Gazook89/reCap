@@ -55,6 +55,7 @@ h1 {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 2em;
+    position:relative;
 }
 
 .encounter .encounter-title-bar {
@@ -112,6 +113,10 @@ h1 {
 
 .color-overlay {
     position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
     background: rgba(102, 0, 0, 0.19);
     display: grid;
     place-content: center;
@@ -143,7 +148,8 @@ h1 {
 .character {
     padding: 25px;
     flex: 1 1 auto;
-    width: 80%
+    width: 80%;
+    position:relative;
 }
 
 .character-title-bar {
