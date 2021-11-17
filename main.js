@@ -66,11 +66,17 @@ function showAddEncounterButton() {
 
 function addEncounter(){
     const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'}),
-    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar'}),
+    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar title-bar'}),
     inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{inputEncounterName.parentElement.id = inputEncounterName.value}), false);
-    encounterTitleBar.append(inputEncounterName, createButton('x', 'deleteButton(this.closest(".encounter"))'));
     encounter.append(encounterTitleBar);
+    // add 'minimize encounter' button
+    const minBtn = minimize('.encounter', '.character');
+    encounterTitleBar.append(minBtn);
+    // add 'delete encounter' button
+    const deleteBtn = deleteEntry('.encounter');
+    encounterTitleBar.append(deleteBtn);
+
     addCharacter(encounter);
     // encounter.append(character);
     const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
@@ -82,19 +88,59 @@ function addEncounter(){
 
 function addCharacter(parent){
     const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
-    characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar'}),
+    characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar title-bar'}),
     characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'}),
-    titleBarButtons = [{text: '...', action: 'menuOptions'},{text: '_', action: 'minimize'},{text: 'x', action: 'deleteButton(this.closest(".character"))'}];
+    titleBarButtons = [{text: '...', action: 'menuOptions'}];
 
     characterTitleBar.append(characterInputName);
     titleBarButtons.forEach(element => {
-        characterTitleBar.append(createButton(element.text, element.action));
+        const btn = createButton(element.text);
+        btn.addEventListener('click', ()=>{element.action}, false);
+        characterTitleBar.append(btn);
+
     });
-    
+
+    const minBtn = minimize('.character', '.table-container');
+    characterTitleBar.append(minBtn);
+    const deleteBtn = deleteEntry('.character');
+    characterTitleBar.append(deleteBtn);
+
     tableContainer = createTable();
     character.append(characterTitleBar, tableContainer);
     parent.insertBefore(character, parent.querySelector('.add-character'));
     // return character;
+}
+
+function minimize(parentElement, element){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button minimize'});
+    button.textContent = '_';
+    button.addEventListener('click', (evt)=>{
+        // look at this SO answer in the future if needed: https://stackoverflow.com/a/7648323... 
+        // something tells me i could use it to reduce this function to one parameter rather than two,
+        // determining the common ancestor of the collapsing element (given by parameter) and the evt.target.
+        const collapseElement = evt.target.closest(parentElement);
+        const hiddenElements = collapseElement.querySelectorAll(element);
+        for(let x=0;x<hiddenElements.length;x++){
+            // could one day change this to do a transition between 0% and 100%, or change it just display:none;
+            if(hiddenElements[x].style.display === 'none'){
+                hiddenElements[x].style.display = null;
+            }  else {
+                hiddenElements[x].style.display = 'none';
+            }
+        }
+    }, false);
+    return button;
+}
+
+function deleteEntry(parentElement){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button delete'});
+    button.textContent = 'x';
+    button.addEventListener('click', (evt)=>{
+        // look at this SO answer in thor of the collapsing element (given by parameter) and the evt.target.
+        const outerElement = evt.target.closest(parentElement);
+        outerElement.remove()
+    }, false);
+    return button;
 }
 
 function createTable(){
@@ -137,9 +183,8 @@ function createToolbar(){
     return toolbar;
 }
 
-function createButton(symbol, action) {
+function createButton(symbol) {
     const button = Object.assign(document.createElement('div'), {className:'ui-button'});
-    button.setAttribute('onclick', action);
     button.textContent = symbol;
     return button;
 }
@@ -173,9 +218,7 @@ function deleteButton(container) {
     });
 }
 
-function minimize(){
 
-}
 
 
 function save(){
