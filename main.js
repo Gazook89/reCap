@@ -36,9 +36,20 @@ window.onload = function() {
     showAddEncounterButton();
 
     if(localStorage.length){
-        for(let x=0;x<localStorage.length;x++){
+        const data = JSON.parse(localStorage.getItem('savedSession'));
+        for(let x=0;x<data.length;x++){
             addEncounter();
-            document.querySelectorAll('.encounter')[x].innerHTML = localStorage.getItem(localStorage.key(x));
+            let encounter = document.querySelectorAll('.encounter')[x];
+            encounter.id = data[x].id;
+            encounter.getElementsByClassName('encounter-name-input')[0].value = data[x].id;
+            for(let y=0;y<data[x].tables.length;y++){
+                if(y!=0){
+                    encounter.querySelector('.new-character').click();
+                }
+                console.log(data[x].tables.length);
+                console.log(encounter.getElementsByClassName('table-container'));
+                encounter.getElementsByClassName('table-container')[y].innerHTML = data[x].tables[y].table;
+            };
         }
     }
 
@@ -65,19 +76,26 @@ window.onload = function() {
     
 }
 
-// TODO: this should be rework to save the encounters IN ORDER, so that it can later be recalled IN ORDER
-// TODO: see this S.O. answer: https://stackoverflow.com/a/3138591
-// TODO: I think it basically boils down to turning all encounters into a single string, storing the string as one item, then on recall parsing the string back out.
+// TODO: need to save character ID and reload it.  first step is getting character div id to equal input value on change (like encounters)
+// see this S.O. answer: https://stackoverflow.com/a/3138591
 function save(){
     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice'}) : document.getElementById('savedNotice');
     savedNotice.textContent = 'saving';
     document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
     setTimeout(function(){
         const encounters = Array.from(document.querySelectorAll('.encounter'));
+        let data = [];
         for(let x=0;x<encounters.length;x++){
-            const key = encounters[x].id;
-            localStorage.setItem(key, encounters[x].innerHTML);
+            const characters = Array.from(encounters[x].querySelectorAll('.table-container'));
+            let charData = [];
+            for(let y=0;y<characters.length;y++){
+                objCharacter = {charName: characters[y].id, table: characters[y].innerHTML}
+                charData.push(objCharacter);
+            }
+            const objEncounter = {id: encounters[x].id, tables: charData}
+            data.push(objEncounter);
         };
+        localStorage.setItem('savedSession', JSON.stringify(data));
         savedNotice.textContent = 'saved';
     },1000);
     
@@ -101,7 +119,6 @@ function addEncounter(){
     // add 'encounter name' input
     const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
     ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{
-        localStorage.removeItem(encounter.id);
         encounter.id = inputEncounterName.value;
         save();
     }), false);
@@ -139,6 +156,11 @@ function addCharacter(parent){
         characterTitleBar = Object.assign(document.createElement('div'), {className:'character-title-bar title-bar'}),
             // character name input
         characterInputName = Object.assign(document.createElement('input'), {type:'text', className:'character-name-input', placeholder:'Character Name'});
+        ['change'].forEach(evt => characterInputName.addEventListener(evt, ()=>{
+            character.id = characterInputName.value;
+            save();
+        }), false);
+        
         characterTitleBar.append(characterInputName);
 
         const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
