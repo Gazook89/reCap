@@ -3,39 +3,47 @@ window.onload = function() {
     // check out https://codeburst.io/observe-changes-in-dom-using-mutationobserver-9c2705222751
     // mutationRecords has properties that can be accessed.  
 
-    // const table = document.getElementById('main-table');
-    // let timer = null;
-    // let observer = new MutationObserver(mutationRecords => { 
-    //     mutationRecords.forEach((mutation)=>{
-    //         if( mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
-    //             return;
-    //         } else {
-    //             if(timer != null){                                      
-    //                 clearTimeout(timer);
-    //                 timer = null;
-    //             };
-    //             if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
-    //             timer = setTimeout(save, 5000); // 5 second delay
-    //         }
-    //     })
-        
-    // });
+    const main = document.getElementsByTagName('main')[0];
+    let timer = null;
+    let observer = new MutationObserver(mutationRecords => {
+        mutationRecords.forEach((mutation)=>{
+            if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
+                return;
+            } else {
+                if(timer != null){
+                    clearTimeout(timer);
+                    timer = null;
+                };
+                if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
+                timer = setTimeout(save, 5000); // 5 second delay
+            }
+        })
+    })
 
-    // observer.observe(table, {
-    //     childList : true,
-    //     subtree: true,
-    //     attributes : true
-    // });
+
+    observer.observe(main, {
+        childList : true,
+        subtree: true,
+        attributes : true
+    });
 
     
     // If previous table exists in storage, restore it:
-    // if('table' in localStorage){
-    //     table.innerHTML = localStorage.getItem('table');
+    // if('main' in localStorage){
+    //     main.innerHTML = localStorage.getItem('main');
     // }
 
     showAddEncounterButton();
+
+    if(localStorage.length){
+        for(let x=0;x<localStorage.length;x++){
+            addEncounter();
+            document.querySelectorAll('.encounter')[x].innerHTML = localStorage.getItem(localStorage.key(x));
+        }
+    }
+
+
     
-    // addEncounter();
 
     // Once table is built, apply event listeners.
     const cells = document.querySelectorAll('th,td');
@@ -57,6 +65,24 @@ window.onload = function() {
     
 }
 
+// TODO: this should be rework to save the encounters IN ORDER, so that it can later be recalled IN ORDER
+// TODO: see this S.O. answer: https://stackoverflow.com/a/3138591
+// TODO: I think it basically boils down to turning all encounters into a single string, storing the string as one item, then on recall parsing the string back out.
+function save(){
+    const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice'}) : document.getElementById('savedNotice');
+    savedNotice.textContent = 'saving';
+    document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
+    setTimeout(function(){
+        const encounters = Array.from(document.querySelectorAll('.encounter'));
+        for(let x=0;x<encounters.length;x++){
+            const key = encounters[x].id;
+            localStorage.setItem(key, encounters[x].innerHTML);
+        };
+        savedNotice.textContent = 'saved';
+    },1000);
+    
+}
+
 function showAddEncounterButton() {
     const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
     const button = Object.assign(document.createElement('div'), {className:'ui-button'});
@@ -67,13 +93,18 @@ function showAddEncounterButton() {
 }
 
 function addEncounter(){
-    const encounter = Object.assign(document.createElement('div'), {id:'', className:'encounter'}),
+    const encounterCount = document.querySelectorAll('.encounter').length;
+    const encounter = Object.assign(document.createElement('div'), {id:`encounter${encounterCount}`, className:'encounter'}),
     encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar title-bar'});
     encounter.append(encounterTitleBar);
 
     // add 'encounter name' input
     const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
-    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{encounter.id = inputEncounterName.value}), false);
+    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{
+        localStorage.removeItem(encounter.id);
+        encounter.id = inputEncounterName.value;
+        save();
+    }), false);
     encounterTitleBar.append(inputEncounterName);
 
     // container for the operational buttons (minimize, delete)
@@ -217,25 +248,6 @@ function createToolbar(){
     return toolbar;
 }
 
-
-
-
-
-
-
-
-
-function save(){
-    const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice'}) : document.getElementById('savedNotice');
-    savedNotice.textContent = 'saving';
-    document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
-    setTimeout(function(){
-        const table = document.getElementById('main-table');
-        localStorage.setItem('table', table.innerHTML);
-        savedNotice.textContent = 'saved';
-    },1000);
-    
-}
 
 function clearTable(elem){
     const rows = document.getElementsByTagName('tr');
@@ -410,8 +422,13 @@ function removeRow(targetRow){
 }
 
 function highlightHeader(elem) {
-    if(elem.target.nodeName === 'DIV'){ return };
-    document.querySelector('th[style*="background"]')?.removeAttribute('style');
-    elem.currentTarget.style.backgroundColor = 'rgb(255, 183, 47)';
-    elem.currentTarget.style.color = '#222'
+    const headerIndex = elem.currentTarget.cellIndex;
+    const encounter = elem.currentTarget.closest('.encounter');
+    const highlightHeaders = encounter.querySelectorAll('th[style*="background"]');
+    highlightHeaders.forEach(header=>header.removeAttribute('style'));
+    const tables = Array.from(encounter.getElementsByTagName('table'));
+    tables.forEach((table)=>{
+        table.rows[0].cells[headerIndex].style.backgroundColor = 'rgb(255, 183, 47)';
+        table.rows[0].cells[headerIndex].style.color = '#222';
+    })
 }
