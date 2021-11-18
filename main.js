@@ -20,18 +20,11 @@ window.onload = function() {
         })
     })
 
-
     observer.observe(main, {
         childList : true,
         subtree: true,
         attributes : true
     });
-
-    
-    // If previous table exists in storage, restore it:
-    // if('main' in localStorage){
-    //     main.innerHTML = localStorage.getItem('main');
-    // }
 
     showAddEncounterButton();
 
@@ -52,9 +45,6 @@ window.onload = function() {
             };
         }
     }
-
-
-    
 
     // Once table is built, apply event listeners.
     const cells = document.querySelectorAll('th,td');

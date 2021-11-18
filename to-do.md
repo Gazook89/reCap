@@ -1,33 +1,15 @@
 ### To Do:
 
-#### Multiple Encounters:
-- add button to create a new additional table for tracking either multiple characters or combat encounters.
-    - on page load, 
-        - for each table that exists in localStorage, create a table and then load stored table.innerHTML to that table.
-        - if there are no stored tables, create a blank table.
-        - programmatically add a "new encounter" button
-            - onclick creates an Encounter Div, which is just a blank, bordered div.  Inside is a "track turns" button which creates...
-                - blank table with a sequential ID, an input to change the ID (from which the *key* in localStorage is derived), and an associated toolbar.  Toolbar will have a "delete table" button to delete the table.
-            - Encounter Div also contains an input to change the name of the encounter
-            - Encounter Div also has a button to delete the whole encounter and clear storage.
-            - also includes an "encounter group" text input, which is check against other encounters to pair them up.  Paired encounters follow the same turn tracker (columnHighlight)
-
-##### Tasks to Complete Multi Encounters:
-- [x] set up creation of blank encounter on page load.
-    - [x] create an encounter wrapper div
-    - [x] create encounter name input
-    - [x] create table with rows & columns
-    - [x] create toolbar
-    - [] create add/remove column 'quick buttons' in last column header (or rethink those buttons)
-- [] assign event listeners across the table
-    - [] be sure functions have the necessary level of specificity so they target the correct elements
-    - On creation, 
-        - [x] add .add-action event listener to each body cell
-        - [x] add .columnHighlight listener to each header
-
-
-
 ### Other To-Do's:
+- Add "other options" button to encounter titlebar
+    - add option to lock scroll position between characters within same encounter
+    - allow changing encounter color
+- add "other options" button to character titlebar
+    - change color of character
+    - change font of character name
+    - add row to table
+    - add column to table
+- add ability to set turn order, changing the order of the characters.
 - add free-form textarea for each turn.
 - investigate better debounce method (`debounce-lead`)
 - if expanding an effect into an occupied cell, create new row and move expanding effect into that row
@@ -43,5 +25,6 @@
 - improve accessibility: larger font mode, other stuff...
 - export table as csv or turn-by-turn summary
 - track bennies spent
+- track card dealt (or more generically, turn order)
 - add directory of spells
 - create user accounts
