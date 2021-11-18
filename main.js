@@ -46,8 +46,8 @@ window.onload = function() {
                 if(y!=0){
                     encounter.querySelector('.new-character').click();
                 }
-                console.log(data[x].tables.length);
-                console.log(encounter.getElementsByClassName('table-container'));
+                encounter.getElementsByClassName('character')[y].id = data[x].tables[y].charName;
+                encounter.getElementsByClassName('character-name-input')[y].value = data[x].tables[y].charName;
                 encounter.getElementsByClassName('table-container')[y].innerHTML = data[x].tables[y].table;
             };
         }
@@ -76,7 +76,6 @@ window.onload = function() {
     
 }
 
-// TODO: need to save character ID and reload it.  first step is getting character div id to equal input value on change (like encounters)
 // see this S.O. answer: https://stackoverflow.com/a/3138591
 function save(){
     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice'}) : document.getElementById('savedNotice');
@@ -86,10 +85,10 @@ function save(){
         const encounters = Array.from(document.querySelectorAll('.encounter'));
         let data = [];
         for(let x=0;x<encounters.length;x++){
-            const characters = Array.from(encounters[x].querySelectorAll('.table-container'));
+            const characters = Array.from(encounters[x].querySelectorAll('.character'));
             let charData = [];
             for(let y=0;y<characters.length;y++){
-                objCharacter = {charName: characters[y].id, table: characters[y].innerHTML}
+                objCharacter = {charName: characters[y].id, table: characters[y].querySelector('.table-container').innerHTML}
                 charData.push(objCharacter);
             }
             const objEncounter = {id: encounters[x].id, tables: charData}
