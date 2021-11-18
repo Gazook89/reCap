@@ -63,6 +63,15 @@ window.onload = function() {
             ['input'].forEach(evt => cells[x].querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
         }
     };
+
+    document.getElementById('clear-storage-link').onclick = ()=>{
+        if(localStorage.length){
+            const encounters = Array.from(document.getElementsByClassName('encounter'));
+            encounters.forEach(encounter=>encounter.remove());
+            localStorage.removeItem('savedSession');
+        }
+        return false;
+    }
     
 }
 
@@ -92,7 +101,7 @@ function save(){
 
 function showAddEncounterButton() {
     const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
-    const button = Object.assign(document.createElement('div'), {className:'ui-button'});
+    const button = Object.assign(document.createElement('div'), {className:'ui-button', title:'Add New Encounter'});
     button.textContent = '+';
     addEncounterButton.append(button);
     addEncounterButton.addEventListener('click', addEncounter, false);
@@ -136,7 +145,7 @@ function addEncounter(){
 }
 
 function addCharacter(parent){
-    const button = Object.assign(document.createElement('div'), {className:'ui-button new-character'});
+    const button = Object.assign(document.createElement('div'), {className:'ui-button new-character', title:'Add New Character'});
     button.textContent = '+';
     button.addEventListener('click', ()=>{
         const character = Object.assign(document.createElement('div'), {id:'', className:'character'}),
@@ -172,7 +181,7 @@ function addCharacter(parent){
 }
 
 function minimize(parentElement, element){
-    const button = Object.assign(document.createElement('div'), {className:'ui-button minimize'});
+    const button = Object.assign(document.createElement('div'), {className:'ui-button minimize', title:'Minimize'});
     button.textContent = '_';
     button.addEventListener('click', (evt)=>{
         // look at this SO answer in the future if needed: https://stackoverflow.com/a/7648323... 
@@ -191,13 +200,13 @@ function minimize(parentElement, element){
                 collapseElement.style.paddingBottom = '0';
                 evt.target.style.backgroundColor = 'ghostwhite';
             }
-        }
+        };
     }, false);
     return button;
 }
 
 function deleteEntry(parentElement){
-    const button = Object.assign(document.createElement('div'), {className:'ui-button delete'});
+    const button = Object.assign(document.createElement('div'), {className:'ui-button delete', title:'Remove Entry'});
     button.textContent = 'x';
     button.addEventListener('click', (evt)=>{
         const outerElement = evt.target.closest(parentElement);
