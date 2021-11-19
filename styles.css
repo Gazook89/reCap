@@ -355,13 +355,15 @@ footer {
     background: linear-gradient(to bottom, transparent 5%, #222 40%)
 }
 
-footer ul  {
-    display:flex;
-    justify-content: center;
-    list-style: none;
-    gap: 30px;
-    font-family:'helvetica';
-    font-size: 10px
+footer ul {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	gap: 30px;
+	font-family: 'helvetica';
+	font-size: 10px;
+	flex-wrap: wrap;
+	padding: 0 15px;
 }
 
 footer a, footer a:visited {
