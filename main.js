@@ -217,7 +217,6 @@ function color(){
             if(parent.className == 'character'){ 
                 colorableSelectors = [
                     {selector:'.character-title-bar', properties:[]},
-                    {selector:'.character-name-input', properties:['color']},
                     {selector:'table', properties:['backgroundColor']}
                 ];
             } else {

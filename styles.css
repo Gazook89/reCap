@@ -37,6 +37,11 @@ h1 {
     display:inline-block;
 }
 
+h3 {
+	display: inline-block;
+	margin-bottom: 0;
+}
+
 .add-encounter-button {
     background: #444;
     display:flex;
@@ -71,6 +76,8 @@ h1 {
 
 .title-bar input[type='text'] {
     border-bottom: 1px solid #777;
+    font-family: 'Patrick Hand SC';
+    font-size: 24px
 }
 
 .operational-buttons {
@@ -437,13 +444,11 @@ footer a, footer a:visited {
 
     input[type="text"],
     input[type="number"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="password"] {
+    input[type="color"] {
         font-size: 16px;
     }
     
-    .effect input[type="number"], .effect:hover input[type="number"] {
+    .effect input[type="number"], .effect:hover input[type="number"], .effect input[type="color"], .effect:hover input[type="color"] {
         width: 2em;
         text-align:center;
     }
