@@ -426,8 +426,13 @@ footer a, footer a:visited {
 } 
 
 @media screen and (max-width: 600px) {
+    .character {
+        padding:10px;
+    }
+
     th, td {
         height: 42px;
+        min-width:45vw;
     }
 
     input[type="text"],
@@ -443,7 +448,5 @@ footer a, footer a:visited {
         text-align:center;
     }
 
-    th, td {
-        min-width:45vw;
-    }
+    
 }
