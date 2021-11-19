@@ -437,4 +437,13 @@ footer a, footer a:visited {
     input[type="password"] {
         font-size: 16px;
     }
+    
+    .effect input[type="number"] {
+        width: 2em;
+        text-align:center;
+    }
+
+    th, td {
+        min-width:45vw;
+    }
 }

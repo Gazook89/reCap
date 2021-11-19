@@ -3,9 +3,7 @@
 ### Other To-Do's:
 - Add "other options" button to encounter titlebar
     - add option to lock scroll position between characters within same encounter
-    - allow changing encounter color
 - add "other options" button to character titlebar
-    - change color of character
     - change font of character name
     - add row to table
     - add column to table
