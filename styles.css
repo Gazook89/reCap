@@ -188,7 +188,7 @@ table {
 }
 
 table thead {
-    background: #444;
+    background: #0008;
     font-size: 18px;
 }
 
@@ -199,11 +199,14 @@ th {
 }
 
 th, td {
-    border-left: 1px solid gray;
     min-width: 12vw;
     position:relative;
     padding: 1px;
     height: 16px
+}
+
+th:not(:first-of-type), td:not(:first-of-type) {
+    border-left: 1px solid gray;
 }
 
 .spells {
@@ -306,7 +309,7 @@ input[type='color'] {
 }
 
 .add-action {
-    background: #808080;
+    background: #0004;
     border: 1px dashed rgb(243, 243, 243);
     text-align: center;
     font-size: 10px;

@@ -195,8 +195,7 @@ function options(){
             options.forEach(element=>element.remove());
         } else {
             // color option
-            const colorableElements = ['title-bar'];
-            const colorBtn = color(colorableElements);
+            const colorBtn = color();
             evt.target.parentNode.insertBefore(colorBtn, button);
 
             // toggle background color
@@ -206,15 +205,47 @@ function options(){
     return button;
 }
 
-function color(colorableElements){
+function color(){
     const button = Object.assign(document.createElement('div'), {className:'ui-button color option', title:'Color'});
     button.textContent = '';
-    const swatch = Object.assign(document.createElement('input'), {type:'color', value:'#808080'});
+    const swatch = Object.assign(document.createElement('input'), {type:'color', value:'#444444'});
     swatch.addEventListener('input', (evt)=>{
-        const parent = evt.target.closest('.character' || '.encounter');
-        Array.from(parent.getElementsByClassName(colorableElements)).forEach(element=>{
-            element.style.backgroundColor = evt.target.value;
-        })
+        let parent;
+        evt.target.closest('.character') === null ?  parent = evt.target.closest('.encounter') : parent = evt.target.closest('.character');  //  TODO:  this needs to be fixed
+        console.log(parent);
+        let colorableSelectors = [];
+            if(parent.className == 'character'){ 
+                colorableSelectors = [
+                    {selector:'.character-title-bar', properties:[]},
+                    {selector:'.character-name-input', properties:['color']},
+                    {selector:'table', properties:['backgroundColor']}
+                ];
+            } else {
+                colorableSelectors = [
+                    {selector:'.encounter-title-bar', properties:['backgroundColor']},
+                    {selector:'encounter', properties:['borderColor']}
+                ];
+            };
+
+        for(let x=0;x<colorableSelectors.length;x++){
+            const colorableElements = Array.from(parent.querySelectorAll(colorableSelectors[x].selector));
+            if(parent.classList.contains(colorableSelectors[x].selector)){
+                colorableElements.push(parent);
+            };
+            for(let y=0;y<colorableElements.length;y++){
+                const element = colorableElements[y];
+                colorableSelectors[x].properties.forEach((property)=>{
+                    element.style[property] = swatch.value;
+
+                    // if(parent.classList.contains(colorableElements[y].selector)){
+                    //     console.log('poop')
+                    // }
+                });
+                console.log(element + ': ' + element.className + ' : ' + element.parentElement.className);
+            };
+            
+        }
+        // if the above works with 'colorableElements', will then need to figure out how to style the 'parent' (.encounter or .character) themselves.
     });
     button.append(swatch);
     return button;
@@ -349,7 +380,9 @@ function addAction(evt) {
     const effect = Object.assign(document.createElement('div'), {
         className : 'effect',
     });
-    effect.innerHTML = `<input type='number' value='1'  size='3' onclick='this.select();' /><input type='text' title='' value='' placeholder='Effect' /><input type='color' value='#808080' />`;
+    const startingColor = '#808080';
+    effect.innerHTML = `<input type='number' value='1'  size='3' onclick='this.select();' /><input type='text' title='' value='' placeholder='Effect' /><input type='color' value='${startingColor}' />`;
+    effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
     ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
