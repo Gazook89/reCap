@@ -125,6 +125,9 @@ function addEncounter(){
     // container for the operational buttons (minimize, delete)
     const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
     encounterTitleBar.append(operationButtons);
+    // add 'options' button
+    const optionsBtn = options();
+    operationButtons.append(optionsBtn);
     // add 'minimize encounter' button
     const minBtn = minimize('.encounter', '.character, .add-character');
     operationButtons.append(minBtn);
@@ -143,6 +146,7 @@ function addEncounter(){
     encounter.append(footerBar);
     document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
+
 
 function addCharacter(parent){
     const button = Object.assign(document.createElement('div'), {className:'ui-button new-character', title:'Add New Character'});
@@ -164,6 +168,9 @@ function addCharacter(parent){
         const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
         characterTitleBar.append(operationButtons);
             // title bar operational buttons (options, minimize, remove)
+        // add 'options' button
+        const optionsBtn = options();
+        operationButtons.append(optionsBtn);
         const minBtn = minimize('.character', '.table-container');
         operationButtons.append(minBtn);
         const deleteBtn = deleteEntry('.character');
@@ -176,8 +183,41 @@ function addCharacter(parent){
         parent.insertBefore(character, parent.querySelector('.add-character'));
     });
     return button;
+}
 
-    
+function options(){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button options', title:'Options'});
+    button.textContent = '...';
+    button.addEventListener('click', (evt)=>{
+        if(evt.target.style.backgroundColor === 'ghostwhite'){
+            evt.target.style.backgroundColor = null;
+            const options = Array.from(evt.target.parentNode.getElementsByClassName('option'));
+            options.forEach(element=>element.remove());
+        } else {
+            // color option
+            const colorableElements = ['title-bar'];
+            const colorBtn = color(colorableElements);
+            evt.target.parentNode.insertBefore(colorBtn, button);
+
+            // toggle background color
+            evt.target.style.backgroundColor = 'ghostwhite';
+        }
+    }, false);
+    return button;
+}
+
+function color(colorableElements){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button color option', title:'Color'});
+    button.textContent = '';
+    const swatch = Object.assign(document.createElement('input'), {type:'color', value:'#808080'});
+    swatch.addEventListener('input', (evt)=>{
+        const parent = evt.target.closest('.character' || '.encounter');
+        Array.from(parent.getElementsByClassName(colorableElements)).forEach(element=>{
+            element.style.backgroundColor = evt.target.value;
+        })
+    });
+    button.append(swatch);
+    return button;
 }
 
 function minimize(parentElement, element){
