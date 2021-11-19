@@ -500,7 +500,7 @@ function addColumn(elem){
 
 
 function addRowAfter(currentRow){
-    const newRow = Object.assign(document.createElement('tr'),{className : 'spells'});
+    const newRow = Object.assign(document.createElement('tr'),{className : 'row'});
     const columns = currentRow.closest('table').querySelectorAll('thead th').length; 
     for(let x=0;x<columns;x++){
         const newCell = document.createElement('td');
