@@ -443,7 +443,7 @@ footer a, footer a:visited {
         font-size: 16px;
     }
     
-    .effect input[type="number"] {
+    .effect input[type="number"], .effect:hover input[type="number"] {
         width: 2em;
         text-align:center;
     }
