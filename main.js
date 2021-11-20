@@ -3,28 +3,8 @@ window.onload = function() {
     // check out https://codeburst.io/observe-changes-in-dom-using-mutationobserver-9c2705222751
     // mutationRecords has properties that can be accessed.  
 
-    const main = document.getElementsByTagName('main')[0];
-    let timer = null;
-    let observer = new MutationObserver(mutationRecords => {
-        mutationRecords.forEach((mutation)=>{
-            if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
-                return;
-            } else {
-                if(timer != null){
-                    clearTimeout(timer);
-                    timer = null;
-                };
-                if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
-                timer = setTimeout(save, 5000); // 5 second delay
-            }
-        })
-    })
-
-    observer.observe(main, {
-        childList : true,
-        subtree: true,
-        attributes : true
-    });
+    const encountersContainer = document.getElementById('encounters-container');
+    
 
     showAddEncounterButton();
 
@@ -71,13 +51,37 @@ window.onload = function() {
             localStorage.removeItem('savedSession');
         }
         return false;
-    }
+    };
+
+    let timer = null;
+    let observer = new MutationObserver(mutationRecords => {
+        mutationRecords.forEach((mutation)=>{
+            console.log(mutation);
+            if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
+                return;
+            } else {
+                if(timer != null){
+                    console.log('timer is not null');
+                    clearTimeout(timer);
+                    timer = null;
+                };
+                if(document.getElementById('savedNotice')){document.getElementById('savedNotice').textContent = ''};
+                timer = setTimeout(save, 5000); // 5 second delay
+            }
+        })
+    })
+
+    observer.observe(encountersContainer, {
+        childList : true,
+        subtree: true,
+        attributes : true
+    });
     
 }
 
 // see this S.O. answer: https://stackoverflow.com/a/3138591
 function save(){
-    const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice'}) : document.getElementById('savedNotice');
+    const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice', className:'save-notice'}) : document.getElementById('savedNotice');
     savedNotice.textContent = 'saving';
     document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
     setTimeout(function(){
@@ -105,7 +109,7 @@ function showAddEncounterButton() {
     button.textContent = '+';
     addEncounterButton.append(button);
     addEncounterButton.addEventListener('click', addEncounter, false);
-    document.getElementsByTagName('main')[0].insertBefore(addEncounterButton,document.getElementsByTagName('h1')[0].nextElementSibling);
+    document.getElementById('encounters-container').append(addEncounterButton);
 }
 
 function addEncounter(){
@@ -144,7 +148,7 @@ function addEncounter(){
     addNewCharacterBtn.click();
     
     encounter.append(footerBar);
-    document.getElementsByTagName('main')[0].insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
+    document.getElementById('encounters-container').insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
 }
 
 
