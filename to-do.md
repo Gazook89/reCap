@@ -18,6 +18,7 @@
     - The effect objects themselves are stored within another object, with keys such as "row index", "column index", and "colspan".  And to save changes from the default, the current values of "duration", "name", and "color" but maybe that is overkill....
 
 ### Longer Term:
+- add fontawesome
 - add ability to change row bg color
 - add light theme
 - improve accessibility: larger font mode, other stuff...

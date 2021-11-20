@@ -3,26 +3,26 @@
 html {
     --scrollbarBG: #333;
     --thumbBG: #666;
+    height: 100%;
   }
+
 ::-webkit-scrollbar {
     width: 11px;
     background: var(--scrollbarBG);
   }
-  body {
-    scrollbar-width: thin;
-    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-  }
 
-  ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: var(--thumbBG) ;
     border-radius: 6px;
     border: 3px solid var(--scrollbarBG);
-  }
+}
+
 
 
 
 
 body {
+    height:100%;
     width: 96vw;
     margin: unset;
     background-color: #222;
@@ -30,6 +30,9 @@ body {
     padding: 0 1vw 5vw 1vw;
     font-family: 'Patrick Hand SC';
     font-size: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+
 }
 
 h1 {
@@ -352,7 +355,10 @@ table thead:hover .column-control div, .column-control:hover div {
 
 
 footer {
+    position:sticky;
+    top:100vh;
     margin-top: 4em;
+    padding-bottom:2em;
     width:100vw;
     background: linear-gradient(to bottom, transparent 5%, #222 40%)
 }
