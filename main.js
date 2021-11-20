@@ -56,12 +56,10 @@ window.onload = function() {
     let timer = null;
     let observer = new MutationObserver(mutationRecords => {
         mutationRecords.forEach((mutation)=>{
-            console.log(mutation);
             if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
                 return;
             } else {
                 if(timer != null){
-                    console.log('timer is not null');
                     clearTimeout(timer);
                     timer = null;
                 };
