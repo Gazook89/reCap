@@ -419,7 +419,7 @@ function addAction(evt) {
     effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'></div></div>`;
     effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
-    ['mouseout'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
+    ['mouseout'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
     slot.remove();
@@ -438,18 +438,19 @@ function changeValue(evt){
 }
 
 function changeColumnSpan(evt){
-    let turnCount = evt.target.value;
+    const durationField = evt.currentTarget.getElementsByTagName('input')[0];
+    let turnCount = durationField.value;
     if(turnCount > 200){                                                                //  Couldn't find a way to validate if text rather than number
         console.log('Error: Cannot increase by more than 200 turns at a time.');        //  Firefox number input returns '0' if text is entered
-        let effectName = evt.target.nextElementSibling.value;                           //  but 0 is also needed later in the function.
-        evt.target.nextElementSibling.value = 'max 200';                                //  Tried using regex and NaN to no avail.
+        let effectName = evt.target.previousElementSibling.value;                           //  but 0 is also needed later in the function.
+        evt.target.previousElementSibling.value = 'max 200';                                //  Tried using regex and NaN to no avail.
         setTimeout(()=>{evt.target.nextElementSibling.value = effectName}, 1500);       //  So now it doesn't validate text but instead treats it as '0' so it deletes the effect.
-        evt.target.value = evt.target.closest('td').colSpan;
+        durationField.value = evt.target.closest('td').colSpan;
         return;
     };
 
-    evt.target.setAttribute('value', evt.target.value);
-    const tableCellOfInput = evt.target.closest('td');
+    durationField.setAttribute('value', durationField.value);
+    const tableCellOfInput = durationField.closest('td');
     let tableCellOfInputSpan = tableCellOfInput.colSpan;
 
     // if the turnCount input is not the same as it's table cell colspan, create an empty td cell and...
@@ -475,8 +476,8 @@ function changeColumnSpan(evt){
             //   If another effect occupies the next cell, do not expand into that cell and prevent change to turn counter...
             } else if(tableCellOfInput.nextElementSibling.firstChild?.className === 'effect') {
                 console.log('another effect in the way');
-                evt.target.value--;
-                evt.target.setAttribute('value', evt.target.value);
+                durationField.value--;
+                durationField.setAttribute('value', durationField.value);
             } else {
                 tableCellOfInput.nextElementSibling.remove();
             };
@@ -485,7 +486,7 @@ function changeColumnSpan(evt){
     };
 
     // Now that the empty cells have been set up, finally adjust the actual colspan of the target cell.
-    tableCellOfInput.setAttribute('colspan', evt.target.value);
+    tableCellOfInput.setAttribute('colspan', durationField.value);
 
 }
 
