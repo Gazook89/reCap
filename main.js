@@ -419,7 +419,7 @@ function addAction(evt) {
     effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'></div></div>`;
     effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
-    ['mouseout'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
+    ['mouseout','change'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
     slot.remove();
@@ -439,7 +439,7 @@ function changeValue(evt){
 
 function changeColumnSpan(evt){
     const durationField = evt.currentTarget.getElementsByTagName('input')[0];
-    let turnCount = durationField.value;
+    let turnCount = durationField?.value;
     if(turnCount > 200){                                                                //  Couldn't find a way to validate if text rather than number
         console.log('Error: Cannot increase by more than 200 turns at a time.');        //  Firefox number input returns '0' if text is entered
         let effectName = evt.target.previousElementSibling.value;                           //  but 0 is also needed later in the function.
