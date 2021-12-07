@@ -128,6 +128,10 @@ h3 {
     border-color: #aaa;
 }
 
+.ui-button.toggled {
+    background-color: ghostwhite;
+}
+
 .color-overlay {
     position: absolute;
     top:0;
