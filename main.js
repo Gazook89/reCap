@@ -128,7 +128,7 @@ function addEncounter(){
     const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
     encounterTitleBar.append(operationButtons);
     // add 'options' button
-    const optionsBtn = options();
+    const optionsBtn = options(['color','scrollLink']);
     operationButtons.append(optionsBtn);
     // add 'minimize encounter' button
     const minBtn = minimize('.encounter', '.character, .add-character');
@@ -171,7 +171,7 @@ function addCharacter(parent){
         characterTitleBar.append(operationButtons);
             // title bar operational buttons (options, minimize, remove)
         // add 'options' button
-        const optionsBtn = options();
+        const optionsBtn = options(['color']);
         operationButtons.append(optionsBtn);
         const minBtn = minimize('.character', '.table-container');
         operationButtons.append(minBtn);
@@ -187,7 +187,7 @@ function addCharacter(parent){
     return button;
 }
 
-function options(){
+function options(option){
     const button = Object.assign(document.createElement('div'), {className:'ui-button options', title:'Options'});
     button.textContent = '...';
     button.addEventListener('click', (evt)=>{
@@ -196,9 +196,20 @@ function options(){
             const options = Array.from(evt.target.parentNode.getElementsByClassName('option'));
             options.forEach(element=>element.remove());
         } else {
+            // scroll linking option
+            if(option.includes('scrollLink')){
+                const scrollBtn = addScrollLinkBtn();
+                evt.target.parentNode.insertBefore(scrollBtn, button);
+            };
+
             // color option
-            const colorBtn = color();
-            evt.target.parentNode.insertBefore(colorBtn, button);
+            if(option.includes('color')){
+                const colorBtn = color();
+                evt.target.parentNode.insertBefore(colorBtn, button);
+            };
+
+            
+            
 
             // toggle background color
             evt.target.style.backgroundColor = 'ghostwhite';
@@ -207,6 +218,34 @@ function options(){
     return button;
 }
 
+function addScrollLinkBtn(){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button scroll option', title:'Scroll Link'});
+    button.textContent = '➠';
+    button.addEventListener('click', (evt)=>{
+        const encounter = evt.target.closest('.encounter');
+        const characters = Array.from(encounter.querySelectorAll('.character .table-container'));
+        characters.forEach(character=>{
+            if(evt.target.classList.contains('toggled')){
+                character.removeEventListener('scroll', matchScroll);
+            } else {
+                character.addEventListener('scroll', matchScroll);
+            }
+        });
+        evt.target.classList.toggle('toggled');
+        });
+    return button;
+}
+
+function matchScroll(scrollEvt) {
+    const encounter = scrollEvt.target.closest('.encounter');
+    const characters = Array.from(encounter.querySelectorAll('.character .table-container'));
+    characters.forEach(el=>{
+        el.scrollLeft = scrollEvt.target.scrollLeft;
+    });
+};
+
+
+
 function color(){
     const button = Object.assign(document.createElement('div'), {className:'ui-button color option', title:'Color'});
     button.textContent = '';
@@ -214,7 +253,6 @@ function color(){
     swatch.addEventListener('input', (evt)=>{
         let parent;
         evt.target.closest('.character') === null ?  parent = evt.target.closest('.encounter') : parent = evt.target.closest('.character');  //  TODO:  this needs to be fixed
-        console.log(parent);
         let colorableSelectors = [];
             if(parent.className == 'character'){ 
                 colorableSelectors = [
@@ -238,11 +276,7 @@ function color(){
                 colorableSelectors[x].properties.forEach((property)=>{
                     element.style[property] = swatch.value;
 
-                    // if(parent.classList.contains(colorableElements[y].selector)){
-                    //     console.log('poop')
-                    // }
                 });
-                console.log(element + ': ' + element.className + ' : ' + element.parentElement.className);
             };
             
         }
