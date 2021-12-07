@@ -258,7 +258,7 @@ input {
 }
 
 input::placeholder {
-    color: #aaa
+    color: #fff;
 }
 
 .effect input:focus {
