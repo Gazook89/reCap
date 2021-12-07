@@ -257,6 +257,10 @@ input {
     box-sizing:border-box;
 }
 
+.effect input {
+    text-align:right;
+}
+
 input::placeholder {
     color: #fff;
 }
@@ -299,7 +303,7 @@ input[type='color'] {
 .effect input[type='number'] {
     flex: 0 0 auto;
     width: 20px;
-    padding-left: 3px;
+    padding: 0 5px;
     -moz-appearance: textfield;
     appearance: textfield;
 }

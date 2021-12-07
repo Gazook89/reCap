@@ -416,10 +416,10 @@ function addAction(evt) {
         className : 'effect',
     });
     const startingColor = '#808080';
-    effect.innerHTML = `<input type='number' value='1'  size='3' onclick='this.select();' /><input type='text' title='' value='' placeholder='Effect' /><input type='color' value='${startingColor}' />`;
+    effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><input type='number' value='1'  size='3' onclick='this.select();' />`;
     effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
-    ['onkeyup','change'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
+    ['mouseout'].forEach(evt => effect.querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
     slot.remove();
@@ -454,6 +454,7 @@ function changeColumnSpan(evt){
 
     // if the turnCount input is not the same as it's table cell colspan, create an empty td cell and...
     while(turnCount != tableCellOfInputSpan){
+        console.log(effectWidth);
         const emptyCell = document.createElement('td');
         emptyCell.addEventListener('mouseover', showActionButton);
 
