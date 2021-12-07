@@ -277,7 +277,7 @@ input::placeholder {
 	border-left: 1px solid transparent;
 }
 
-.effect:hover input:not(:first-child) {
+.effect:hover > *:not(:first-child) {
     border-left: 1px solid #444
 }
 
@@ -300,6 +300,10 @@ input[type='color'] {
     padding: 0 2px;
 }
 
+.effect .turn-duration {
+    display:flex;
+}
+
 .effect input[type='number'] {
     flex: 0 0 auto;
     width: 20px;
@@ -308,10 +312,9 @@ input[type='color'] {
     appearance: textfield;
 }
 
-.effect:hover  input[type='number']{
-    -moz-appearance: initial;
-    appearance: initial;
-    width:unset;
+.effect:hover .number-spinner{
+    opacity:1;
+    transition: all .8s ease-in-out;
 }
 
 .effect input:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-inner-spin-button {
@@ -326,6 +329,14 @@ input[type='color'] {
 ::-moz-color-swatch {
     border-color:transparent;
     border: none;
+}
+
+.number-spinner {
+    width: 10px;
+    height: 100%;
+    background: darkgray;
+    margin-left: 1px;
+    opacity:0;
 }
 
 .add-action {
