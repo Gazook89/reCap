@@ -189,30 +189,30 @@ function addCharacter(parent){
 
 function options(option){
     const button = Object.assign(document.createElement('div'), {className:'ui-button options', title:'Options'});
-    button.textContent = '...';
+    button.innerHTML = '<i class="fas fa-cogs"></i>';
     button.addEventListener('click', (evt)=>{
-        if(evt.target.style.backgroundColor === 'ghostwhite'){
-            evt.target.style.backgroundColor = null;
-            const options = Array.from(evt.target.parentNode.getElementsByClassName('option'));
+        if(evt.currentTarget.style.backgroundColor === 'ghostwhite'){
+            evt.currentTarget.style.backgroundColor = null;
+            const options = Array.from(evt.currentTarget.parentNode.getElementsByClassName('option'));
             options.forEach(element=>element.remove());
         } else {
             // scroll linking option
             if(option.includes('scrollLink')){
                 const scrollBtn = addScrollLinkBtn();
-                evt.target.parentNode.insertBefore(scrollBtn, button);
+                evt.currentTarget.parentNode.insertBefore(scrollBtn, button);
             };
 
             // color option
             if(option.includes('color')){
                 const colorBtn = color();
-                evt.target.parentNode.insertBefore(colorBtn, button);
+                evt.currentTarget.parentNode.insertBefore(colorBtn, button);
             };
 
             
             
 
             // toggle background color
-            evt.target.style.backgroundColor = 'ghostwhite';
+            evt.currentTarget.style.backgroundColor = 'ghostwhite';
         }
     }, false);
     return button;
@@ -288,7 +288,7 @@ function color(){
 
 function minimize(parentElement, element){
     const button = Object.assign(document.createElement('div'), {className:'ui-button minimize', title:'Minimize'});
-    button.textContent = '_';
+    button.innerHTML = '<i class="fas fa-window-minimize"></i>';
     button.addEventListener('click', (evt)=>{
         // look at this SO answer in the future if needed: https://stackoverflow.com/a/7648323... 
         // something tells me i could use it to reduce this function to one parameter rather than two,
@@ -313,7 +313,7 @@ function minimize(parentElement, element){
 
 function deleteEntry(parentElement){
     const button = Object.assign(document.createElement('div'), {className:'ui-button delete', title:'Remove Entry'});
-    button.textContent = 'x';
+    button.innerHTML = '<i class="fas fa-trash"></i>';
     button.addEventListener('click', (evt)=>{
         const outerElement = evt.target.closest(parentElement);
         outerElement.querySelectorAll('*').forEach(el=>el.style.filter='blur(1px)');
@@ -416,7 +416,7 @@ function addAction(evt) {
         className : 'effect',
     });
     const startingColor = '#808080';
-    effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'></div></div>`;
+    effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div>`;
     effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
     ['mouseout','change'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
