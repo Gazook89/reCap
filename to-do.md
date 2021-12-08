@@ -30,3 +30,75 @@
 - track card dealt (or more generically, turn order)
 - add directory of spells
 - create user accounts
+
+## Saving Revision
+
+
+saved = [
+    {  // Event
+        id: 1,
+        type: 'Encounter'  // or Plot Point,
+        name: 'The Coliseum',
+        color: 'blue',
+        collapsed: false,
+        characters: [
+            {
+                name: 'Dekk Ashfang',
+                color: 'red',
+                collapsed: false,
+                actions: [
+                    {
+                        name: 'divine smite',
+                        duration: 5,
+                        color: 'blue',
+                        rowIndex: 1,
+                        startIndex: 3
+                    },
+                    {
+                        name: 'boost strength',
+                        duration: 5,
+                        color: 'yellow',
+                        rowIndex: 2,
+                        startIndex: 6
+                    },
+                    {
+                        name: 'Prismatic Wall',
+                        duration: 10,
+                        color: 'green',
+                        rowIndex: 3,
+                        startIndex: 6
+                    },
+                ]
+            },
+            {
+                name: 'Jack Mehoff',
+                color: 'green',
+                collapsed: true,
+                actions: [
+                    {
+                        name: 'Fear',
+                        duration: 1,
+                        color: 'blue',
+                        rowIndex: 1,
+                        startIndex: 1
+                    },
+                    {
+                        name: 'boost strength',
+                        duration: 5,
+                        color: 'yellow',
+                        rowIndex: 2,
+                        startIndex: 8
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 2,
+        type: 'Plot',
+        name: 'A challenger appears...',
+        collapsed: false,
+        color: 'red',
+        text: 'Lorem ipsum....'
+    }
+]
