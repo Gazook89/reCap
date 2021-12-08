@@ -78,22 +78,62 @@ window.onload = function() {
 }
 
 // see this S.O. answer: https://stackoverflow.com/a/3138591
-function save(){
+// function save(){
+//     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice', className:'save-notice'}) : document.getElementById('savedNotice');
+//     savedNotice.textContent = 'saving';
+//     document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
+//     setTimeout(function(){
+//         const encounters = Array.from(document.querySelectorAll('.encounter'));
+//         let data = [];
+//         for(let x=0;x<encounters.length;x++){
+//             const characters = Array.from(encounters[x].querySelectorAll('.character'));
+//             let charData = [];
+//             for(let y=0;y<characters.length;y++){
+//                 objCharacter = {charName: characters[y].id, table: characters[y].querySelector('.table-container').innerHTML}
+//                 charData.push(objCharacter);
+//             }
+//             const objEncounter = {id: encounters[x].id, tables: charData}
+//             data.push(objEncounter);
+//         };
+//         localStorage.setItem('savedSession', JSON.stringify(data));
+//         savedNotice.textContent = 'saved';
+//     },1000);
+    
+// }
+
+function save(){    // for save revision branch
     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice', className:'save-notice'}) : document.getElementById('savedNotice');
     savedNotice.textContent = 'saving';
     document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
     setTimeout(function(){
-        const encounters = Array.from(document.querySelectorAll('.encounter'));
+        const storyEvents = Array.from(document.querySelectorAll('.story-event'));
         let data = [];
-        for(let x=0;x<encounters.length;x++){
-            const characters = Array.from(encounters[x].querySelectorAll('.character'));
-            let charData = [];
-            for(let y=0;y<characters.length;y++){
-                objCharacter = {charName: characters[y].id, table: characters[y].querySelector('.table-container').innerHTML}
-                charData.push(objCharacter);
+        for(let x=0;x<storyEvents.length;x++){
+            const objStoryEvent = {
+                id: storyEvents[x], 
+                eventType: storyEvents[x].className, 
+                eventName: storyEvents[x].id, 
+                eventColor: storyEvents[x].style.borderColor, 
+                collapsed: storyEvents[x].querySelector('.ui-button.minimize')?.getAttribute('style')?.includes('background-color')   // todo: needs to save as 'false' if no style attribute exists at all
+            };
+            
+            if(objStoryEvent.eventType === 'encounter story-event'){
+                const characters = Array.from(storyEvents[x].querySelectorAll('.character'));
+                let charData = [];
+                for(let y=0;y<characters.length;y++){
+                    objCharacter = {
+                        charName: characters[y].id, 
+                        charColor: characters[y].querySelector('table').style.backgroundColor,
+                        collapsed: characters[y].querySelector('.ui-button.minimize').getAttribute('style')?.includes('background-color'),
+                        table: characters[y].querySelector('.table-container').innerHTML}
+                    charData.push(objCharacter);
+                }
+                objStoryEvent.tables = charData;
+            } else if (objStoryEvent.eventType === 'plot story-event'){
+                objStoryEvent.plotPoint = storyEvents[x].querySelector('.plot-text').textContent;
             }
-            const objEncounter = {id: encounters[x].id, tables: charData}
-            data.push(objEncounter);
+
+            data.push(objStoryEvent);
         };
         localStorage.setItem('savedSession', JSON.stringify(data));
         savedNotice.textContent = 'saved';
@@ -127,8 +167,8 @@ function showNewEventButton() {
 
 
 function addStoryEvent(eventType){
-    const eventCount = document.querySelectorAll(`.${eventType}`).length;
-    const eventElement = Object.assign(document.createElement('div'), {id:`${eventType}${eventCount}`, className:`${eventType}`}),
+    const eventCount = document.querySelectorAll(`.story-event`).length;
+    const eventElement = Object.assign(document.createElement('div'), {id:`${eventType}${eventCount}`, className:`${eventType} story-event`}),
     eventTitleBar = Object.assign(document.createElement('div'), {className:`${eventType}-title-bar title-bar`});
     eventElement.append(eventTitleBar);
 
