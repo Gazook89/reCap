@@ -6,7 +6,7 @@ window.onload = function() {
     const encountersContainer = document.getElementById('encounters-container');
     
 
-    showAddEncounterButton();
+    showNewEventButton();
 
     if(localStorage.length){
         const data = JSON.parse(localStorage.getItem('savedSession'));
@@ -109,13 +109,28 @@ function save(){
 // todo: the showAddEncounterButton function should be renamed to "showNewEventButton" and placed at the top of the stack.
 // todo: A date field should be added between events
 
-function showAddEncounterButton() {
-    const addEncounterButton = Object.assign(document.createElement('div'), {className:'add-encounter-button'});
-    const button = Object.assign(document.createElement('div'), {className:'ui-button', title:'Add New Encounter'});
+function showNewEventButton() {
+    const addEventButton = Object.assign(document.createElement('div'), {className:'add-event-button'});
+    const button = Object.assign(document.createElement('div'), {className:'ui-button', title:'Add New Event'});
     button.textContent = '+';
-    addEncounterButton.append(button);
-    addEncounterButton.addEventListener('click', addEncounter, false);
-    document.getElementById('encounters-container').append(addEncounterButton);
+    addEventButton.append(button);
+    addEventButton.addEventListener('click', ()=>{
+        const dialog = Object.assign(document.createElement('div'), {className:'dialog new-event'});
+        dialog.innerHTML = `<span>Create new...</span>`;
+        const encounterBtn = Object.assign(document.createElement('div'), {className:'ui-button'})
+        encounterBtn.textContent = 'Combat Encounter';
+        const plotBtn = Object.assign(document.createElement('div'), {className:'ui-button'})
+        plotBtn.textContent = 'Plot Point';
+        encounterBtn.addEventListener('click', ()=>{addEncounter(); dialog.remove()});
+        plotBtn.addEventListener('click', ()=>{addPlot(); dialog.remove()});
+        dialog.append(encounterBtn,plotBtn);
+        document.getElementById('encounters-container').append(dialog);
+    }, false);
+    document.getElementById('encounters-container').append(addEventButton);
+}
+
+function addPlot(){
+    console.log('fart');
 }
 
 function addEncounter(){

@@ -45,16 +45,25 @@ h3 {
 	margin-bottom: 0;
 }
 
-.add-encounter-button {
+.add-event-button {
     background: #444;
     display:flex;
     padding: 3px;
     height: 30px;
 }
 
-.add-encounter-button .ui-button {
-    flex:1;
+.add-event-button .ui-button {
+    flex:1 ;
 
+}
+
+.dialog.new-event span {
+    flex: 1 0 100%;
+}
+
+.dialog.new-event .ui-button {
+    flex: 1;
+    height: 30px;
 }
 
 .encounter {
