@@ -102,12 +102,6 @@ function save(){
 }
 
 // for STORYLINE - 
-// todo: change click event to create dialog box that offers choice of "Encounter" or "Plot Development"
-// todo: "Encounter" will use the existing "addEncounter" function
-// todo: "Plot Development" will use a new "addPlot" function
-// todo: The new element will need to be inserted at the TOP of the stack, rather than the bottom
-// todo: the showAddEncounterButton function should be renamed to "showNewEventButton" and placed at the top of the stack.
-// todo: A date field should be added between events
 
 function showNewEventButton() {
     const addEventButton = Object.assign(document.createElement('div'), {className:'add-event-button'});
