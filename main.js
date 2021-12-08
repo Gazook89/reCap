@@ -115,6 +115,7 @@ function showNewEventButton() {
     button.textContent = '+';
     addEventButton.append(button);
     addEventButton.addEventListener('click', ()=>{
+        addEventButton.style.display = 'none';
         const dialog = Object.assign(document.createElement('div'), {className:'dialog new-event'});
         dialog.innerHTML = `<span>Create new...</span>`;
         const encounterBtn = Object.assign(document.createElement('div'), {className:'ui-button'})
@@ -124,7 +125,7 @@ function showNewEventButton() {
         encounterBtn.addEventListener('click', ()=>{addEncounter(); dialog.remove()});
         plotBtn.addEventListener('click', ()=>{addPlot(); dialog.remove()});
         dialog.append(encounterBtn,plotBtn);
-        document.getElementById('encounters-container').append(dialog);
+        addEventButton.insertAdjacentElement('afterend', dialog);
     }, false);
     document.getElementById('encounters-container').append(addEventButton);
 }
@@ -170,6 +171,7 @@ function addEncounter(){
     
     encounter.append(footerBar);
     document.getElementById('encounters-container').insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
+    document.getElementsByClassName('add-event-button')[0].style.display = 'flex';
 }
 
 
