@@ -171,6 +171,7 @@ function addStoryEvent(eventType){
         eventElement.append(footerBar);
     } else if(eventType === 'plot') {
         const textarea = Object.assign(document.createElement('div'), {className:'editable-div plot-text', contentEditable:'true'});
+        textarea.textContent = '...and then what happened?';
         eventElement.append(textarea);
     }
 

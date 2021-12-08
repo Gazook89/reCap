@@ -72,6 +72,7 @@ h3 {
 	color: ghostwhite;
 	padding: 5px 200px;
 	line-height: 1.7em;
+    flex: 1;
 }
 
 .encounter, .plot {
