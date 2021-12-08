@@ -1,8 +1,12 @@
 ### To Do:
+- Need to revise the saving method so that it is more *condensed* than just saving the whole table structure, and more flexible.  
+    - possibly save as csv-like?
+    - should capture non-table information, such as encounter and character names, as well as plot point data.
+    - ideally well segmented, so data points can be dropped off as storage capacity fills up.
+
 
 ### Other To-Do's:
-- Add "other options" button to encounter titlebar
-    - add option to lock scroll position between characters within same encounter
+- add WYSIWYG editor to plot points (CKEditor5?)
 - add "other options" button to character titlebar
     - change font of character name
     - add row to table
@@ -18,7 +22,6 @@
     - The effect objects themselves are stored within another object, with keys such as "row index", "column index", and "colspan".  And to save changes from the default, the current values of "duration", "name", and "color" but maybe that is overkill....
 
 ### Longer Term:
-- add fontawesome
 - add ability to change row bg color
 - add light theme
 - improve accessibility: larger font mode, other stuff...
