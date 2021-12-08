@@ -169,6 +169,9 @@ function addStoryEvent(eventType){
         addNewCharacterBtn.click();
         
         eventElement.append(footerBar);
+    } else if(eventType === 'plot') {
+        const textarea = Object.assign(document.createElement('div'), {className:'editable-div plot-text', contentEditable:'true'});
+        eventElement.append(textarea);
     }
 
         document.getElementsByClassName('add-event-button')[0].insertAdjacentElement('afterend', eventElement);

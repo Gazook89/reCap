@@ -66,7 +66,15 @@ h3 {
     height: 30px;
 }
 
-.encounter {
+.editable-div.plot-text {
+	background-color: #555;
+	margin: 20px;
+	color: ghostwhite;
+	padding: 5px 200px;
+	line-height: 1.7em;
+}
+
+.encounter, .plot {
     border: 1px solid #444;
     display:flex;
     flex-wrap: wrap;
@@ -75,7 +83,7 @@ h3 {
     position:relative;
 }
 
-.encounter .encounter-title-bar {
+.encounter-title-bar, .plot-title-bar {
     background: #444;
     flex: 1 1 100%;
     padding: 5px;
