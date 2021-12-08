@@ -11,7 +11,7 @@ window.onload = function() {
     if(localStorage.length){
         const data = JSON.parse(localStorage.getItem('savedSession'));
         for(let x=0;x<data.length;x++){
-            addEncounter();
+            addStoryEvent('encounter');
             let encounter = document.querySelectorAll('.encounter')[x];
             encounter.id = data[x].id;
             encounter.getElementsByClassName('encounter-name-input')[0].value = data[x].id;
@@ -38,7 +38,7 @@ window.onload = function() {
             newCell.addEventListener('mouseover', showActionButton);
             cells[x].replaceWith(newCell);
         } else if(cells[x].firstElementChild.className === 'effect'){
-            ['onkeyup','change'].forEach(evt => cells[x].querySelector('input[type="number"]').addEventListener(evt, changeColumnSpan, false));
+            ['mouseout','change'].forEach(evt => cells[x].querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
             ['input'].forEach(evt => cells[x].querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
             ['input'].forEach(evt => cells[x].querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
         }
@@ -56,7 +56,7 @@ window.onload = function() {
     let timer = null;
     let observer = new MutationObserver(mutationRecords => {
         mutationRecords.forEach((mutation)=>{
-            if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action'){
+            if(mutation.addedNodes[0]?.className === 'add-action' || mutation.removedNodes[0]?.className === 'add-action' || mutation.attributeName?.includes('aria')){
                 return;
             } else {
                 if(timer != null){
@@ -122,56 +122,58 @@ function showNewEventButton() {
         encounterBtn.textContent = 'Combat Encounter';
         const plotBtn = Object.assign(document.createElement('div'), {className:'ui-button'})
         plotBtn.textContent = 'Plot Point';
-        encounterBtn.addEventListener('click', ()=>{addEncounter(); dialog.remove()});
-        plotBtn.addEventListener('click', ()=>{addPlot(); dialog.remove()});
+        encounterBtn.addEventListener('click', ()=>{addStoryEvent('encounter'); dialog.remove()});
+        plotBtn.addEventListener('click', ()=>{addStoryEvent('plot'); dialog.remove()});
         dialog.append(encounterBtn,plotBtn);
         addEventButton.insertAdjacentElement('afterend', dialog);
     }, false);
     document.getElementById('encounters-container').append(addEventButton);
 }
 
-function addPlot(){
-    console.log('fart');
-}
 
-function addEncounter(){
-    const encounterCount = document.querySelectorAll('.encounter').length;
-    const encounter = Object.assign(document.createElement('div'), {id:`encounter${encounterCount}`, className:'encounter'}),
-    encounterTitleBar = Object.assign(document.createElement('div'), {className:'encounter-title-bar title-bar'});
-    encounter.append(encounterTitleBar);
+
+function addStoryEvent(eventType){
+    const eventCount = document.querySelectorAll(`.${eventType}`).length;
+    const eventElement = Object.assign(document.createElement('div'), {id:`${eventType}${eventCount}`, className:`${eventType}`}),
+    eventTitleBar = Object.assign(document.createElement('div'), {className:`${eventType}-title-bar title-bar`});
+    eventElement.append(eventTitleBar);
 
     // add 'encounter name' input
-    const inputEncounterName = Object.assign(document.createElement('input'), {type:'text', className:'encounter-name-input', placeholder:'Encounter Name'});
-    ['change'].forEach(evt => inputEncounterName.addEventListener(evt, ()=>{
-        encounter.id = inputEncounterName.value;
+    const inputEventName = Object.assign(document.createElement('input'), {type:'text', className:`${eventType}-name-input`, placeholder:`${eventType[0].toUpperCase() + eventType.slice(1)} Name`});
+    ['change'].forEach(evt => inputEventName.addEventListener(evt, ()=>{
+        eventElement.id = inputEventName.value;
         save();
     }), false);
-    encounterTitleBar.append(inputEncounterName);
+    eventTitleBar.append(inputEventName);
 
-    // container for the operational buttons (minimize, delete)
-    const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
-    encounterTitleBar.append(operationButtons);
-    // add 'options' button
-    const optionsBtn = options(['color','scrollLink']);
-    operationButtons.append(optionsBtn);
-    // add 'minimize encounter' button
-    const minBtn = minimize('.encounter', '.character, .add-character');
-    operationButtons.append(minBtn);
-    // add 'delete encounter' button
-    const deleteBtn = deleteEntry('.encounter');
-    operationButtons.append(deleteBtn);    
+    if(eventType === 'encounter'){
+        // container for the operational buttons (minimize, delete)
+        const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
+        eventTitleBar.append(operationButtons);
+        // add 'options' button
+        const optionsBtn = options(['color','scrollLink']);
+        operationButtons.append(optionsBtn);
+        // add 'minimize encounter' button
+        const minBtn = minimize('.encounter', '.character, .add-character');
+        operationButtons.append(minBtn);
+        // add 'delete encounter' button
+        const deleteBtn = deleteEntry('.encounter');
+        operationButtons.append(deleteBtn);    
 
-    // add a footer to encounter
-    const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
-    const addNewCharacterBtn = addCharacter(encounter);
-    footerBar.append(addNewCharacterBtn);
+        // add a footer to encounter
+        const footerBar = Object.assign(document.createElement('div'), {className:'add-character'});
+        const addNewCharacterBtn = addCharacter(eventElement);
+        footerBar.append(addNewCharacterBtn);
 
-    // Add a fresh Character element to the encounter when a new encounter is created.
-    addNewCharacterBtn.click();
-    
-    encounter.append(footerBar);
-    document.getElementById('encounters-container').insertBefore(encounter, document.getElementsByClassName('encounter')[0]);
-    document.getElementsByClassName('add-event-button')[0].style.display = 'flex';
+        // Add a fresh Character element to the encounter when a new encounter is created.
+        addNewCharacterBtn.click();
+        
+        eventElement.append(footerBar);
+    }
+
+        document.getElementsByClassName('add-event-button')[0].insertAdjacentElement('afterend', eventElement);
+        document.getElementsByClassName('add-event-button')[0].style.display = 'flex';
+
 }
 
 
