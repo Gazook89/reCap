@@ -170,7 +170,7 @@ function addEncounter(){
     addNewCharacterBtn.click();
     
     encounter.append(footerBar);
-    document.getElementById('encounters-container').insertBefore(encounter, document.getElementsByClassName('add-encounter-button')[0]);
+    document.getElementById('encounters-container').insertBefore(encounter, document.getElementsByClassName('encounter')[0]);
     document.getElementsByClassName('add-event-button')[0].style.display = 'flex';
 }
 
