@@ -42,7 +42,10 @@ window.onload = function() {
                         cells[action.actionCellIndex].innerHTML = `<div class='effect' style='background-color:${data[x].characters[y].actions[index].actionColor}'><input class='effect-color' type='color' value='${data[x].characters[y].actions[index].actionColor}' /><input class='effect-name' type='text' title='' value='${data[x].characters[y].actions[index].actionName}' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='${data[x].characters[y].actions[index].actionDuration}'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div></div>`;
                     });
                 };
-            };
+            } else if(data[x].eventType === 'plot story-event'){
+                storyEvent.querySelector('.plot-text').textContent = data[x].plotPoint;
+            }
+
         };
     };
 
