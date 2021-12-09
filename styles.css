@@ -77,6 +77,8 @@ h3 {
 
 .encounter, .plot {
     border: 1px solid #444;
+    border-bottom-width: 5px;
+    border-bottom-style: ridge;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;

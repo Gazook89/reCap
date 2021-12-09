@@ -20,6 +20,8 @@ window.onload = function() {
             let storyEvent = document.querySelectorAll('.story-event')[0];
             storyEvent.id = data[x].id;
             storyEvent.querySelector(`.event-name-input`).value = data[x].eventName;
+            storyEvent.style.borderColor = data[x].eventColor;
+            storyEvent.querySelector('.title-bar').style.backgroundColor = data[x].eventColor;
             if(data[x].eventType === 'encounter story-event'){
                 for(let y=0;y<data[x].characters.length;y++){
                     if(y!=0){
@@ -28,6 +30,7 @@ window.onload = function() {
                     storyEvent.getElementsByClassName('character')[y].id = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('table-container')[y].replaceWith(createTable(data[x].characters[y].tableSize));
+                    storyEvent.querySelectorAll('.table-container table')[y].style.backgroundColor = data[x].characters[y].charColor;
                     
                     data[x].characters[y].actions.forEach((action, index)=>{
                         const cells = Array.from(storyEvent.querySelectorAll('.table-container')[y].querySelectorAll('td'));
