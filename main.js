@@ -31,6 +31,8 @@ window.onload = function() {
                     storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('table-container')[y].replaceWith(createTable(data[x].characters[y].tableSize));
                     storyEvent.querySelectorAll('.table-container table')[y].style.backgroundColor = data[x].characters[y].charColor;
+                    storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.backgroundColor = 'rgb(255, 183, 47)';
+                    storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.color = '#222';
                     
                     data[x].characters[y].actions.forEach((action, index)=>{
                         const cells = Array.from(storyEvent.querySelectorAll('.table-container')[y].querySelectorAll('td'));
@@ -119,13 +121,15 @@ function save(){    // for save revision branch
             };
             
             if(objStoryEvent.eventType === 'encounter story-event'){
+                objStoryEvent.turn = storyEvents[x].querySelector('th[style]')?.cellIndex || null;
+                console.log(storyEvents[x].querySelector('th[style]').cellIndex);
                 const characters = Array.from(storyEvents[x].querySelectorAll('.character'));
                 let charData = [];
                 for(let y=0;y<characters.length;y++){
                     const tableCells = Array.from(characters[y].querySelectorAll('td'));
                     let tableData = [];
                     for(let z=0;z<tableCells.length;z++){
-                        if(tableCells[z].childElementCount > 0){
+                        if(tableCells[z].childElementCount > 0 && tableCells[z].firstElementChild.className !== 'add-action'){
                             objAction = {
                                 actionName: tableCells[z].querySelector('.effect-name').value || '',
                                 actionColor: tableCells[z].querySelector('.effect-color').value,
@@ -507,9 +511,14 @@ function addAction(evt) {
         addRowAfter(slotTD.parentElement)
     };
     // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
-    document.querySelector('th[style*="background"]')?.removeAttribute('style');
-    slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
-    slotTD.closest('table').querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
+    const highlightHeaders = slotTD.closest('.encounter').querySelectorAll('th[style*="background"]');
+    highlightHeaders.forEach(header=>header.removeAttribute('style'));
+    const tables = Array.from(slotTD.closest('.encounter').getElementsByTagName('table'));
+    tables.forEach((table)=>{
+        table.querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
+        table.querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
+    })
+    
 }
 
 function changeValue(evt){
