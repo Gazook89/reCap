@@ -27,7 +27,7 @@ window.onload = function() {
                     }
                     storyEvent.getElementsByClassName('character')[y].id = data[x].characters[y].charName;                  //  todo:  this needs to be reworked to add actions back into table based on new save structure
                     storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
-                    storyEvent.getElementsByClassName('table-container')[y].innerHTML = data[x].characters[y].table;
+                    storyEvent.getElementsByClassName('table-container')[y].replaceWith(createTable(data[x].characters[y].tableSize));
                 };
             }
         }
@@ -123,7 +123,7 @@ function save(){    // for save revision branch
                         charName: characters[y].id, 
                         charColor: characters[y].querySelector('table').style.backgroundColor,
                         collapsed: characters[y].querySelector('.ui-button.minimize').getAttribute('style')?.includes('background-color'),
-                        tableSize: [characters[y].querySelectorAll('th').length, characters[y].querySelectorAll('tr').length],
+                        tableSize: [characters[y].querySelectorAll('th').length - 1, characters[y].querySelectorAll('tr').length],   // subtract one from columns due to how to 'pre-combat' column is made...possibly should revise to be more clear.
                         actions: tableData}   
                     charData.push(objCharacter);
                 }
@@ -243,7 +243,7 @@ function addCharacter(parent){
         operationButtons.append(deleteBtn);
 
         // the turn tracking table
-        tableContainer = createTable();
+        tableContainer = createTable([10,4]); // columns (includes '0'), rows in TBODY
 
         character.append(characterTitleBar, tableContainer);
         parent.insertBefore(character, parent.querySelector('.add-character'));
@@ -398,13 +398,13 @@ function deleteEntry(parentElement){
 }
 
 
-function createTable(){
+function createTable(tableSize){
     const tableContainer = Object.assign(document.createElement('div'), {className: 'table-container'});
     const table = document.createElement('table'), thead = document.createElement('thead'), tbody = document.createElement('tbody');
-    [{tag: thead, count: 1},{tag: tbody, count: 4}].forEach(elem => {
+    [{tag: thead, count: 1},{tag: tbody, count: tableSize[1]}].forEach(elem => {
         for(let x=0;x<elem.count;x++){
             let row = document.createElement('tr');
-            for(let y=0;y <= 10;y++){
+            for(let y=0;y <= tableSize[0];y++){
                 let cell;
                 if(elem.tag === thead && x === 0){
                     cell = document.createElement('th'); cell.textContent = y === 0 ? 'Pre Combat' : y ;
