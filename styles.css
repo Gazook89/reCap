@@ -1,10 +1,12 @@
 @import url('fonts/fonts.css');
 
 html {
-    --scrollbarBG: #333;
-    --thumbBG: #666;
-    height: 100%;
-  }
+	--scrollbarBG: #333;
+	--thumbBG: #666;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+}
 
 ::-webkit-scrollbar {
     width: 11px;
@@ -22,17 +24,17 @@ html {
 
 
 body {
-    height:100%;
-    width: 96vw;
-    margin: unset;
-    background-color: #222;
-    color: ghostwhite;
-    padding: 0 1vw 5vw 1vw;
-    font-family: 'Patrick Hand SC';
-    font-size: 16px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-
+	height: 100%;
+	width: 96vw;
+	margin: unset;
+	background-color: #222;
+	color: ghostwhite;
+	padding: 0 1vw 5vw 1vw;
+	font-family: 'Patrick Hand SC';
+	font-size: 16px;
+	scrollbar-width: thin;
+	scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+	overflow-x: hidden;
 }
 
 h1 {
