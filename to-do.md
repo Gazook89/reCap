@@ -1,8 +1,5 @@
 ### To Do:
-- Need to revise the saving method so that it is more *condensed* than just saving the whole table structure, and more flexible.  
-    - possibly save as csv-like?
-    - should capture non-table information, such as encounter and character names, as well as plot point data.
-    - ideally well segmented, so data points can be dropped off as storage capacity fills up.
+- add 'collapsed' to list of things that gets reloaded on page reload.  Likely depends on updating the Options menu function to only hide/show the options, rather than recreating them on each click.
 
 
 ### Other To-Do's:
