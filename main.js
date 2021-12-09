@@ -10,14 +10,14 @@ window.onload = function() {
 
     if(localStorage.length){
         const data = JSON.parse(localStorage.getItem('savedSession'));
-        for(let x=0;x<data.length;x++){
+        for(let x=data.length - 1;x>=0;x--){
             if(data[x].eventType === 'encounter story-event'){
                 addStoryEvent('encounter');
             } else if(data[x].eventType === 'plot story-event'){
                 addStoryEvent('plot');
             };
             
-            let storyEvent = document.querySelectorAll('.story-event')[x];
+            let storyEvent = document.querySelectorAll('.story-event')[0];
             storyEvent.id = data[x].id;
             storyEvent.querySelector(`.event-name-input`).value = data[x].id;
             if(data[x].eventType === 'encounter story-event'){
@@ -25,22 +25,23 @@ window.onload = function() {
                     if(y!=0){
                         storyEvent.querySelector('.new-character').click();
                     }
-                    storyEvent.getElementsByClassName('character')[y].id = data[x].characters[y].charName;                  //  todo:  this needs to be reworked to add actions back into table based on new save structure
+                    storyEvent.getElementsByClassName('character')[y].id = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('table-container')[y].replaceWith(createTable(data[x].characters[y].tableSize));
-                    const cells = Array.from(storyEvent.querySelectorAll('td'));
+                    
                     data[x].characters[y].actions.forEach((action, index)=>{
+                        const cells = Array.from(storyEvent.querySelectorAll('.table-container')[y].querySelectorAll('td'));
                         cells[action.actionCellIndex].removeEventListener('mouseover', showActionButton);
                         cells[action.actionCellIndex].colSpan = data[x].characters[y].actions[index].actionDuration;
                         for(let i=1;i<data[x].characters[y].actions[index].actionDuration;i++){
                             cells[action.actionCellIndex].nextElementSibling.remove();
-                        }
-                        cells[action.actionCellIndex].innerHTML = `<div class='effect'><input class='effect-color' type='color' value='${data[x].characters[y].actions[index].actionColor}' /><input class='effect-name' type='text' title='' value='${data[x].characters[y].actions[index].actionName}' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='${data[x].characters[y].actions[index].actionDuration}'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div></div>`;
-                    })
+                        };
+                        cells[action.actionCellIndex].innerHTML = `<div class='effect' style='background-color:${data[x].characters[y].actions[index].actionColor}'><input class='effect-color' type='color' value='${data[x].characters[y].actions[index].actionColor}' /><input class='effect-name' type='text' title='' value='${data[x].characters[y].actions[index].actionName}' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='${data[x].characters[y].actions[index].actionDuration}'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div></div>`;
+                    });
                 };
-            }
-        }
-    }
+            };
+        };
+    };
 
     // Once table is built, apply event listeners.
     const cells = document.querySelectorAll('th,td');
@@ -62,8 +63,8 @@ window.onload = function() {
 
     document.getElementById('clear-storage-link').onclick = ()=>{
         if(localStorage.length){
-            const encounters = Array.from(document.getElementsByClassName('encounter'));
-            encounters.forEach(encounter=>encounter.remove());
+            const storyEvents = Array.from(document.getElementsByClassName('story-event'));
+            storyEvents.forEach(event=>event.remove());
             localStorage.removeItem('savedSession');
         }
         return false;
@@ -104,7 +105,7 @@ function save(){    // for save revision branch
         let data = [];
         for(let x=0;x<storyEvents.length;x++){
             const objStoryEvent = {
-                id: storyEvents[x], 
+                id: x, 
                 eventType: storyEvents[x].className, 
                 eventName: storyEvents[x].id, 
                 eventColor: storyEvents[x].style.borderColor, 
@@ -120,7 +121,7 @@ function save(){    // for save revision branch
                     for(let z=0;z<tableCells.length;z++){
                         if(tableCells[z].childElementCount > 0){
                             objAction = {
-                                actionName: tableCells[z].querySelector('.effect-name').value,
+                                actionName: tableCells[z].querySelector('.effect-name').value || '',
                                 actionColor: tableCells[z].querySelector('.effect-color').value,
                                 actionDuration: parseInt(tableCells[z].querySelector('.turn-duration input').value),
                                 actionCellIndex: z
