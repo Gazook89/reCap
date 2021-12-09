@@ -46,6 +46,7 @@ saved = [
                 name: 'Dekk Ashfang',
                 color: 'red',
                 collapsed: false,
+                tableSize: [11, 5],
                 actions: [
                     {
                         name: 'divine smite',
@@ -74,6 +75,7 @@ saved = [
                 name: 'Jack Mehoff',
                 color: 'green',
                 collapsed: true,
+                tableSize: [11, 5],
                 actions: [
                     {
                         name: 'Fear',

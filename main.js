@@ -114,7 +114,7 @@ function save(){    // for save revision branch
                 eventType: storyEvents[x].className, 
                 eventName: storyEvents[x].id, 
                 eventColor: storyEvents[x].style.borderColor, 
-                collapsed: storyEvents[x].querySelector('.ui-button.minimize')?.getAttribute('style')?.includes('background-color')   // todo: needs to save as 'false' if no style attribute exists at all
+                collapsed: storyEvents[x].querySelector('.ui-button.minimize')?.getAttribute('style')?.includes('background-color')   // todo: needs to save as 'false' if no style attribute exists at all.  Also, need to add color/minize/delete buttons to plot elements
             };
             
             if(objStoryEvent.eventType === 'encounter story-event'){
@@ -125,7 +125,8 @@ function save(){    // for save revision branch
                         charName: characters[y].id, 
                         charColor: characters[y].querySelector('table').style.backgroundColor,
                         collapsed: characters[y].querySelector('.ui-button.minimize').getAttribute('style')?.includes('background-color'),
-                        table: characters[y].querySelector('.table-container').innerHTML}
+                        tableSize: [characters[y].querySelectorAll('th').length, characters[y].querySelectorAll('tr').length],
+                        table: characters[y].querySelector('.table-container').innerHTML}   // todo:  need to replace this with a save method that saves only needed info, rather than structure of entire table.
                     charData.push(objCharacter);
                 }
                 objStoryEvent.tables = charData;
