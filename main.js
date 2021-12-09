@@ -19,7 +19,7 @@ window.onload = function() {
             
             let storyEvent = document.querySelectorAll('.story-event')[0];
             storyEvent.id = data[x].id;
-            storyEvent.querySelector(`.event-name-input`).value = data[x].id;
+            storyEvent.querySelector(`.event-name-input`).value = data[x].eventName;
             if(data[x].eventType === 'encounter story-event'){
                 for(let y=0;y<data[x].characters.length;y++){
                     if(y!=0){
@@ -107,7 +107,7 @@ function save(){    // for save revision branch
             const objStoryEvent = {
                 id: x, 
                 eventType: storyEvents[x].className, 
-                eventName: storyEvents[x].id, 
+                eventName: storyEvents[x].querySelector('.event-name-input').value, 
                 eventColor: storyEvents[x].style.borderColor, 
                 collapsed: storyEvents[x].querySelector('.ui-button.minimize')?.getAttribute('style')?.includes('background-color')   // todo: needs to save as 'false' if no style attribute exists at all.  Also, need to add color/minize/delete buttons to plot elements
             };
