@@ -11,18 +11,25 @@ window.onload = function() {
     if(localStorage.length){
         const data = JSON.parse(localStorage.getItem('savedSession'));
         for(let x=0;x<data.length;x++){
-            addStoryEvent('encounter');
-            let encounter = document.querySelectorAll('.encounter')[x];
-            encounter.id = data[x].id;
-            encounter.getElementsByClassName('encounter-name-input')[0].value = data[x].id;
-            for(let y=0;y<data[x].tables.length;y++){
-                if(y!=0){
-                    encounter.querySelector('.new-character').click();
-                }
-                encounter.getElementsByClassName('character')[y].id = data[x].tables[y].charName;
-                encounter.getElementsByClassName('character-name-input')[y].value = data[x].tables[y].charName;
-                encounter.getElementsByClassName('table-container')[y].innerHTML = data[x].tables[y].table;
+            if(data[x].eventType === 'encounter story-event'){
+                addStoryEvent('encounter');
+            } else if(data[x].eventType === 'plot story-event'){
+                addStoryEvent('plot');
             };
+            
+            let storyEvent = document.querySelectorAll('.story-event')[x];
+            storyEvent.id = data[x].id;
+            storyEvent.querySelector(`.event-name-input`).value = data[x].id;
+            if(data[x].eventType === 'encounter story-event'){
+                for(let y=0;y<data[x].characters.length;y++){
+                    if(y!=0){
+                        storyEvent.querySelector('.new-character').click();
+                    }
+                    storyEvent.getElementsByClassName('character')[y].id = data[x].characters[y].charName;                  //  todo:  this needs to be reworked to add actions back into table based on new save structure
+                    storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
+                    storyEvent.getElementsByClassName('table-container')[y].innerHTML = data[x].characters[y].table;
+                };
+            }
         }
     }
 
@@ -78,28 +85,6 @@ window.onload = function() {
 }
 
 // see this S.O. answer: https://stackoverflow.com/a/3138591
-// function save(){
-//     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice', className:'save-notice'}) : document.getElementById('savedNotice');
-//     savedNotice.textContent = 'saving';
-//     document.querySelector('h1').insertAdjacentElement('afterend', savedNotice);
-//     setTimeout(function(){
-//         const encounters = Array.from(document.querySelectorAll('.encounter'));
-//         let data = [];
-//         for(let x=0;x<encounters.length;x++){
-//             const characters = Array.from(encounters[x].querySelectorAll('.character'));
-//             let charData = [];
-//             for(let y=0;y<characters.length;y++){
-//                 objCharacter = {charName: characters[y].id, table: characters[y].querySelector('.table-container').innerHTML}
-//                 charData.push(objCharacter);
-//             }
-//             const objEncounter = {id: encounters[x].id, tables: charData}
-//             data.push(objEncounter);
-//         };
-//         localStorage.setItem('savedSession', JSON.stringify(data));
-//         savedNotice.textContent = 'saved';
-//     },1000);
-    
-// }
 
 function save(){    // for save revision branch
     const savedNotice = document.getElementById('savedNotice') === null ? Object.assign(document.createElement('span'), {id : 'savedNotice', className:'save-notice'}) : document.getElementById('savedNotice');
@@ -139,10 +124,10 @@ function save(){    // for save revision branch
                         charColor: characters[y].querySelector('table').style.backgroundColor,
                         collapsed: characters[y].querySelector('.ui-button.minimize').getAttribute('style')?.includes('background-color'),
                         tableSize: [characters[y].querySelectorAll('th').length, characters[y].querySelectorAll('tr').length],
-                        actions: tableData}   // todo:  need to replace this with a save method that saves only needed info, rather than structure of entire table.
+                        actions: tableData}   
                     charData.push(objCharacter);
                 }
-                objStoryEvent.tables = charData;
+                objStoryEvent.characters = charData;
             } else if (objStoryEvent.eventType === 'plot story-event'){
                 objStoryEvent.plotPoint = storyEvents[x].querySelector('.plot-text').textContent;
             }
@@ -187,7 +172,7 @@ function addStoryEvent(eventType){
     eventElement.append(eventTitleBar);
 
     // add 'encounter name' input
-    const inputEventName = Object.assign(document.createElement('input'), {type:'text', className:`${eventType}-name-input`, placeholder:`${eventType[0].toUpperCase() + eventType.slice(1)} Name`});
+    const inputEventName = Object.assign(document.createElement('input'), {type:'text', className:`event-name-input`, placeholder:`${eventType[0].toUpperCase() + eventType.slice(1)} Name`});
     ['change'].forEach(evt => inputEventName.addEventListener(evt, ()=>{
         eventElement.id = inputEventName.value;
         save();
