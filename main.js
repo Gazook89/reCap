@@ -121,12 +121,25 @@ function save(){    // for save revision branch
                 const characters = Array.from(storyEvents[x].querySelectorAll('.character'));
                 let charData = [];
                 for(let y=0;y<characters.length;y++){
+                    const tableCells = Array.from(characters[y].querySelectorAll('td'));
+                    let tableData = [];
+                    for(let z=0;z<tableCells.length;z++){
+                        if(tableCells[z].childElementCount > 0){
+                            objAction = {
+                                actionName: tableCells[z].querySelector('.effect-name').value,
+                                actionColor: tableCells[z].querySelector('.effect-color').value,
+                                actionDuration: parseInt(tableCells[z].querySelector('.turn-duration input').value),
+                                actionCellIndex: z
+                            }
+                            tableData.push(objAction);
+                        }
+                    };
                     objCharacter = {
                         charName: characters[y].id, 
                         charColor: characters[y].querySelector('table').style.backgroundColor,
                         collapsed: characters[y].querySelector('.ui-button.minimize').getAttribute('style')?.includes('background-color'),
                         tableSize: [characters[y].querySelectorAll('th').length, characters[y].querySelectorAll('tr').length],
-                        table: characters[y].querySelector('.table-container').innerHTML}   // todo:  need to replace this with a save method that saves only needed info, rather than structure of entire table.
+                        actions: tableData}   // todo:  need to replace this with a save method that saves only needed info, rather than structure of entire table.
                     charData.push(objCharacter);
                 }
                 objStoryEvent.tables = charData;
@@ -482,7 +495,7 @@ function addAction(evt) {
         className : 'effect',
     });
     const startingColor = '#808080';
-    effect.innerHTML = `<input type='color' value='${startingColor}' /><input type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div>`;
+    effect.innerHTML = `<input class='effect-color' type='color' value='${startingColor}' /><input class='effect-name' type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div>`;
     effect.style.backgroundColor = startingColor;
     slotTD.append(effect);
     ['mouseout','change'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));

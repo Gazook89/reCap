@@ -41,6 +41,7 @@ saved = [
         name: 'The Coliseum',
         color: 'blue',
         collapsed: false,
+        turn: 5,
         characters: [
             {
                 name: 'Dekk Ashfang',
@@ -52,22 +53,19 @@ saved = [
                         name: 'divine smite',
                         duration: 5,
                         color: 'blue',
-                        rowIndex: 1,
-                        startIndex: 3
+                        cellIndex: 10   //  get the total count of cells, and then just grab the cell's index if counting left to right, top to bottom
                     },
                     {
                         name: 'boost strength',
                         duration: 5,
                         color: 'yellow',
-                        rowIndex: 2,
-                        startIndex: 6
+                        cellIndex: 24
                     },
                     {
                         name: 'Prismatic Wall',
                         duration: 10,
                         color: 'green',
-                        rowIndex: 3,
-                        startIndex: 6
+                        cellIndex: 28
                     },
                 ]
             },
@@ -81,15 +79,13 @@ saved = [
                         name: 'Fear',
                         duration: 1,
                         color: 'blue',
-                        rowIndex: 1,
-                        startIndex: 1
+                        cellIndex: 2
                     },
                     {
                         name: 'boost strength',
                         duration: 5,
                         color: 'yellow',
-                        rowIndex: 2,
-                        startIndex: 8
+                        cellIndex: 12
                     }
                 ]
             }
