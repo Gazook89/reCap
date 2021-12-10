@@ -163,6 +163,11 @@ function save(){    // for save revision branch
     
 }
 
+function importJSON(input) {
+    let jsonData = input.files[0];
+    console.log(jsonData.name);
+}
+
 // for STORYLINE - 
 
 function showNewEventButton() {

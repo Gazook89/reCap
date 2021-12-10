@@ -2,6 +2,7 @@
 - add 'collapsed' to list of things that gets reloaded on page reload.  Likely depends on updating the Options menu function to only hide/show the options, rather than recreating them on each click.
 
 
+
 ### Other To-Do's:
 - add WYSIWYG editor to plot points (CKEditor5?)
 - add "other options" button to character titlebar
