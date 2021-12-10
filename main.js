@@ -223,6 +223,19 @@ function addStoryEvent(eventType){
         
         eventElement.append(footerBar);
     } else if(eventType === 'plot') {
+        // container for the operational buttons (minimize, delete)
+        const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
+        eventTitleBar.append(operationButtons);
+        // add 'options' button
+        const optionsBtn = options(['color']);
+        operationButtons.append(optionsBtn);
+        // add 'minimize encounter' button
+        const minBtn = minimize('.plot', '.plot-text');
+        operationButtons.append(minBtn);
+        // add 'delete encounter' button
+        const deleteBtn = deleteEntry('.plot');
+        operationButtons.append(deleteBtn);
+
         const textarea = Object.assign(document.createElement('div'), {className:'editable-div plot-text', contentEditable:'true'});
         textarea.textContent = '...and then what happened?';
         eventElement.append(textarea);
@@ -336,7 +349,7 @@ function color(){
     const swatch = Object.assign(document.createElement('input'), {type:'color', value:'#444444'});
     swatch.addEventListener('input', (evt)=>{
         let parent;
-        evt.target.closest('.character') === null ?  parent = evt.target.closest('.encounter') : parent = evt.target.closest('.character');  //  TODO:  this needs to be fixed
+        evt.target.closest('.character') === null ?  parent = evt.target.closest('.story-event') : parent = evt.target.closest('.character');  //  TODO:  this needs to be fixed
         let colorableSelectors = [];
             if(parent.className == 'character'){ 
                 colorableSelectors = [
@@ -345,8 +358,8 @@ function color(){
                 ];
             } else {
                 colorableSelectors = [
-                    {selector:'.encounter-title-bar', properties:['backgroundColor']},
-                    {selector:'encounter', properties:['borderColor']}
+                    {selector:'.story-event > .title-bar', properties:['backgroundColor']},
+                    {selector:'story-event', properties:['borderColor']}
                 ];
             };
 
