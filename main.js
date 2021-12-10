@@ -9,7 +9,13 @@ window.onload = function() {
     showNewEventButton();
 
     if(localStorage.length){
-        const data = JSON.parse(localStorage.getItem('savedSession'));
+        try {
+            const data = JSON.parse(localStorage.getItem('savedSession'));
+        }
+        catch(err){
+            throw new Error('There was a problem loading the stored session.');
+        }
+        
         for(let x=data.length - 1;x>=0;x--){
             if(data[x].eventType === 'encounter story-event'){
                 addStoryEvent('encounter');
@@ -164,8 +170,17 @@ function save(){    // for save revision branch
 }
 
 function importJSON(input) {
-    let jsonData = input.files[0];
-    console.log(jsonData.name);
+    let jsonFile = input.files[0];
+    let reader = new FileReader();
+    reader.readAsText(jsonFile);
+    reader.onload = function() {
+        console.log(reader.result);
+        localStorage.setItem('savedSession', reader.result);
+        window.location.reload();
+    };
+    reader.onerror = function() {
+        console.log((reader.error));
+    }
 }
 
 // for STORYLINE - 
