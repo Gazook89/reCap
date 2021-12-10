@@ -122,7 +122,6 @@ function save(){    // for save revision branch
             
             if(objStoryEvent.eventType === 'encounter story-event'){
                 objStoryEvent.turn = storyEvents[x].querySelector('th[style]')?.cellIndex || null;
-                console.log(storyEvents[x].querySelector('th[style]').cellIndex);
                 const characters = Array.from(storyEvents[x].querySelectorAll('.character'));
                 let charData = [];
                 for(let y=0;y<characters.length;y++){
