@@ -31,8 +31,10 @@ window.onload = function() {
                     storyEvent.getElementsByClassName('character-name-input')[y].value = data[x].characters[y].charName;
                     storyEvent.getElementsByClassName('table-container')[y].replaceWith(createTable(data[x].characters[y].tableSize));
                     storyEvent.querySelectorAll('.table-container table')[y].style.backgroundColor = data[x].characters[y].charColor;
-                    storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.backgroundColor = 'rgb(255, 183, 47)';
-                    storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.color = '#222';
+                    if(data[x].turn){
+                        storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.backgroundColor = 'rgb(255, 183, 47)';
+                        storyEvent.querySelectorAll('table')[y].querySelectorAll('th')[data[x].turn].style.color = '#222';
+                    }
                     
                     data[x].characters[y].actions.forEach((action, index)=>{
                         const cells = Array.from(storyEvent.querySelectorAll('.table-container')[y].querySelectorAll('td'));
