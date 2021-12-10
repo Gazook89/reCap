@@ -397,11 +397,11 @@ function minimize(parentElement, element){
             if(hiddenElements[x].style.display === 'none'){
                 hiddenElements[x].style.display = null;
                 collapseElement.style.paddingBottom = null;
-                evt.target.style.backgroundColor = null;
+                evt.currentTarget.style.backgroundColor = null;
             }  else {
                 hiddenElements[x].style.display = 'none';
                 collapseElement.style.paddingBottom = '0';
-                evt.target.style.backgroundColor = 'ghostwhite';
+                evt.currentTarget.style.backgroundColor = 'ghostwhite';
             }
         };
     }, false);
