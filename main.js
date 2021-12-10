@@ -156,6 +156,8 @@ function save(){    // for save revision branch
         };
         localStorage.setItem('savedSession', JSON.stringify(data));
         savedNotice.textContent = 'saved';
+        document.getElementById('download-storage-link').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(localStorage.getItem('savedSession')));
+        document.getElementById('download-storage-link').setAttribute('download','reCapSession.json');
     },1000);
     
 }
