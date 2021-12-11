@@ -19,12 +19,19 @@
             </div>
             <details>
                 <summary><h3>Usage:</h3></summary>
+                <p>reCap is a place to track events in a Savage Worlds campaign so that each session you can easily recall what happened in the previous sessions.  To that end, a player or DM can create new events of either Encounter or Plot types, and the timeline of events will be automatically be saved in the browsers local storage.</p>
+                <blockquote>Note: Local storage is typically cleared if you clear 'browsing history' in your browser.</blockquote>
+                <h4>Plot Points</h4>
+                <ul>
+                    <li>Plot point events off just a plain, no frills, free form text area in which to record any information you think is important to remember.</li>
+                    <li>Just click on the example text and you will be able to edit.</li>
+                </ul>
                 <h4>Encounters</h4>
                 <ul>
-                    <li>On first page load, click the "+" button to create a new Encounter.</li>
-                    <li>Click the Encounter Name input to give the encounter a name (e.g. "The Colosseum").</li>
-                    <li>More options can be found in the "..." button in the title bar, such as the ability to change the color.</li>
-                    <li>More Encounters can be created using the same New Encounter button, or removed with the "x" button in the title bar.</li>
+                    <li>Encounter events are made for tracking turns in combat (or other encounters that use turns).</li>
+                    <li>Click the Encounter Name input to give the encounter a name (e.g. "The Colosseum").  Also in the title bar you can delete the encounter, minimize it, or see extended options like changing the color of the encounter title.</li>
+                    <li>Within the Encounter characters can be added.  See the Character section below.</li>>
+                    <li>More Encounters can be created using the same New Encounter button.</li>
                 </ul>
                 <h4>Characters</h4>
                 <ul>
@@ -35,6 +42,16 @@
                     <li>Choose a color that works with your preferred scheme.  Maybe 'green' indicates acid effects, 'red' is for fire, etc.  Or based on source of effect, assigning a color to specific characters.</li>
                     <li>Either create a new row for every effect/action, or reuse rows, space-allowing.</li>
                     <li>Effects cannot be expanded into existing effects.</li>
+                    <li>The cells in the header row update to a yellow color to indicate the current turn.  It updates automatically to the corresponding column when an Effect is added, but can also be changed by clicking on the desired cell.  It is matched for every character within the same Encounter.</li>
+                    <li>There is an option to link the scroll position across Character tables within the same Encounter, toggled in the Options of the Encounter title bar.</li>
+                </ul>
+                <h4>General</h4>
+                <ul>
+                    <li>All data is saved in your browser's local storage, which can be cleared when clearing browsing history/clearing cookies/etc.</li>
+                    <li>Browsers support varying levels of local storage space, which can be further modified by users...the "standard" is to allow 5 MB of space, so that is what is assumed here.  I am not sure what will happen if the space is exceeded...</li>
+                    <li>To export all of the data on the page, click Download as JSON in the footer.</li>
+                    <li>That same file can be reimported back into the site using the Import JSON link in the footer.  In this way, you could swap between different game parties.</li>
+                    <li>To clear your local storage and reset the site, use the Clear localStorage link in the footer.</li>
                 </ul>
             </details>
         </main>
