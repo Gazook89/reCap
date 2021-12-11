@@ -9,12 +9,7 @@ window.onload = function() {
     showNewEventButton();
 
     if(localStorage.length){
-        try {
-            const data = JSON.parse(localStorage.getItem('savedSession'));
-        }
-        catch(err){
-            throw new Error('There was a problem loading the stored session.');
-        }
+        const data = JSON.parse(localStorage.getItem('savedSession'));
         
         for(let x=data.length - 1;x>=0;x--){
             if(data[x].eventType === 'encounter story-event'){
@@ -165,6 +160,8 @@ function save(){    // for save revision branch
         savedNotice.textContent = 'saved';
         document.getElementById('download-storage-link').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(localStorage.getItem('savedSession')));
         document.getElementById('download-storage-link').setAttribute('download','reCapSession.json');
+        const storageSize = new Blob(Object.values(localStorage)).size / Math.pow(1024,1);
+        document.getElementById('download-storage-link').textContent = `Download as JSON ${storageSize.toFixed(1)} KB/5120 KB`;
     },1000);
     
 }
