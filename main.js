@@ -100,7 +100,8 @@ window.onload = function() {
     observer.observe(encountersContainer, {
         childList : true,
         subtree: true,
-        attributes : true
+        attributes : true,
+        characterData : true
     });
     
 }
