@@ -248,7 +248,7 @@ function addStoryEvent(eventType){
         const operationButtons = Object.assign(document.createElement('div'), {className:'operational-buttons'});
         eventTitleBar.append(operationButtons);
         // add 'options' button
-        const optionsBtn = options(['color']);
+        const optionsBtn = options(['color', 'spellchecker']);
         operationButtons.append(optionsBtn);
         // add 'minimize encounter' button
         const minBtn = minimize('.plot', '.plot-text');
@@ -257,7 +257,7 @@ function addStoryEvent(eventType){
         const deleteBtn = deleteEntry('.plot');
         operationButtons.append(deleteBtn);
 
-        const textarea = Object.assign(document.createElement('div'), {className:'editable-div plot-text', contentEditable:'true'});
+        const textarea = Object.assign(document.createElement('div'), {className:'editable-div plot-text', contentEditable:'true', spellcheck:false});
         textarea.textContent = '...and then what happened?';
         eventElement.append(textarea);
     }
@@ -326,7 +326,11 @@ function options(option){
                 evt.currentTarget.parentNode.insertBefore(colorBtn, button);
             };
 
-            
+            // spellchecker option
+            if(option.includes('spellchecker')){
+                const spellcheckerBtn = spellchecker();
+                evt.currentTarget.parentNode.insertBefore(spellcheckerBtn, button);
+            };
             
 
             // toggle background color
@@ -362,6 +366,18 @@ function matchScroll(scrollEvt) {
     });
 };
 
+function spellchecker(){
+    const button = Object.assign(document.createElement('div'), {className:'ui-button spellchecker option', title:'Spellchecker'});
+    button.innerHTML = `<i class="fas fa-spell-check"></i>`;
+    button.addEventListener('click', (evt)=>{
+        const textarea = evt.currentTarget.parentElement.parentElement.nextElementSibling;
+        textarea.spellcheck === true ? textarea.spellcheck = false : textarea.spellcheck = true ;
+        textarea.focus();
+        textarea.blur();
+        evt.currentTarget.classList.toggle('toggled');
+    });
+    return button;
+}
 
 
 function color(){
