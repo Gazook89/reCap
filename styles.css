@@ -251,7 +251,7 @@ th:not(:first-of-type), td:not(:first-of-type) {
     background: #666
 }
 
-.effect {
+.action {
     border : 1px solid #444;
     padding: 0;
     font-size : 10px;
@@ -261,7 +261,23 @@ th:not(:first-of-type), td:not(:first-of-type) {
     height: 85%;
 }
 
-.effect button {
+.action.emit {
+    background-color: rgb(90, 24, 24)
+}
+
+.action.absorb {
+    background-color: rgb(56, 90, 24)
+}
+
+.action.game {
+    background-color: rgb(24, 77, 90)
+}
+
+.action.misc {
+    background-color: rgb(66, 66, 66)
+}
+
+.action button {
     float: right;
     font-size: 7px;
     border: 1px outset gray;
@@ -279,7 +295,7 @@ input {
     box-sizing:border-box;
 }
 
-.effect input {
+.action input {
     text-align:right;
 }
 
@@ -287,19 +303,19 @@ input::placeholder {
     color: #fff;
 }
 
-.effect input:focus {
+.action input:focus {
     outline:none;
 }
 
-.effect:hover {
+.action:hover {
     filter: brightness(110%)
 }
 
-.effect input:not(:first-child) {
+.action input:not(:first-child) {
 	border-left: 1px solid transparent;
 }
 
-.effect:hover > *:not(:first-child) {
+.action:hover > *:not(:first-child) {
     border-left: 1px solid #444
 }
 
@@ -316,17 +332,17 @@ input[type='color'] {
     height: 100%;
 }
 
-.effect input[type='text'] {
+.action input[type='text'] {
     flex: 1 0 auto;
     width: 0;
     padding: 0 2px;
 }
 
-.effect .turn-duration {
+.action .turn-duration {
     display:flex;
 }
 
-.effect input[type='number'] {
+.action input[type='number'] {
     flex: 0 0 auto;
     width: 20px;
     padding: 0 5px;
@@ -334,16 +350,16 @@ input[type='color'] {
     appearance: textfield;
 }
 
-.effect:hover .number-spinner{
+.action:hover .number-spinner{
     opacity:1;
     transition: all .8s ease-in-out;
 }
 
-.effect input:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-inner-spin-button {
+.action input:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-inner-spin-button {
     border: 1px solid black;
 }
 
-::-webkit-color-swatch-wrapper, .effect ::-webkit-color-swatch {
+::-webkit-color-swatch-wrapper, .action ::-webkit-color-swatch {
     padding:0;
     border:none;
 }
@@ -509,7 +525,7 @@ footer ul li label {
         font-size: 16px;
     }
     
-    .effect input[type="number"], .effect:hover input[type="number"], .effect input[type="color"], .effect:hover input[type="color"] {
+    .action input[type="number"], .action:hover input[type="number"], .action input[type="color"], .action:hover input[type="color"] {
         width: 2em;
         text-align:center;
     }

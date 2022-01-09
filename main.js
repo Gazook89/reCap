@@ -552,7 +552,7 @@ function showActionButton(evt) {
                 button.textContent = options[index];
                 button.addEventListener('click', (evt)=>{
                     const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
-                    addAction(targetCell);
+                    addAction(targetCell, action.type);
                     displayActionDetails(action);
                     console.log(action);
                 })
@@ -577,8 +577,19 @@ function displayActionDetails(action){
     action.startElement.closest('.character').append(detailArea)
 }
 
-function addAction(element){
-    console.log('fart');
+function addAction(element, type){
+    const action = Object.assign(document.createElement('div'), {className:`action ${type.toLowerCase()}`});
+    element.append(action);
+    switch(type){
+        case 'Misc':
+            break;
+        case 'Emit':
+            break;
+        case 'Absorb':
+            break;
+        case 'Game':
+            break;
+    }
 }
 
 
