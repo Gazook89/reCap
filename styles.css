@@ -516,3 +516,22 @@ footer ul li label {
 
     
 }
+
+.radial-menu {
+    position:absolute;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, 1fr); 
+    gap: 2px 2px; 
+    width: 100%;
+    z-index: 100;
+}
+
+.radial-item {
+    border: 1px solid goldenrod;
+    background-color: rgb(122, 90, 8);
+}
+
+.detail-area {
+    background: #444;
+}

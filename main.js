@@ -526,6 +526,16 @@ function removeChild(evt){
     evt.target.firstChild?.remove()
 }
 
+class EncounterAction {
+    constructor(id, type, encounterID, startElement, characterID){
+        this.id = id,
+        this.type = type,
+        this.encounterID = encounterID,
+        this.startElement = startElement,
+        this.characterID = characterID
+    }
+}
+
 function showActionButton(evt) {
     let targetCell = evt.target;
     if(targetCell.innerHTML === ''){
@@ -533,43 +543,81 @@ function showActionButton(evt) {
             className : 'add-action'
         });
         addActionButton.innerHTML = '+';
-        addActionButton.addEventListener('click', addAction);
+        // addActionButton.addEventListener('click', addAction);
+        addActionButton.addEventListener('click', ()=>{
+            const radialMenu = Object.assign(document.createElement('div'), {className:'radial-menu'});
+            const options = ['Emit', 'Absorb', 'Game', 'Misc'];
+            options.forEach((option, index)=>{
+                const button = Object.assign(document.createElement('div'), {className:'radial-item'});
+                button.textContent = options[index];
+                button.addEventListener('click', (evt)=>{
+                    const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
+                    addAction(targetCell);
+                    displayActionDetails(action);
+                    console.log(action);
+                })
+                radialMenu.append(button);
+            })
+            addActionButton.append(radialMenu);
+        });
         targetCell.append(addActionButton);
         targetCell.addEventListener('mouseleave', removeChild)
     }
 }
 
 
-function addAction(evt) {
-    const slot = evt.target;
-    const slotTD = slot.parentNode;
-    slot.removeEventListener('click', addAction);
-    slotTD.removeEventListener('mouseover', showActionButton);
-    slotTD.removeEventListener('mouseleave', removeChild );
-    const effect = Object.assign(document.createElement('div'), {
-        className : 'effect',
-    });
-    const startingColor = '#808080';
-    effect.innerHTML = `<input class='effect-color' type='color' value='${startingColor}' /><input class='effect-name' type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div>`;
-    effect.style.backgroundColor = startingColor;
-    slotTD.append(effect);
-    ['mouseout','change'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
-    ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
-    ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
-    slot.remove();
-    if(slotTD.parentNode.nextElementSibling == null){
-        addRowAfter(slotTD.parentElement)
-    };
-    // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
-    const highlightHeaders = slotTD.closest('.encounter').querySelectorAll('th[style*="background"]');
-    highlightHeaders.forEach(header=>header.removeAttribute('style'));
-    const tables = Array.from(slotTD.closest('.encounter').getElementsByTagName('table'));
-    tables.forEach((table)=>{
-        table.querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
-        table.querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
-    })
-    
+
+function displayActionDetails(action){
+    const detailArea = Object.assign(document.createElement('div'), {className:'detail-area'});
+    const nameInput = Object.assign(document.createElement('input'), {className:'action-name-input'});
+    const actionTypeDisplay = Object.assign(document.createElement('div'), {className:'action-type-display'});
+    actionTypeDisplay.textContent = action.type;
+    const actionTurnDurationDisplay = Object.assign(document.createElement('input'), {className:'action-duration-display'});
+    detailArea.append(nameInput, actionTypeDisplay, actionTurnDurationDisplay);
+    action.startElement.closest('.character').append(detailArea)
 }
+
+function addAction(element){
+    console.log('fart');
+}
+
+
+
+// function addAction(evt) {
+//     const slot = evt.target;
+//     console.log(slot);
+//     const slotTD = slot.parentNode;
+//     slot.removeEventListener('click', addAction);
+//     slotTD.removeEventListener('mouseover', showActionButton);
+//     slotTD.removeEventListener('mouseleave', removeChild );
+//     const effect = Object.assign(document.createElement('div'), {
+//         className : 'effect'
+//     });
+//     const startingColor = '#808080';
+//     effect.innerHTML = `<i class="fas fa-ellipsis-v"></i><input class='effect-color' type='color' value='${startingColor}' /><input class='effect-name' type='text' title='' value='' placeholder='Effect' /><div class='turn-duration'><div class='number-spinner' onclick='this.nextSibling.value -= 1'><i class="fas fa-caret-left"></i></div><input type='number' value='1'  size='3' onclick='this.select();' /><div class='number-spinner' onclick='this.previousSibling.value = parseInt(this.previousSibling.value) + 1'><i class="fas fa-caret-right"></div></div>`;
+//     effect.style.backgroundColor = startingColor;
+//     slotTD.append(effect);
+//     // ['click'].forEach(evt => effect.querySelector('.fa-ellipsis-v').addEventListener(evt, actionDetails, false));
+//     ['mouseout','change'].forEach(evt => effect.querySelector('.turn-duration').addEventListener(evt, changeColumnSpan, false));
+//     ['input'].forEach(evt => effect.querySelector('input[type="color"]').addEventListener(evt, changeEffectColor, false));
+//     ['input'].forEach(evt => effect.querySelector('input[type="text"]').addEventListener(evt, changeValue, false));
+//     slot.remove();
+//     if(slotTD.parentNode.nextElementSibling == null){
+//         addRowAfter(slotTD.parentElement)
+//     };
+//     // pretty much a duplicate of the 'highlightHeader()' function, could probably refactor that to remove this
+//     const highlightHeaders = slotTD.closest('.encounter').querySelectorAll('th[style*="background"]');
+//     highlightHeaders.forEach(header=>header.removeAttribute('style'));
+//     const tables = Array.from(slotTD.closest('.encounter').getElementsByTagName('table'));
+//     tables.forEach((table)=>{
+//         table.querySelectorAll('th')[slotTD.cellIndex].style.backgroundColor = 'rgb(255, 183, 47)';   
+//         table.querySelectorAll('th')[slotTD.cellIndex].style.color = '#222';
+//     })
+    
+// }
+
+
+
 
 function changeValue(evt){
     evt.target.setAttribute('value', evt.target.value);
