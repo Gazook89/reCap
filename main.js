@@ -537,15 +537,22 @@ class EncounterAction {
 }
 
 function showActionButton(evt) {
+
     let targetCell = evt.target;
     if(targetCell.innerHTML === ''){
-        const addActionButton = Object.assign(document.createElement('div'), {
-            className : 'add-action'
-        });
+
+        targetCell.addEventListener('mouseleave', removeChild);
+        const addActionButton = Object.assign(document.createElement('div'), {className : 'add-action'});
         addActionButton.innerHTML = '+';
+
         // addActionButton.addEventListener('click', addAction);
-        addActionButton.addEventListener('click', ()=>{
+        addActionButton.addEventListener('click', (evt)=>{
+            
+            // document.getElementsByClassName('radial-menu')[0]?.remove();
+            cursor = [window.scrollX + evt.clientX, window.scrollY + evt.clientY];
             const radialMenu = Object.assign(document.createElement('div'), {className:'radial-menu'});
+            radialMenu.style.left = cursor[0] + 'px';
+            radialMenu.style.top = cursor[1] + 'px';
             const options = ['Emit', 'Absorb', 'Game', 'Misc'];
             options.forEach((option, index)=>{
                 const button = Object.assign(document.createElement('div'), {className:'radial-item'});
@@ -557,13 +564,24 @@ function showActionButton(evt) {
                     console.log(action);
                 })
                 radialMenu.append(button);
+            });
+
+            document.body.addEventListener('click', (evt)=>{  // todo: this doesn't allow for removing the event listener, so they keep building up...
+                if(evt.target != addActionButton){
+                    addActionButton.remove();
+                    radialMenu.remove()
+                }
             })
-            addActionButton.append(radialMenu);
+
+
+            document.getElementsByTagName('body')[0].append(radialMenu);
+            targetCell.removeEventListener('mouseleave', removeChild);
         });
         targetCell.append(addActionButton);
-        targetCell.addEventListener('mouseleave', removeChild)
+
     }
 }
+
 
 
 

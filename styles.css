@@ -539,13 +539,19 @@ footer ul li label {
     grid-template-columns: repeat(2, 1fr); 
     grid-template-rows: repeat(2, 1fr); 
     gap: 2px 2px; 
-    width: 100%;
+    width: 100px;
     z-index: 100;
+    font-size: 11px;
+    text-align: center;
 }
 
 .radial-item {
     border: 1px solid goldenrod;
-    background-color: rgb(122, 90, 8);
+    background-color: rgba(122, 90, 8, .8);
+}
+
+.radial-item:hover {
+    background-color: rgba(165, 118, 0, 0.8)
 }
 
 .detail-area {
