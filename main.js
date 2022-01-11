@@ -526,13 +526,15 @@ function removeChild(evt){
     evt.target.firstChild?.remove()
 }
 
-class EncounterAction {
-    constructor(id, type, encounterID, startElement, characterID){
-        this.id = id,
-        this.type = type,
-        this.encounterID = encounterID,
-        this.startElement = startElement,
-        this.characterID = characterID
+
+
+const action = {
+    uid: '',   // Unique ID .... just didn't want to use ID to avoid confusion...
+    type: '',
+    color: '',
+    render() {
+        const element = `<div class='action ${this.type}'>+</div>`;
+        return element;
     }
 }
 
@@ -558,10 +560,13 @@ function showActionButton(evt) {
                 const button = Object.assign(document.createElement('div'), {className:'radial-item'});
                 button.textContent = options[index];
                 button.addEventListener('click', (evt)=>{
-                    const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
-                    addAction(targetCell, action.type);
-                    displayActionDetails(action);
-                    console.log(action);
+                    // const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
+                    const newAction = Object.create(action);
+                    newAction.uid = Math.random() * 1000;
+                    newAction.type = evt.currentTarget.textContent.toLowerCase();
+                    targetCell.innerHTML = newAction.render();
+                    // console.log(newAction.render());
+                    // displayActionDetails(action);
                 })
                 radialMenu.append(button);
             });
@@ -585,30 +590,17 @@ function showActionButton(evt) {
 
 
 
-function displayActionDetails(action){
-    const detailArea = Object.assign(document.createElement('div'), {className:'detail-area'});
-    const nameInput = Object.assign(document.createElement('input'), {className:'action-name-input'});
-    const actionTypeDisplay = Object.assign(document.createElement('div'), {className:'action-type-display'});
-    actionTypeDisplay.textContent = action.type;
-    const actionTurnDurationDisplay = Object.assign(document.createElement('input'), {className:'action-duration-display'});
-    detailArea.append(nameInput, actionTypeDisplay, actionTurnDurationDisplay);
-    action.startElement.closest('.character').append(detailArea)
-}
+// function displayActionDetails(action){
+//     const detailArea = Object.assign(document.createElement('div'), {className:'detail-area'});
+//     const nameInput = Object.assign(document.createElement('input'), {className:'action-name-input'});
+//     const actionTypeDisplay = Object.assign(document.createElement('div'), {className:'action-type-display'});
+//     actionTypeDisplay.textContent = action.type;
+//     const actionTurnDurationDisplay = Object.assign(document.createElement('input'), {className:'action-duration-display'});
+//     detailArea.append(nameInput, actionTypeDisplay, actionTurnDurationDisplay);
+//     action.startElement.closest('.character').append(detailArea)
+// }
 
-function addAction(element, type){
-    const action = Object.assign(document.createElement('div'), {className:`action ${type.toLowerCase()}`});
-    element.append(action);
-    switch(type){
-        case 'Misc':
-            break;
-        case 'Emit':
-            break;
-        case 'Absorb':
-            break;
-        case 'Game':
-            break;
-    }
-}
+
 
 
 
