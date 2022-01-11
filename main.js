@@ -533,6 +533,7 @@ const action = {
     name: '',
     type: '',
     color: '',
+    duration: 1,
     namePlaceholder() {
         switch(this.type){
             case 'emit':
@@ -542,18 +543,30 @@ const action = {
             case 'game':
                 return `${this.type} mechanic`;
             case 'misc':
-                return `${this.type} action`
+                return `${this.type} action`;
+            default:
+                return `${this.type}`
         }
     },
     render() {
         return [
-            `<div class='action ${this.type}'>`,
-                `<input type='text' placeholder='${this.namePlaceholder()}'>`,
-            `</input></div>`
+            `<td colspan='${this.duration}'>`,
+                `<div class='action ${this.type}'>`,
+                    `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
+                `</div>`,
+            `</td>`
             ].join('\n');
     }
 }
 
+function createUID(arr){
+    if(arr.length === 0){
+        return 0;
+    } else {
+        const orderedArr = arr.sort((a,b)=>a.uid - b.uid);
+        return orderedArr[orderedArr.length - 1].uid + 1;
+    }
+}
 
 
 function showActionButton(evt) {
@@ -580,17 +593,10 @@ function showActionButton(evt) {
                 button.addEventListener('click', (evt)=>{
                     // const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
                     const newAction = Object.create(action);
-                    // newAction.uid = actions[actions.length - 1] ? actions[actions.length - 1].uid + 1 : 0;
-    
-                    if(actions.length === 0){
-                        newAction.uid = 0;
-                    } else {
-                        const orderedActions = actions.sort((a,b)=>a.uid - b.uid);
-                        newAction.uid = orderedActions[orderedActions.length - 1].uid + 1;
-                    }
+                    newAction.uid = createUID(actions);
                     
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
-                    targetCell.innerHTML = newAction.render();
+                    targetCell.outerHTML = newAction.render();
                     actions.push(newAction);
                     console.log(actions);
                     // console.log(newAction.render());
