@@ -526,17 +526,35 @@ function removeChild(evt){
     evt.target.firstChild?.remove()
 }
 
-
+const actions = [];
 
 const action = {
-    uid: '',   // Unique ID .... just didn't want to use ID to avoid confusion...
+    uid: undefined,   // Unique ID .... just didn't want to use ID to avoid confusion...
+    name: '',
     type: '',
     color: '',
+    namePlaceholder() {
+        switch(this.type){
+            case 'emit':
+                return `${this.type} from your PC`;
+            case 'absorb':
+                return `${this.type} by your PC`;
+            case 'game':
+                return `${this.type} mechanic`;
+            case 'misc':
+                return `${this.type} action`
+        }
+    },
     render() {
-        const element = `<div class='action ${this.type}'>+</div>`;
-        return element;
+        return [
+            `<div class='action ${this.type}'>`,
+                `<input type='text' placeholder='${this.namePlaceholder()}'>`,
+            `</input></div>`
+            ].join('\n');
     }
 }
+
+
 
 function showActionButton(evt) {
 
@@ -562,9 +580,11 @@ function showActionButton(evt) {
                 button.addEventListener('click', (evt)=>{
                     // const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
                     const newAction = Object.create(action);
-                    newAction.uid = Math.random() * 1000;
+                    newAction.uid = actions[actions.length - 1] ? actions[actions.length - 1].uid + 1 : 0;
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
                     targetCell.innerHTML = newAction.render();
+                    actions.push(newAction);
+                    console.log(actions);
                     // console.log(newAction.render());
                     // displayActionDetails(action);
                 })
