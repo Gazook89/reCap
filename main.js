@@ -529,7 +529,7 @@ function removeChild(evt){
 const actions = [];
 
 const action = {
-    uid: undefined,   // Unique ID .... just didn't want to use ID to avoid confusion...
+    uid: 0,   // Unique ID .... just didn't want to use ID to avoid confusion...
     name: '',
     type: '',
     color: '',
@@ -580,7 +580,15 @@ function showActionButton(evt) {
                 button.addEventListener('click', (evt)=>{
                     // const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
                     const newAction = Object.create(action);
-                    newAction.uid = actions[actions.length - 1] ? actions[actions.length - 1].uid + 1 : 0;
+                    // newAction.uid = actions[actions.length - 1] ? actions[actions.length - 1].uid + 1 : 0;
+    
+                    if(actions.length === 0){
+                        newAction.uid = 0;
+                    } else {
+                        const orderedActions = actions.sort((a,b)=>a.uid - b.uid);
+                        newAction.uid = orderedActions[orderedActions.length - 1].uid + 1;
+                    }
+                    
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
                     targetCell.innerHTML = newAction.render();
                     actions.push(newAction);
