@@ -638,7 +638,7 @@ function initResize(evt) {
         }
 
 
-        newLeft = Math.ceil(newLeft / 50) * 50;
+        newLeft = Math.round(newLeft / 50) * 50;
 
         // let rightEdge = action.offsetWidth - evt.target.offsetWidth;
         // if(newLeft > rightEdge){
