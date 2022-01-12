@@ -319,6 +319,13 @@ input::placeholder {
     border-left: 1px solid #444
 }
 
+.action .resizer {
+    background: linear-gradient(to right, #FFF0, #FFF5) ;
+    mix-blend-mode: overlay;
+    width: 7px;
+    cursor: col-resize;
+}
+
 input[type='color'] {
     flex: 0 0 auto;
     width:14px;

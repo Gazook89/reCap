@@ -551,8 +551,9 @@ const action = {
     render() {
         return [
             `<td colspan='${this.duration}'>`,
-                `<div class='action ${this.type}'>`,
+                `<div id='A${this.uid}' class='action ${this.type}'>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
+                    `<div class='resizer'></div>`,
                 `</div>`,
             `</td>`
             ].join('\n');
@@ -578,10 +579,8 @@ function showActionButton(evt) {
         const addActionButton = Object.assign(document.createElement('div'), {className : 'add-action'});
         addActionButton.innerHTML = '+';
 
-        // addActionButton.addEventListener('click', addAction);
         addActionButton.addEventListener('click', (evt)=>{
             
-            // document.getElementsByClassName('radial-menu')[0]?.remove();
             cursor = [window.scrollX + evt.clientX, window.scrollY + evt.clientY];
             const radialMenu = Object.assign(document.createElement('div'), {className:'radial-menu'});
             radialMenu.style.left = cursor[0] + 'px';
@@ -591,16 +590,17 @@ function showActionButton(evt) {
                 const button = Object.assign(document.createElement('div'), {className:'radial-item'});
                 button.textContent = options[index];
                 button.addEventListener('click', (evt)=>{
-                    // const action = new EncounterAction(Math.random() * 1000, evt.currentTarget.textContent, evt.target.closest('.encounter').getElementsByClassName('event-name-input')[0].value, evt.currentTarget.closest('td'), evt.currentTarget.closest('.character').getElementsByClassName('character-name-input')[0].value);
                     const newAction = Object.create(action);
                     newAction.uid = createUID(actions);
-                    
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
+
+                    
                     targetCell.outerHTML = newAction.render();
+                    document.getElementById(`A${newAction.uid}`).addEventListener('mousedown', initResize, false);
+                    
+
+
                     actions.push(newAction);
-                    console.log(actions);
-                    // console.log(newAction.render());
-                    // displayActionDetails(action);
                 })
                 radialMenu.append(button);
             });
@@ -620,6 +620,29 @@ function showActionButton(evt) {
 
     }
 }
+
+function initResize(evt) {
+    evt.preventDefault();
+    const startX = evt.clientX;
+    const startY = evt.clientY;
+    const startWidth = parseInt(document.defaultView.getComputedStyle(evt.target.parentElement).width, 10);
+    const doDrag = (event)=>doDrag_handler(event, startX, startY, startWidth);
+    const stopDrag = ()=>{
+        document.removeEventListener('mousemove', doDrag, false);
+        document.removeEventListener('mouseup', stopDrag, false);
+    }
+    document.addEventListener('mousemove', doDrag, false);
+    document.addEventListener('mouseup', stopDrag, false);
+}
+
+
+function doDrag_handler(e, startX, startY, startWidth) {
+    e.target.parentElement.style.width = (startWidth + e.clientX - startX) + 'px';
+    
+    
+}
+
+
 
 
 
