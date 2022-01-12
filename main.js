@@ -596,7 +596,7 @@ function showActionButton(evt) {
 
                     
                     targetCell.outerHTML = newAction.render();
-                    document.getElementById(`A${newAction.uid}`).addEventListener('mousedown', initResize, false);
+                    document.getElementById(`A${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
                     
 
 
@@ -623,16 +623,45 @@ function showActionButton(evt) {
 
 function initResize(evt) {
     evt.preventDefault();
-    const startX = evt.clientX;
-    const startY = evt.clientY;
-    const startWidth = parseInt(document.defaultView.getComputedStyle(evt.target.parentElement).width, 10);
-    const doDrag = (event)=>doDrag_handler(event, startX, startY, startWidth);
-    const stopDrag = ()=>{
-        document.removeEventListener('mousemove', doDrag, false);
-        document.removeEventListener('mouseup', stopDrag, false);
+    const action = evt.target.parentElement;
+    let shiftX = evt.clientX - evt.target.getBoundingClientRect().left;
+    console.log(shiftX);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    function onMouseMove(evt){
+        let newLeft = evt.clientX - shiftX - action.getBoundingClientRect().left;
+
+
+        if(newLeft < 0) {
+            newLeft = 0;
+        }
+
+
+        newLeft = Math.ceil(newLeft / 50) * 50;
+
+        // let rightEdge = action.offsetWidth - evt.target.offsetWidth;
+        // if(newLeft > rightEdge){
+        //     newLeft = rightEdge;
+        // }
+
+        console.log(newLeft);
+
+        action.style.width = newLeft + 'px';
     }
-    document.addEventListener('mousemove', doDrag, false);
-    document.addEventListener('mouseup', stopDrag, false);
+
+    function onMouseUp() {
+        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', onMouseMove);
+    }
+    // const startWidth = parseInt(document.defaultView.getComputedStyle(evt.target.parentElement).width, 10);
+    // const doDrag = (event)=>doDrag_handler(event, startX, startY, startWidth);
+    // const stopDrag = ()=>{
+    //     document.removeEventListener('mousemove', doDrag, false);
+    //     document.removeEventListener('mouseup', stopDrag, false);
+    // }
+    // document.addEventListener('mousemove', doDrag, false);
+    // document.addEventListener('mouseup', stopDrag, false);
 }
 
 
