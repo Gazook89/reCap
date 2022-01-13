@@ -640,12 +640,20 @@ function initResize(evt) {
         action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
 
+// todo:  with the below, can now know the cell index where an Action is based, plus how many columns wide the Action is.
+// todo:  so should be able to remove the "add action button" event handler for any overlapped cells.  This is likely better than doing colSpan'ing (dont have to worry about removing cells and replacing them when shrinking)
+
     function onMouseUp() {
         let colWidth = action.parentElement.offsetWidth;
         if(newLeft > colWidth){
-            // action.parentElement.colSpan = Math.ceil(newLeft / colWidth);
-            console.log(Array.from(action.closest('tr').children).indexOf(action.parentElement));
-            console.log(Math.ceil(newLeft / colWidth) + 'x columns')
+            const actionCellIndex = Array.from(action.closest('tr').children).indexOf(action.parentElement);
+            const spanCount = Math.ceil(newLeft / colWidth);
+            const spannedColumns = Array.from(action.closest('tr').children).slice(actionCellIndex, actionCellIndex + spanCount);
+            console.log('actionCellIndex: ' + actionCellIndex);
+            console.log('spanCount: ' + spanCount + 'x columns');
+            console.log('spannedColumns: ' + spannedColumns);
+            spannedColumns.forEach(cell=>{cell.removeEventListener('mouseover', showActionButton)})
+            
         }
 
         document.removeEventListener('mouseup', onMouseUp);
