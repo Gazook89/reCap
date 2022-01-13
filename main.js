@@ -529,11 +529,11 @@ function removeChild(evt){
 const actions = [];
 
 const action = {
-    uid: 0,   // Unique ID .... just didn't want to use ID to avoid confusion...
+    uid: '',   // Unique ID .... just didn't want to use ID to avoid confusion...
     name: '',
     type: '',
     color: '',
-    duration: 1,
+    duration: [],   // both turn counter integer (1 turn, 2 turns, etc) and action pixel width
     namePlaceholder() {
         switch(this.type){
             case 'emit':
@@ -551,7 +551,7 @@ const action = {
     render() {
         return [
             `<td colspan='${this.duration}'>`,
-                `<div id='A${this.uid}' class='action ${this.type}'>`,
+                `<div id='${this.uid}' class='action ${this.type}'>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
                     `<div class='resizer'></div>`,
                 `</div>`,
@@ -560,12 +560,12 @@ const action = {
     }
 }
 
-function createUID(arr){
+function createUID(arr, prefix){
     if(arr.length === 0){
-        return 0;
+        return (prefix + 0);
     } else {
         const orderedArr = arr.sort((a,b)=>a.uid - b.uid);
-        return orderedArr[orderedArr.length - 1].uid + 1;
+        return prefix + (orderedArr[orderedArr.length - 1].uid.slice(1) + 1);
     }
 }
 
@@ -591,12 +591,10 @@ function showActionButton(evt) {
                 button.textContent = options[index];
                 button.addEventListener('click', (evt)=>{
                     const newAction = Object.create(action);
-                    newAction.uid = createUID(actions);
+                    newAction.uid = createUID(actions, 'A');
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
-
-                    
                     targetCell.outerHTML = newAction.render();
-                    document.getElementById(`A${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
+                    document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
                     actions.push(newAction);
                 })
                 radialMenu.append(button);
@@ -659,6 +657,9 @@ function initResize(evt) {
             modifyColumns = Array.from(action.closest('tr').children).slice(actionCellIndex + endSpan, actionCellIndex + startSpan);
             modifyColumns.forEach(cell=>{cell.addEventListener('mouseover', showActionButton)});
         };
+
+        // set the action duration (both turn count, and pixel width)
+        actions.find(x=>x.uid === action.id).duration = [endSpan, action.offsetWidth];
 
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
