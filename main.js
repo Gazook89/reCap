@@ -636,8 +636,6 @@ function initResize(evt) {
             newLeft = 0;
         }
 
-        
-
         // newLeft = Math.floor(newLeft / 33) * 33;  // uncomment if looking to snap to positions
         action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
@@ -645,9 +643,11 @@ function initResize(evt) {
     function onMouseUp() {
         let colWidth = action.parentElement.offsetWidth;
         if(newLeft > colWidth){
-
+            // action.parentElement.colSpan = Math.ceil(newLeft / colWidth);
+            console.log(Array.from(action.closest('tr').children).indexOf(action.parentElement));
             console.log(Math.ceil(newLeft / colWidth) + 'x columns')
         }
+
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
     }
