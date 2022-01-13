@@ -602,12 +602,18 @@ function showActionButton(evt) {
                 radialMenu.append(button);
             });
 
-            document.body.addEventListener('click', (evt)=>{  // todo: this doesn't allow for removing the event listener, so they keep building up...
-                if(evt.target != addActionButton){
+            // if clicking outside the add-action-button, delete the radial-menu and add-action-button
+            function removeRadial_Handler(e){
+                if(e.target != addActionButton){
                     addActionButton.remove();
-                    radialMenu.remove()
+                    document.body.removeEventListener('click', removeRadial_Handler);
+                    radialMenu.remove();
                 }
-            })
+                if(document.getElementsByClassName('radial-menu').length > 1){
+                    radialMenu.remove();
+                }
+            };
+            document.body.addEventListener('click', removeRadial_Handler)
 
             document.getElementsByTagName('body')[0].append(radialMenu);
             targetCell.removeEventListener('mouseleave', removeChild);
@@ -615,15 +621,9 @@ function showActionButton(evt) {
         targetCell.append(addActionButton);
     }
 };
-    
-// TODO:   just using this as example of a handler for body.addEventListener('click', ...radialmenu...) above
-
-function doDrag_handler(e, startX, startY, startWidth) {
-    e.target.parentElement.style.width = (startWidth + e.clientX - startX) + 'px';
-}
 
 
-
+// Resize Action boxes, remove and add listeners as necessary if action overlaps adjacent cells.
 function initResize(evt) {
     evt.preventDefault();
     
