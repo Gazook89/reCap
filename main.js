@@ -597,9 +597,6 @@ function showActionButton(evt) {
                     
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`A${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
-                    
-
-
                     actions.push(newAction);
                 })
                 radialMenu.append(button);
@@ -612,14 +609,20 @@ function showActionButton(evt) {
                 }
             })
 
-
             document.getElementsByTagName('body')[0].append(radialMenu);
             targetCell.removeEventListener('mouseleave', removeChild);
         });
         targetCell.append(addActionButton);
-
     }
+};
+    
+// TODO:   just using this as example of a handler for body.addEventListener('click', ...radialmenu...) above
+
+function doDrag_handler(e, startX, startY, startWidth) {
+    e.target.parentElement.style.width = (startWidth + e.clientX - startX) + 'px';
 }
+
+
 
 function initResize(evt) {
     evt.preventDefault();
@@ -644,8 +647,6 @@ function initResize(evt) {
         action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
 
-
-
     function onMouseUp() {
         
         const actionCellIndex = Array.from(action.closest('tr').children).indexOf(action.parentElement);
@@ -665,11 +666,6 @@ function initResize(evt) {
 }
 
 
-function doDrag_handler(e, startX, startY, startWidth) {
-    e.target.parentElement.style.width = (startWidth + e.clientX - startX) + 'px';
-    
-    
-}
 
 
 
