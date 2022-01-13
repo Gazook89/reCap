@@ -567,3 +567,10 @@ footer ul li label {
 .detail-area {
     background: #444;
 }
+
+.grip {
+	color: #FFF5;
+	align-self: center;
+	margin-left: 2px;
+	cursor: move;
+}

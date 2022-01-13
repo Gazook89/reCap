@@ -552,6 +552,7 @@ const action = {
         return [
             `<td colspan='${this.duration}'>`,
                 `<div id='${this.uid}' class='action ${this.type}'>`,
+                    `<i class="fas fa-grip-vertical grip"></i>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
                     `<div class='resizer'></div>`,
                 `</div>`,
