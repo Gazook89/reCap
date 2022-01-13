@@ -625,24 +625,29 @@ function initResize(evt) {
     evt.preventDefault();
     const action = evt.target.parentElement;
     let shiftX = evt.clientX - evt.target.getBoundingClientRect().left;
-    console.log(shiftX);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 
+    let newLeft;
     function onMouseMove(evt){
-        let newLeft = evt.clientX - shiftX - action.getBoundingClientRect().left;
+        newLeft = evt.clientX - shiftX - action.getBoundingClientRect().left;
 
         if(newLeft < 0) {
             newLeft = 0;
         }
 
-
+        
 
         // newLeft = Math.floor(newLeft / 33) * 33;  // uncomment if looking to snap to positions
         action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
 
     function onMouseUp() {
+        let colWidth = action.parentElement.offsetWidth;
+        if(newLeft > colWidth){
+
+            console.log(Math.ceil(newLeft / colWidth) + 'x columns')
+        }
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
     }
