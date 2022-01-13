@@ -652,21 +652,12 @@ function initResize(evt) {
         const endSpan = Math.ceil(newLeft / colWidth);
         let modifyColumns;
         if(newLeft > startWidth){
-            console.log('got bigger');
             modifyColumns = Array.from(action.closest('tr').children).slice(actionCellIndex, actionCellIndex + endSpan);
-            modifyColumns.forEach(cell=>{cell.removeEventListener('mouseover', showActionButton)})
+            modifyColumns.forEach(cell=>{cell.removeEventListener('mouseover', showActionButton)});
         } else if(newLeft < startWidth) {
-            console.log('got smaller');
             modifyColumns = Array.from(action.closest('tr').children).slice(actionCellIndex + endSpan, actionCellIndex + startSpan);
-            modifyColumns.forEach(cell=>{cell.addEventListener('mouseover', showActionButton)})
-        } else {
-            console.log('stayed the same');
-        }
-
-        console.log('startSpan: ' + startSpan);
-        console.log('actionCellIndex: ' + actionCellIndex);
-        console.log('endSpan: ' + endSpan + 'x columns');
-        console.log('modifyColumns: ' + modifyColumns);
+            modifyColumns.forEach(cell=>{cell.addEventListener('mouseover', showActionButton)});
+        };
 
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
