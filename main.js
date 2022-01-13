@@ -632,36 +632,20 @@ function initResize(evt) {
     function onMouseMove(evt){
         let newLeft = evt.clientX - shiftX - action.getBoundingClientRect().left;
 
-
         if(newLeft < 0) {
             newLeft = 0;
         }
 
 
-        newLeft = Math.round(newLeft / 50) * 50;
 
-        // let rightEdge = action.offsetWidth - evt.target.offsetWidth;
-        // if(newLeft > rightEdge){
-        //     newLeft = rightEdge;
-        // }
-
-        console.log(newLeft);
-
-        action.style.width = newLeft + 'px';
+        // newLeft = Math.floor(newLeft / 33) * 33;  // uncomment if looking to snap to positions
+        action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
 
     function onMouseUp() {
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
     }
-    // const startWidth = parseInt(document.defaultView.getComputedStyle(evt.target.parentElement).width, 10);
-    // const doDrag = (event)=>doDrag_handler(event, startX, startY, startWidth);
-    // const stopDrag = ()=>{
-    //     document.removeEventListener('mousemove', doDrag, false);
-    //     document.removeEventListener('mouseup', stopDrag, false);
-    // }
-    // document.addEventListener('mousemove', doDrag, false);
-    // document.addEventListener('mouseup', stopDrag, false);
 }
 
 

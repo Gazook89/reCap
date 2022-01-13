@@ -238,6 +238,7 @@ th {
 
 th, td {
     min-width: 12vw;
+    max-width: 12vw;
     position:relative;
     padding: 1px;
     height: 16px
@@ -259,6 +260,8 @@ th:not(:first-of-type), td:not(:first-of-type) {
     font-variant: small-caps;
     display: flex;
     height: 85%;
+    z-index: 200;
+    position:relative;
 }
 
 .action.emit {
