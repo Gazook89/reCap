@@ -623,7 +623,11 @@ function showActionButton(evt) {
 
 function initResize(evt) {
     evt.preventDefault();
+    
     const action = evt.target.parentElement;
+    const colWidth = action.parentElement.offsetWidth;
+    const startWidth = action.offsetWidth;
+    const startSpan = Math.ceil(startWidth / colWidth);
     let shiftX = evt.clientX - evt.target.getBoundingClientRect().left;
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
@@ -640,21 +644,29 @@ function initResize(evt) {
         action.style.width = newLeft + 'px';   // change to `%` if snapping to position
     }
 
-// todo:  with the below, can now know the cell index where an Action is based, plus how many columns wide the Action is.
-// todo:  so should be able to remove the "add action button" event handler for any overlapped cells.  This is likely better than doing colSpan'ing (dont have to worry about removing cells and replacing them when shrinking)
+
 
     function onMouseUp() {
-        let colWidth = action.parentElement.offsetWidth;
-        if(newLeft > colWidth){
-            const actionCellIndex = Array.from(action.closest('tr').children).indexOf(action.parentElement);
-            const spanCount = Math.ceil(newLeft / colWidth);
-            const spannedColumns = Array.from(action.closest('tr').children).slice(actionCellIndex, actionCellIndex + spanCount);
-            console.log('actionCellIndex: ' + actionCellIndex);
-            console.log('spanCount: ' + spanCount + 'x columns');
-            console.log('spannedColumns: ' + spannedColumns);
-            spannedColumns.forEach(cell=>{cell.removeEventListener('mouseover', showActionButton)})
-            
+        
+        const actionCellIndex = Array.from(action.closest('tr').children).indexOf(action.parentElement);
+        const endSpan = Math.ceil(newLeft / colWidth);
+        let modifyColumns;
+        if(newLeft > startWidth){
+            console.log('got bigger');
+            modifyColumns = Array.from(action.closest('tr').children).slice(actionCellIndex, actionCellIndex + endSpan);
+            modifyColumns.forEach(cell=>{cell.removeEventListener('mouseover', showActionButton)})
+        } else if(newLeft < startWidth) {
+            console.log('got smaller');
+            modifyColumns = Array.from(action.closest('tr').children).slice(actionCellIndex + endSpan, actionCellIndex + startSpan);
+            modifyColumns.forEach(cell=>{cell.addEventListener('mouseover', showActionButton)})
+        } else {
+            console.log('stayed the same');
         }
+
+        console.log('startSpan: ' + startSpan);
+        console.log('actionCellIndex: ' + actionCellIndex);
+        console.log('endSpan: ' + endSpan + 'x columns');
+        console.log('modifyColumns: ' + modifyColumns);
 
         document.removeEventListener('mouseup', onMouseUp);
         document.removeEventListener('mousemove', onMouseMove);
