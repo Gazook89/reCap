@@ -593,6 +593,7 @@ function showActionButton(evt) {
                     const newAction = Object.create(action);
                     newAction.uid = createUID(actions, 'A');
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
+                    newAction.duration = [1, undefined];
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
                     actions.push(newAction);

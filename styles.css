@@ -550,7 +550,7 @@ footer ul li label {
     grid-template-rows: repeat(2, 1fr); 
     gap: 2px 2px; 
     width: 100px;
-    z-index: 100;
+    z-index: 500;
     font-size: 11px;
     text-align: center;
 }
