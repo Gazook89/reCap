@@ -686,12 +686,8 @@ function initClone(evt) {
             currentDroppable.removeAttribute('style');
             currentDroppable.removeEventListener('mouseover', showActionButton);
             currentDroppable.removeEventListener('mouseleave', removeChild);
-            cloneAction.style.position = null;
-            cloneAction.style.zIndex = null;
-            cloneAction.style.left = null;
-            cloneAction.style.top = null;
+            Object.assign(cloneAction.style,{position:null,zIndex:null,left:null,top:null});
             const cloneActionObject = { ...actions.find(x=>x.uid === originalAction.id)}
-            console.log(cloneActionObject.uid);
             cloneActionObject.uid = createUID(actions, 'A');
             actions.push(cloneActionObject);
             cloneAction.id = cloneActionObject.uid;
