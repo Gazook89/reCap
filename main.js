@@ -554,6 +554,7 @@ const action = {
             `<td>`,
                 `<div id='${this.uid}' class='action ${this.type}'>`,
                     `<i class="fas fa-grip-vertical grip"></i>`,
+                    `<i class="fas fa-caret-right expand"></i>`,
                     `<i class="fas fa-clone clone"></i>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
                     `<div class='resizer'></div>`,
@@ -601,6 +602,7 @@ function showActionButton(evt) {
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
+                    document.getElementById(`${newAction.uid}`).getElementsByClassName('expand')[0].addEventListener('click', expandAction, false);
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
                     actions.push(newAction);
                 })
@@ -627,9 +629,23 @@ function showActionButton(evt) {
     }
 };
 
-// todo: get cursor position, set cloneAction top/left to match and attach it to cursor until next click in TD cell.
-// todo: or, reuse initMove except clone the action rather than just move it.  Click and drag from the clone button
+function expandAction(evt) {
+    
+    const action = evt.target.closest('.action');
+    const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
+    Object.assign(actionDetail.style,{top:(action.offsetHeight - (action.offsetHeight - action.clientHeight) / 2) + 'px',left:'0px'});
+    actionDetail.textContent = 'fart fart fart';
+    action.append(actionDetail)
 
+
+    evt.target.removeEventListener('click', expandAction);
+    evt.target.addEventListener('click', minimizeAction);
+    function minimizeAction(evt) {
+        actionDetail.remove();
+        evt.target.removeEventListener('click', minimizeAction);
+        evt.target.addEventListener('click', expandAction);
+    }
+}
 
 function initClone(evt) {
     evt.preventDefault();

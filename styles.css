@@ -396,6 +396,11 @@ input[type='color'] {
     color: #444;
 }
 
+.action-detail {
+    position:absolute;
+    background-color: gray;
+}
+
 .add-action {
     background: #0004;
     border: 1px dashed rgb(243, 243, 243);
@@ -572,14 +577,14 @@ footer ul li label {
     background: #444;
 }
 
-.action .fas {
+.action .fas, .action .far {
     color: #FFF5;
 	align-self: center;
 	margin: 0 2px;
     opacity: 0;
 }
 
-.action:hover .fas {
+.action:hover .fas, .action:hover .far {
     opacity:1;
 }
 
