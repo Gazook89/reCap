@@ -533,6 +533,7 @@ const action = {
     name: '',
     type: '',
     color: '',
+    turn: [],  // row, column
     duration: [],   // both turn counter integer (1 turn, 2 turns, etc) and action pixel width
     namePlaceholder() {
         switch(this.type){
@@ -594,6 +595,7 @@ function showActionButton(evt) {
                     const newAction = Object.create(action);
                     newAction.uid = createUID(actions, 'A');
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
+                    newAction.turn = [targetCell.parentElement.rowIndex, targetCell.cellIndex];
                     newAction.duration = [1, undefined];
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
@@ -685,9 +687,8 @@ function initMove(evt) {
             currentDroppable.removeEventListener('mouseover', showActionButton);
             currentDroppable.removeEventListener('mouseleave', removeChild)
             startCell.addEventListener('mouseover', showActionButton);
+            actions.find(x=>x.uid === action.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
         }
-        
-        
         action.style.position = null;
         action.style.zIndex = null;
         action.style.left = null;
