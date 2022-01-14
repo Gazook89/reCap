@@ -677,16 +677,17 @@ function initMove(evt) {
     action.onmouseup = function() {
         document.removeEventListener('mousemove', onMouseMove);
         action.onmouseup = null;
-        if(currentDroppable.firstChild || !currentDroppable.closest('tbody') || currentDroppable == startCell){
+        if(currentDroppable === null || currentDroppable.firstChild || !currentDroppable.closest('tbody') || currentDroppable == startCell){
             startCell.append(action);
         } else {
             currentDroppable.append(action);
+            currentDroppable.removeAttribute('style');
             currentDroppable.removeEventListener('mouseover', showActionButton);
             currentDroppable.removeEventListener('mouseleave', removeChild)
             startCell.addEventListener('mouseover', showActionButton);
         }
         
-        currentDroppable.removeAttribute('style');
+        
         action.style.position = null;
         action.style.zIndex = null;
         action.style.left = null;
