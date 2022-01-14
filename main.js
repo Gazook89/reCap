@@ -568,7 +568,7 @@ function createUID(arr, prefix){
         return (prefix + 0);
     } else {
         const orderedArr = arr.sort((a,b)=>a.uid - b.uid);
-        return prefix + (orderedArr[orderedArr.length - 1].uid.slice(1) + 1);
+        return prefix + (parseInt(orderedArr[orderedArr.length - 1].uid.slice(1)) + 1);
     }
 }
 
@@ -685,15 +685,21 @@ function initClone(evt) {
             currentDroppable.append(cloneAction);
             currentDroppable.removeAttribute('style');
             currentDroppable.removeEventListener('mouseover', showActionButton);
-            currentDroppable.removeEventListener('mouseleave', removeChild)
-            // actions.find(x=>x.uid === action.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
+            currentDroppable.removeEventListener('mouseleave', removeChild);
+            cloneAction.style.position = null;
+            cloneAction.style.zIndex = null;
+            cloneAction.style.left = null;
+            cloneAction.style.top = null;
+            const cloneActionObject = { ...actions.find(x=>x.uid === originalAction.id)}
+            console.log(cloneActionObject.uid);
+            cloneActionObject.uid = createUID(actions, 'A');
+            actions.push(cloneActionObject);
+            cloneAction.id = cloneActionObject.uid;
+            cloneAction.getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
+            cloneAction.getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
+            actions.find(x=>x.uid === cloneAction.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
         }
-        cloneAction.style.position = null;
-        cloneAction.style.zIndex = null;
-        cloneAction.style.left = null;
-        cloneAction.style.top = null;
-        cloneAction.getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
-        cloneAction.getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
+        
     }
 
 }
