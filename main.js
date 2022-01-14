@@ -554,6 +554,7 @@ const action = {
             `<td>`,
                 `<div id='${this.uid}' class='action ${this.type}'>`,
                     `<i class="fas fa-grip-vertical grip"></i>`,
+                    `<i class="fas fa-clone clone"></i>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
                     `<div class='resizer'></div>`,
                 `</div>`,
@@ -600,6 +601,7 @@ function showActionButton(evt) {
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
+                    document.getElementById(`${newAction.uid}`).getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
                     actions.push(newAction);
                 })
                 radialMenu.append(button);
@@ -625,6 +627,74 @@ function showActionButton(evt) {
     }
 };
 
+// todo: get cursor position, set cloneAction top/left to match and attach it to cursor until next click in TD cell.
+// todo: or, reuse initMove except clone the action rather than just move it.  Click and drag from the clone button
+
+
+function initClone(evt) {
+    evt.preventDefault();
+
+    const originalAction = evt.target.closest('.action');
+    const actionWidth = originalAction.clientWidth;
+    const cloneAction = originalAction.cloneNode(true);
+    cloneAction.style.width = actionWidth + 'px';
+
+    let currentDroppable = null;
+
+    let shiftX = evt.clientX - originalAction.getBoundingClientRect().left;
+    let shiftY = evt.clientY - originalAction.getBoundingClientRect().top;
+    cloneAction.style.position = 'absolute';
+    cloneAction.style.zIndex = 500;
+    document.body.append(cloneAction);
+
+    moveAt(evt.pageX, evt.pageY);
+    
+    function moveAt(pageX, pageY) {
+        cloneAction.style.left = pageX - shiftX + 'px';
+        cloneAction.style.top = pageY - shiftY + 'px'
+    }
+
+    function onMouseMove(evt) {
+        moveAt(evt.pageX, evt.pageY);
+
+        cloneAction.style.visibility = 'hidden';
+        let elemBelow = document.elementFromPoint(evt.clientX, evt.clientY);
+        cloneAction.style.visibility = 'visible';
+
+        if(!elemBelow.closest('tbody')) return;
+        let droppableBelow = elemBelow.closest('td');
+        if(currentDroppable != droppableBelow) {
+            if(currentDroppable) {
+                currentDroppable.removeAttribute('style');
+            }
+            currentDroppable = droppableBelow;
+            if(currentDroppable){
+                currentDroppable.style.backgroundColor = '#0003';
+            }
+        }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    cloneAction.onclick = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        cloneAction.onclick = null;
+        if(currentDroppable === null || currentDroppable.firstChild || !currentDroppable.closest('tbody')){
+            return;
+        } else {
+            currentDroppable.append(cloneAction);
+            currentDroppable.removeAttribute('style');
+            currentDroppable.removeEventListener('mouseover', showActionButton);
+            currentDroppable.removeEventListener('mouseleave', removeChild)
+            // actions.find(x=>x.uid === action.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
+        }
+        cloneAction.style.position = null;
+        cloneAction.style.zIndex = null;
+        cloneAction.style.left = null;
+        cloneAction.style.top = null;
+    }
+
+}
 
 
 function initMove(evt) {

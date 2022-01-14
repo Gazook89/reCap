@@ -318,13 +318,13 @@ input::placeholder {
     filter: brightness(110%)
 }
 
-.action input:not(:first-child) {
+/* .action input:not(:first-child) {
 	border-left: 1px solid transparent;
 }
 
 .action:hover > *:not(:first-child) {
     border-left: 1px solid #444
-}
+} */
 
 .action .resizer {
     background: linear-gradient(to right, #FFF0, #FFF5) ;
@@ -572,9 +572,21 @@ footer ul li label {
     background: #444;
 }
 
-.grip {
-	color: #FFF5;
+.action .fas {
+    color: #FFF5;
 	align-self: center;
-	margin-left: 2px;
+	margin: 0 2px;
+    opacity: 0;
+}
+
+.action:hover .fas {
+    opacity:1;
+}
+
+.grip {
 	cursor: move;
+}
+
+.clone {
+    cursor: copy;
 }
