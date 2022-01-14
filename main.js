@@ -596,6 +596,7 @@ function showActionButton(evt) {
                 button.addEventListener('click', (evt)=>{
                     const newAction = Object.create(action);
                     newAction.uid = createUID(actions, 'A');
+                    newAction.name = 'Name';
                     newAction.type = evt.currentTarget.textContent.toLowerCase();
                     newAction.turn = [targetCell.parentElement.rowIndex, targetCell.cellIndex];
                     newAction.duration = [1, undefined];
@@ -632,11 +633,17 @@ function showActionButton(evt) {
 function expandAction(evt) {
     
     const action = evt.target.closest('.action');
+    const actionObj = actions.find(x=>x.uid === action.id);
     const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
     Object.assign(actionDetail.style,{top:(action.offsetHeight - (action.offsetHeight - action.clientHeight) / 2) + 'px',left:'0px'});
     actionDetail.textContent = 'fart fart fart';
-    action.append(actionDetail)
+    actionDetail.innerHTML = [
+        `<h1>${actionObj.name}</h1>`,
+        `<textarea class='description' placeholder='Description of action'></textarea>`
+    ].join('\n');
 
+
+    action.append(actionDetail)
 
     evt.target.removeEventListener('click', expandAction);
     evt.target.addEventListener('click', minimizeAction);
