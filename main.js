@@ -677,11 +677,11 @@ function initClone(evt) {
     document.addEventListener('mousemove', onMouseMove);
 
     cloneAction.onclick = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        cloneAction.onclick = null;
         if(currentDroppable === null || currentDroppable.firstChild || !currentDroppable.closest('tbody')){
             return;
         } else {
+            document.removeEventListener('mousemove', onMouseMove);
+            cloneAction.onclick = null;
             currentDroppable.append(cloneAction);
             currentDroppable.removeAttribute('style');
             currentDroppable.removeEventListener('mouseover', showActionButton);
