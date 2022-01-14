@@ -628,7 +628,7 @@ function showActionButton(evt) {
 function initMove(evt) {
     evt.preventDefault();
 
-    const action = evt.target.parentElement;
+    const action = evt.target.closest('.action');
     const actionWidth = action.clientWidth;
     action.style.width = actionWidth + 'px';
 
@@ -659,7 +659,7 @@ function initMove(evt) {
         let elemBelow = document.elementFromPoint(evt.clientX, evt.clientY);
         action.style.visibility = 'visible';
 
-        if(!elemBelow) return;
+        if(!elemBelow.closest('tbody')) return;
         let droppableBelow = elemBelow.closest('td');
         if(currentDroppable != droppableBelow) {
             if(currentDroppable) {
@@ -677,8 +677,7 @@ function initMove(evt) {
     action.onmouseup = function() {
         document.removeEventListener('mousemove', onMouseMove);
         action.onmouseup = null;
-        currentDroppable.style.backgroundColor = null;
-        if(currentDroppable.firstChild){
+        if(currentDroppable.firstChild || !currentDroppable.closest('tbody') || currentDroppable == startCell){
             startCell.append(action);
         } else {
             currentDroppable.append(action);
