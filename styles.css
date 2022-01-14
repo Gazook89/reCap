@@ -266,7 +266,6 @@ th:not(:first-of-type), td:not(:first-of-type) {
 
 .action * {
     visibility:inherit !important;
-    color: blue;
 }
 
 .action.emit {
