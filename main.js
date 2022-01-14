@@ -691,6 +691,7 @@ function initClone(evt) {
             cloneActionObject.uid = createUID(actions, 'A');
             actions.push(cloneActionObject);
             cloneAction.id = cloneActionObject.uid;
+            console.log('fart');
             cloneAction.getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
             cloneAction.getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
             actions.find(x=>x.uid === cloneAction.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
