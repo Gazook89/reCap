@@ -692,6 +692,8 @@ function initClone(evt) {
         cloneAction.style.zIndex = null;
         cloneAction.style.left = null;
         cloneAction.style.top = null;
+        cloneAction.getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
+        cloneAction.getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
     }
 
 }
