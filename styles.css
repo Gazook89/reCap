@@ -259,9 +259,14 @@ th:not(:first-of-type), td:not(:first-of-type) {
     color: black;
     font-variant: small-caps;
     display: flex;
-    height: 85%;
+    height: 13px;
     z-index: 200;
     position:relative;
+}
+
+.action * {
+    visibility:inherit !important;
+    color: blue;
 }
 
 .action.emit {

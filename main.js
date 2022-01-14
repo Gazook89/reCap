@@ -550,7 +550,7 @@ const action = {
     },
     render() {
         return [
-            `<td colspan='${this.duration}'>`,
+            `<td>`,
                 `<div id='${this.uid}' class='action ${this.type}'>`,
                     `<i class="fas fa-grip-vertical grip"></i>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
@@ -597,6 +597,7 @@ function showActionButton(evt) {
                     newAction.duration = [1, undefined];
                     targetCell.outerHTML = newAction.render();
                     document.getElementById(`${newAction.uid}`).getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
+                    document.getElementById(`${newAction.uid}`).getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
                     actions.push(newAction);
                 })
                 radialMenu.append(button);
@@ -622,6 +623,77 @@ function showActionButton(evt) {
     }
 };
 
+
+
+function initMove(evt) {
+    evt.preventDefault();
+
+    const action = evt.target.parentElement;
+    const actionWidth = action.clientWidth;
+    action.style.width = actionWidth + 'px';
+
+    const startCell = action.parentNode;
+    
+    
+    let currentDroppable = null;
+
+    let shiftX = evt.clientX - action.getBoundingClientRect().left;
+    let shiftY = evt.clientY - action.getBoundingClientRect().top;
+
+    action.style.position = 'absolute';
+    action.style.zIndex = 500;
+    document.body.append(action);
+    startCell.innerHTML = '';
+
+    moveAt(evt.pageX, evt.pageY);
+    
+    function moveAt(pageX, pageY) {
+        action.style.left = pageX - shiftX + 'px';
+        action.style.top = pageY - shiftY + 'px'
+    }
+
+    function onMouseMove(evt) {
+        moveAt(evt.pageX, evt.pageY);
+
+        action.style.visibility = 'hidden';
+        let elemBelow = document.elementFromPoint(evt.clientX, evt.clientY);
+        action.style.visibility = 'visible';
+
+        if(!elemBelow) return;
+        let droppableBelow = elemBelow.closest('td');
+        if(currentDroppable != droppableBelow) {
+            if(currentDroppable) {
+                currentDroppable.removeAttribute('style');
+            }
+            currentDroppable = droppableBelow;
+            if(currentDroppable){
+                currentDroppable.style.backgroundColor = '#0003';
+            }
+        }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    action.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        action.onmouseup = null;
+        currentDroppable.style.backgroundColor = null;
+        if(currentDroppable.firstChild){
+            startCell.append(action);
+        } else {
+            currentDroppable.append(action);
+            currentDroppable.removeEventListener('mouseover', showActionButton);
+            currentDroppable.removeEventListener('mouseleave', removeChild)
+            startCell.addEventListener('mouseover', showActionButton);
+        }
+        
+        currentDroppable.removeAttribute('style');
+        action.style.position = null;
+        action.style.zIndex = null;
+        action.style.left = null;
+        action.style.top = null;
+    }
+}
 
 // Resize Action boxes, remove and add listeners as necessary if action overlaps adjacent cells.
 function initResize(evt) {
