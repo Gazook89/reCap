@@ -488,8 +488,6 @@ function createTable(tableSize){
             elem.tag.append(row);
         }
     });
-    
-    
     table.append(thead,tbody);
     tableContainer.append(table);
     return tableContainer;
@@ -631,7 +629,7 @@ function showActionButton(evt) {
 };
 
 function expandAction(evt) {
-    
+    const expandBtn = evt.target;
     const action = evt.target.closest('.action');
     const actionObj = actions.find(x=>x.uid === action.id);
     const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
@@ -654,6 +652,14 @@ function expandAction(evt) {
         actionDetail.remove();
         evt.target.removeEventListener('click', minimizeAction);
         evt.target.addEventListener('click', expandAction);
+    }
+
+    console.log(evt.target.closest('.table-container'));
+    evt.target.closest('.table-container').addEventListener('scroll', minimizeOnScroll)
+    function minimizeOnScroll(evt){
+        actionDetail.remove();
+        console.log(evt.target);
+        evt.target.removeEventListener('scroll', minimizeOnScroll);
     }
 }
 
