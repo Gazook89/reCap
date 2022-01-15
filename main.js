@@ -637,7 +637,8 @@ function expandAction(evt) {
     const detailTop = action.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) + action.offsetHeight;
     const detailLeft = action.getBoundingClientRect().left + (window.pageXOffset || document.documentElement.scrollLeft) + ((action.offsetWidth - action.clientWidth) / 2);
     Object.assign(actionDetail.style,{top:detailTop + 'px',left:detailLeft + 'px',width:action.clientWidth + 'px'});
-    actionDetail.textContent = 'fart fart fart';
+    actionDetail.id = actionObj.uid + '-detail';
+    actionDetail.setAttribute('data-id', actionObj.uid)
     actionDetail.innerHTML = [
         `<h1>${actionObj.name}</h1>`,
         `<textarea class='description' placeholder='Description of action'></textarea>`
