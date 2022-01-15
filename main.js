@@ -632,8 +632,9 @@ function expandAction(evt) {
     const expandBtn = evt.target;
     const action = evt.target.closest('.action');
     const actionObj = actions.find(x=>x.uid === action.id);
-    const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
+    action.getElementsByTagName('INPUT')[0].style.display = 'none';
     
+    const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
     const detailTop = action.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) + action.offsetHeight;
     const detailLeft = action.getBoundingClientRect().left + (window.pageXOffset || document.documentElement.scrollLeft) + ((action.offsetWidth - action.clientWidth) / 2);
     Object.assign(actionDetail.style,{top:detailTop + 'px',left:detailLeft + 'px',width:action.clientWidth + 'px'});
