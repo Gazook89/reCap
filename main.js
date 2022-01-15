@@ -635,15 +635,18 @@ function expandAction(evt) {
     const action = evt.target.closest('.action');
     const actionObj = actions.find(x=>x.uid === action.id);
     const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
-    Object.assign(actionDetail.style,{top:(action.offsetHeight - (action.offsetHeight - action.clientHeight) / 2) + 'px',left:'0px'});
+    
+    const detailTop = action.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) + action.offsetHeight;
+    const detailLeft = action.getBoundingClientRect().left + (window.pageXOffset || document.documentElement.scrollLeft) + ((action.offsetWidth - action.clientWidth) / 2);
+    Object.assign(actionDetail.style,{top:detailTop + 'px',left:detailLeft + 'px',width:action.clientWidth + 'px'});
     actionDetail.textContent = 'fart fart fart';
     actionDetail.innerHTML = [
         `<h1>${actionObj.name}</h1>`,
         `<textarea class='description' placeholder='Description of action'></textarea>`
     ].join('\n');
 
-
-    action.append(actionDetail)
+    // action.append(actionDetail)
+    document.body.append(actionDetail)
 
     evt.target.removeEventListener('click', expandAction);
     evt.target.addEventListener('click', minimizeAction);
