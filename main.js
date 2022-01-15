@@ -555,6 +555,9 @@ const action = {
                     `<i class="fas fa-caret-right expand"></i>`,
                     `<div class='action-options'>`,
                         `<i class="fas fa-clone clone"></i>`,
+                        `<i class="fas fa-clone"></i>`,
+                        `<i class="fas fa-clone"></i>`,
+                        `<i class="fas fa-clone"></i>`,
                     `</div>`,
                     `<input type='text' placeholder='${this.namePlaceholder()}'></input>`,
                     `<div class='resizer'></div>`,
@@ -635,6 +638,7 @@ function expandAction(evt) {
     const action = evt.target.closest('.action');
     const actionObj = actions.find(x=>x.uid === action.id);
     action.getElementsByTagName('INPUT')[0].style.display = 'none';
+    action.getElementsByClassName('action-options')[0].classList.toggle('expanded');
     
     const actionDetail = Object.assign(document.createElement('div'), {className: 'action-detail'});
     const detailTop = action.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) + action.offsetHeight;
@@ -654,6 +658,7 @@ function expandAction(evt) {
     evt.target.addEventListener('click', minimizeAction);
     function minimizeAction(evt) {
         actionDetail.remove();
+        action.getElementsByClassName('action-options')[0].classList.toggle('expanded');
         action.getElementsByTagName('INPUT')[0].style.display = null;
         evt.target.removeEventListener('click', minimizeAction);
         evt.target.addEventListener('click', expandAction);
@@ -663,7 +668,6 @@ function expandAction(evt) {
     evt.target.closest('.table-container').addEventListener('scroll', minimizeOnScroll)
     function minimizeOnScroll(evt){
         actionDetail.remove();
-        console.log(evt.target);
         evt.target.removeEventListener('scroll', minimizeOnScroll);
     }
 }

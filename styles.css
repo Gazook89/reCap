@@ -268,7 +268,7 @@ th:not(:first-of-type), td:not(:first-of-type) {
 	grid-template-rows: 1fr;
     grid-template-areas: "grip options expansion name resizer"; 
 	justify-content: start;
-	justify-items: center;
+	justify-items: left;
 	align-items: center;
 	gap: 2px;
 }
@@ -329,8 +329,16 @@ input::placeholder {
 
 .action .action-options {
     grid-area: expansion;
-    width: 0;                /*  todo:  this width property needs to be changed via JS when clicking the "Expand Options" button on actions.  At the same time, "hover" should be forced on the .action div so the options are always shown while Details are open */
+    width: 0;       
+    height: 100%;        
     overflow: hidden;
+    transition: all .1s;
+
+}
+
+.action .action-options.expanded {
+    width: 100%;
+    transition: all .1s;
 }
 
 .action .resizer {
