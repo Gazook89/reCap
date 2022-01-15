@@ -654,6 +654,7 @@ function expandAction(evt) {
     evt.target.addEventListener('click', minimizeAction);
     function minimizeAction(evt) {
         actionDetail.remove();
+        action.getElementsByTagName('INPUT')[0].style.display = null;
         evt.target.removeEventListener('click', minimizeAction);
         evt.target.addEventListener('click', expandAction);
     }
