@@ -327,19 +327,9 @@ input::placeholder {
     filter: brightness(110%)
 }
 
-/* .action input:not(:first-child) {
-	border-left: 1px solid transparent;
-}
-
-.action:hover > *:not(:first-child) {
-    border-left: 1px solid #444
-} */
-
-/* todo:  figure out how to resize the action options thing as it expands and contracts. */
-
 .action .action-options {
     grid-area: expansion;
-    width: 0;
+    width: 0;                /*  todo:  this width property needs to be changed via JS when clicking the "Expand Options" button on actions.  At the same time, "hover" should be forced on the .action div so the options are always shown while Details are open */
     overflow: hidden;
 }
 
