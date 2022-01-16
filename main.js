@@ -698,9 +698,9 @@ function initClone(evt) {
     function onMouseMove(evt) {
         moveAt(evt.pageX, evt.pageY);
 
-        cloneAction.style.visibility = 'hidden';
+        cloneAction.style.display = 'none';
         let elemBelow = document.elementFromPoint(evt.clientX, evt.clientY);
-        cloneAction.style.visibility = 'visible';
+        cloneAction.style.display = null;
 
         if(!elemBelow.closest('tbody')) return;
         let droppableBelow = elemBelow.closest('td');
@@ -732,8 +732,11 @@ function initClone(evt) {
             cloneActionObject.uid = createUID(actions, 'A');
             actions.push(cloneActionObject);
             cloneAction.id = cloneActionObject.uid;
+            cloneAction.getElementsByClassName('resizer')[0].addEventListener('mousedown', initResize, false);
             cloneAction.getElementsByClassName('grip')[0].addEventListener('mousedown', initMove, false);
             cloneAction.getElementsByClassName('clone')[0].addEventListener('click', initClone, false);
+            cloneAction.getElementsByClassName('expand')[0].addEventListener('click', expandAction, false);
+
             actions.find(x=>x.uid === cloneAction.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
         }
         
