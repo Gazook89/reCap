@@ -800,19 +800,13 @@ function initMove(evt) {
         } else {
             currentDroppable.append(action);
             currentDroppable.removeAttribute('style');
-            console.log(typeof actionObj.duration[0]);
-            console.log(typeof currentDroppable.cellIndex);
             for(let x=0;x<actionObj.duration[0]; x++){
-                console.log(currentDroppable.parentNode.children[currentDroppable.cellIndex + x]);
                 currentDroppable.parentNode.children[currentDroppable.cellIndex + x].removeEventListener('mouseover', showActionButton);
                 currentDroppable.parentNode.children[currentDroppable.cellIndex + x].removeEventListener('mouseleave', removeChild);
             };
-            // currentDroppable.removeEventListener('mouseover', showActionButton);
-            // currentDroppable.removeEventListener('mouseleave', removeChild)
             for(let x=0;x<actionObj.duration[0]; x++){
                 startCell.parentNode.children[actionObj.turn[1] + x].addEventListener('mouseover', showActionButton);
             }
-            // startCell.addEventListener('mouseover', showActionButton);
             actions.find(x=>x.uid === action.id).turn = [currentDroppable.parentElement.rowIndex, currentDroppable.cellIndex];
         }
         action.style.position = null;
