@@ -8,7 +8,7 @@ window.onload = function() {
 
     showNewEventButton();
 
-    if(Object.keys(localStorage).filter(x => x.startsWith('recap-').length){
+    if(Object.keys(localStorage).filter(x => x.startsWith('recap-').length)){
         const data = JSON.parse(localStorage.getItem('recap-savedSession'));
         
         for(let x=data.length - 1;x>=0;x--){
