@@ -8,8 +8,8 @@ window.onload = function() {
 
     showNewEventButton();
 
-    if(localStorage.length){
-        const data = JSON.parse(localStorage.getItem('savedSession'));
+    if(Object.keys(localStorage).filter(x => x.startsWith('recap-').length){
+        const data = JSON.parse(localStorage.getItem('recap-savedSession'));
         
         for(let x=data.length - 1;x>=0;x--){
             if(data[x].eventType === 'encounter story-event'){
@@ -73,10 +73,10 @@ window.onload = function() {
     };
 
     document.getElementById('clear-storage-link').onclick = ()=>{
-        if(localStorage.length){
+        if(Object.keys(localStorage).filter(x => x.startsWith('recap-')).length){
             const storyEvents = Array.from(document.getElementsByClassName('story-event'));
             storyEvents.forEach(event=>event.remove());
-            localStorage.removeItem('savedSession');
+            localStorage.removeItem('recap-savedSession');
         }
         return false;
     };
@@ -157,9 +157,9 @@ function save(){    // for save revision branch
 
             data.push(objStoryEvent);
         };
-        localStorage.setItem('savedSession', JSON.stringify(data));
+        localStorage.setItem('recap-savedSession', JSON.stringify(data));
         savedNotice.textContent = 'saved';
-        document.getElementById('download-storage-link').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(localStorage.getItem('savedSession')));
+        document.getElementById('download-storage-link').setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(localStorage.getItem('recap-savedSession')));
         document.getElementById('download-storage-link').setAttribute('download','reCapSession.json');
         const storageSize = new Blob(Object.values(localStorage)).size / Math.pow(1024,1);
         document.getElementById('download-storage-link').textContent = `Download as JSON ${storageSize.toFixed(1)} KB/5120 KB`;
@@ -173,7 +173,7 @@ function importJSON(input) {
     reader.readAsText(jsonFile);
     reader.onload = function() {
         console.log(reader.result);
-        localStorage.setItem('savedSession', reader.result);
+        localStorage.setItem('recap-savedSession', reader.result);
         window.location.reload();
     };
     reader.onerror = function() {
@@ -495,32 +495,32 @@ function createTable(tableSize){
     return tableContainer;
 }
 
-function createToolbar(){
-    const toolbar = Object.assign(document.createElement('div'), {className: 'toolbar'});
-    const tools = [
-        {id: 'add-col', className: 'tool', function: 'addColumn()', text: 'Add Column'},
-        {id: 'rem-col', className: 'tool', function: 'removeColumn()', text: 'Remove Column'},
-        {id: 'add-row', className: 'tool', function: 'addRowAfter()', text: 'Add Row'},
-        {id: 'rem-row', className: 'tool', function: 'removeRow()', text: 'Remove Row'}, 
-        {id: 'clear-table', className: 'tool', function: 'clearTable()', text: 'Clear', children: '<span class="tooltiptext">Clear entire table & local storage</span>'}
-    ];
-    tools.forEach(i => {const tool = Object.assign(document.createElement('div'), {id: i.id, className: i.className, onclick: i.function}); tool.innerHTML = i.children ? i.text + i.children: i.text; toolbar.append(tool)});
-    return toolbar;
-}
+// function createToolbar(){
+//     const toolbar = Object.assign(document.createElement('div'), {className: 'toolbar'});
+//     const tools = [
+//         {id: 'add-col', className: 'tool', function: 'addColumn()', text: 'Add Column'},
+//         {id: 'rem-col', className: 'tool', function: 'removeColumn()', text: 'Remove Column'},
+//         {id: 'add-row', className: 'tool', function: 'addRowAfter()', text: 'Add Row'},
+//         {id: 'rem-row', className: 'tool', function: 'removeRow()', text: 'Remove Row'}, 
+//         {id: 'clear-table', className: 'tool', function: 'clearTable()', text: 'Clear', children: '<span class="tooltiptext">Clear entire table & local storage</span>'}
+//     ];
+//     tools.forEach(i => {const tool = Object.assign(document.createElement('div'), {id: i.id, className: i.className, onclick: i.function}); tool.innerHTML = i.children ? i.text + i.children: i.text; toolbar.append(tool)});
+//     return toolbar;
+// }
 
 
-function clearTable(elem){
-    const rows = document.getElementsByTagName('tr');
-    for(let x=rows.length - 1;x>0;x--){
-        rows[x].remove();
-        addRowAfter();
-    }
-    localStorage.removeItem('table');
-    elem.textContent = 'Cleared';
-    setTimeout(function(){
-        elem.textContent = 'Clear';
-    },5000);
-}
+// function clearTable(elem){
+//     const rows = document.getElementsByTagName('tr');
+//     for(let x=rows.length - 1;x>0;x--){
+//         rows[x].remove();
+//         addRowAfter();
+//     }
+//     localStorage.removeItem('table');
+//     elem.textContent = 'Cleared';
+//     setTimeout(function(){
+//         elem.textContent = 'Clear';
+//     },5000);
+// }
 
 function removeChild(evt){
     evt.target.firstChild?.remove()
